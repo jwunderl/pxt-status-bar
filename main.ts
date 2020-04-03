@@ -19,8 +19,8 @@ namespace ui.statusbar {
         protected font: image.Font;
 
         constructor(
-            public barWidth: number,
-            public barHeight: number,
+            protected barWidth: number,
+            protected barHeight: number,
             public onColor: number,
             public offColor: number,
         ) {
@@ -33,7 +33,6 @@ namespace ui.statusbar {
             this.font = image.font5;
         }
 
-
         get header() {
             return this._header;
         }
@@ -44,12 +43,10 @@ namespace ui.statusbar {
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
-            if (on) this.flags |= flag
-            else this.flags = ~(~this.flags | flag);
-
-            if (this.isVerticalBar()) {
-                this.rebuildImage();
-            }
+            if (on)
+                this.flags |= flag
+            else
+                this.flags = ~(~this.flags | flag);
         }
 
         get image() {
@@ -98,7 +95,6 @@ namespace ui.statusbar {
                 }
             }
 
-
             this.image.fillRect(
                 barLeft,
                 barTop,
@@ -141,8 +137,15 @@ namespace ui.statusbar {
         output.data[STATUS_BAR_DATA_FIELD] = sb;
     }
 
+    export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
+        const sb = getStatusBar(sprite);
+        if (sb)
+            sb.setFlag(flag, on);
+        sprite.setImage(sb.image);
+    }
+
     function getStatusBar(sprite: Sprite) {
-        return sprite.data[STATUS_BAR_DATA_FIELD];
+        return sprite.data[STATUS_BAR_DATA_FIELD] as StatusBar;
     }
 
     namespace util {
