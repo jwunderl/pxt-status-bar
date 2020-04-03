@@ -1,19 +1,22 @@
 enum StatusBarFlag {
     None = 0,
     SmoothTransition = 1 << 0,
-    VerticalBar = 1 << 1,
 }
 
 namespace ui.statusbar {
     const STATUS_BAR_DATA_FIELD = "STATUS_BAR_DATA_FIELD";
     
     class StatusBar {
-        flags: StatusBarFlag;
         borderWidth: number;
         // if not set, use offColor
         borderColor: number;
-        header: string;
-        image: Image;
+        headerColor: number;
+
+        protected flags: StatusBarFlag;
+        protected _header: string;
+        protected _image: Image;
+
+        protected font: image.Font;
 
         constructor(
             public barWidth: number,
@@ -25,6 +28,55 @@ namespace ui.statusbar {
             this.borderWidth = 0;
             this.borderColor = undefined;
             this.flags = StatusBarFlag.SmoothTransition;
+            this._header = undefined;
+            this.headerColor = 0x1;
+            this.font = image.font5;
+        }
+
+
+        get header() {
+            return this._header;
+        }
+        
+        set header(v: string) {
+            this._header = v;
+            this.rebuildImage();
+        }
+
+        setFlag(flag: StatusBarFlag, on: boolean) {
+            if (on) this.flags |= flag
+            else this.flags = ~(~this.flags | flag);
+
+            if (this.isVerticalBar()) {
+                this.rebuildImage();
+            }
+        }
+
+        get image() {
+            return this._image;
+        }
+
+        set image(v: Image) {
+            // ignore, readonly ref outside this class
+        }
+
+        protected isVerticalBar() {
+            return this.barHeight > this.barWidth;
+        }
+
+        protected rebuildImage() {
+            let width = this.barWidth;
+            let height = this.barHeight;
+
+            if (this.header) {
+                if (this.isVerticalBar()) {
+                    height += this.font.charHeight;
+                } else {
+                    width += this.font.charWidth * this.header.length;
+                }
+            }
+
+            this.image = image.create(width, height);
         }
 
         // percent between 0 and 1.0
@@ -32,11 +84,24 @@ namespace ui.statusbar {
             percent = Math.constrain(percent, 0, 1.0);
             const fillWidth = this.barWidth - 2 * this.borderWidth;
             const fillHeight = this.barHeight - 2 * this.borderWidth;
-            const barIsVertical = this.flags & StatusBarFlag.VerticalBar;
+            const barIsVertical = this.isVerticalBar();
+            
+            let barLeft = 0;
+            let barTop = 0;
+            
+            if (this.header) {
+                this.image.print(this.header, 0, 0, this.headerColor, this.font);
+                if (barIsVertical) {
+                    barTop += this.font.charHeight;
+                } else {
+                    barLeft += this.font.charWidth * this.header.length;
+                }
+            }
+
 
             this.image.fillRect(
-                0,
-                0,
+                barLeft,
+                barTop,
                 this.barWidth,
                 this.barHeight,
                 util.isNullOrUndefined(this.borderColor) ?
@@ -44,8 +109,8 @@ namespace ui.statusbar {
             );
 
             this.image.fillRect(
-                this.borderWidth,
-                this.borderWidth,
+                barLeft + this.borderWidth,
+                barTop + this.borderWidth,
                 fillWidth,
                 fillHeight,
                 this.offColor
@@ -53,8 +118,8 @@ namespace ui.statusbar {
 
             if (percent > 0) {
                 this.image.fillRect(
-                    this.borderWidth,
-                    this.borderWidth,
+                    barLeft + this.borderWidth,
+                    barTop + this.borderWidth,
                     barIsVertical ? fillWidth: (fillWidth * percent) | 0,
                     barIsVertical ? (fillHeight * percent) | 0 : fillHeight,
                     this.onColor
