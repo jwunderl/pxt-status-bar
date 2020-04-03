@@ -12,7 +12,7 @@ namespace ui.statusbar {
         borderColor: number;
         headerColor: number;
 
-        protected flags: StatusBarFlag;
+        protected flags: number;
         protected _header: string;
         protected _image: Image;
 
