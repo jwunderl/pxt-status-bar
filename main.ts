@@ -18,11 +18,16 @@ namespace ui.statusbar {
 
         protected font: image.Font;
 
+        // hold state
+        protected current: number;
+        protected target: number;
+
         constructor(
             protected barWidth: number,
             protected barHeight: number,
             public onColor: number,
             public offColor: number,
+            protected _max: number
         ) {
             this.image = image.create(barWidth, barHeight);
             this.borderWidth = 0;
@@ -31,6 +36,10 @@ namespace ui.statusbar {
             this._header = undefined;
             this.headerColor = 0x1;
             this.font = image.font5;
+
+            this.current = _max;
+            this.target = _max;
+            this.updateDisplay();
         }
 
         get header() {
@@ -40,6 +49,15 @@ namespace ui.statusbar {
         set header(v: string) {
             this._header = v;
             this.rebuildImage();
+        }
+
+        get max() {
+            return this._max;
+        }
+
+        set max(v: number) {
+            this._max = v;
+            this.updateDisplay();
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
@@ -61,6 +79,10 @@ namespace ui.statusbar {
             return this.barHeight > this.barWidth;
         }
 
+        protected isSmoothTransition() {
+            return this.flags & StatusBarFlag.SmoothTransition;
+        }
+
         protected rebuildImage() {
             let width = this.barWidth;
             let height = this.barHeight;
@@ -76,9 +98,12 @@ namespace ui.statusbar {
             this.image = image.create(width, height);
         }
 
-        // percent between 0 and 1.0
-        update(percent: number) {
-            percent = Math.constrain(percent, 0, 1.0);
+        updateDisplay() {
+            const percent = Math.constrain(
+                this.current / this._max,
+                0,
+                1.0
+            );
             const fillWidth = this.barWidth - 2 * this.borderWidth;
             const fillHeight = this.barHeight - 2 * this.borderWidth;
             const barIsVertical = this.isVerticalBar();
@@ -128,9 +153,10 @@ namespace ui.statusbar {
         width: number,
         height: number,
         onColor: number,
-        offColor: number
+        offColor: number,
+        max: number
     ) {
-        const sb = new StatusBar(width, height, onColor, offColor);
+        const sb = new StatusBar(width, height, onColor, offColor, max);
         const output = sprites.create(sb.image, -1);
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
@@ -141,7 +167,6 @@ namespace ui.statusbar {
         const sb = getStatusBar(sprite);
         if (sb)
             sb.setFlag(flag, on);
-        sprite.setImage(sb.image);
     }
 
     function getStatusBar(sprite: Sprite) {
