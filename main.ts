@@ -39,7 +39,6 @@ namespace ui.statusbar {
             this._current = _max;
             this.target = _max;
             this.rebuildImage();
-            this.updateDisplay();
         }
 
         get header() {
