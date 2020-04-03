@@ -19,7 +19,7 @@ namespace ui.statusbar {
         protected font: image.Font;
 
         // hold state
-        protected current: number;
+        protected _current: number;
         protected target: number;
 
         constructor(
@@ -29,7 +29,6 @@ namespace ui.statusbar {
             public offColor: number,
             protected _max: number
         ) {
-            this.image = image.create(barWidth, barHeight);
             this.borderWidth = 0;
             this.borderColor = undefined;
             this.flags = StatusBarFlag.SmoothTransition;
@@ -37,8 +36,9 @@ namespace ui.statusbar {
             this.headerColor = 0x1;
             this.font = image.font5;
 
-            this.current = _max;
+            this._current = _max;
             this.target = _max;
+            this.rebuildImage();
             this.updateDisplay();
         }
 
@@ -58,6 +58,17 @@ namespace ui.statusbar {
         set max(v: number) {
             this._max = v;
             this.updateDisplay();
+        }
+
+        get current() {
+            return this.target;
+        }
+
+        set current(v: number) {
+            this.target = v;
+            if (this.flags ^ StatusBarFlag.SmoothTransition) {
+                this._current = v;
+            }
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
@@ -95,12 +106,15 @@ namespace ui.statusbar {
                 }
             }
 
-            this.image = image.create(width, height);
+            const newImg = image.create(width, height);
+            this.image = newImg;
+            console.log(`dbg: ${width} ${height} ${this.image} ${newImg}`)
+            this.updateDisplay();
         }
 
         updateDisplay() {
             const percent = Math.constrain(
-                this.current / this._max,
+                this._current / this._max,
                 0,
                 1.0
             );
@@ -161,12 +175,27 @@ namespace ui.statusbar {
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
         output.data[STATUS_BAR_DATA_FIELD] = sb;
+        return output;
     }
 
     export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
         const sb = getStatusBar(sprite);
-        if (sb)
-            sb.setFlag(flag, on);
+        if (sb) sb.setFlag(flag, on);
+    }
+
+    export function setMax(sprite: Sprite, max: number) {
+        const sb = getStatusBar(sprite);
+        if (sb) sb.max = max;
+    }
+
+    export function setCurrent(sprite: Sprite, current: number) {
+        const sb = getStatusBar(sprite);
+        if (sb) sb.current = current;
+    }
+
+    export function setHeader(sprite: Sprite, header: string) {
+        const sb = getStatusBar(sprite);
+        if (sb) sb.header = header;
     }
 
     function getStatusBar(sprite: Sprite) {
