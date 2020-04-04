@@ -110,7 +110,7 @@ namespace ui.statusbar {
                 const labelWidth = this.font.charWidth * this.label.length;
                 if (this.isVerticalBar()) {
                     width = Math.max(width, labelWidth);
-                    height += this.font.charHeight;
+                    height += this.font.charHeight + 1;
                 } else {
                     width += labelWidth;
                     height = Math.max(height, this.font.charHeight);
@@ -142,17 +142,24 @@ namespace ui.statusbar {
             let barTop = 0;
             
             if (this.label) {
-                // TODO: center text if text wider / taller than bar; otherwise center bar on text
                 const textWidth = this.font.charWidth * this.label.length;
+                const textHeight = this.font.charHeight;
                 let textX = 0;
                 let textY = 0;
                 if (barIsVertical) {
-                    barTop += this.font.charHeight;
+                    barTop += textHeight + 1;
                     if (this.barWidth > textWidth) {
-
+                        textX = (this.barWidth - textWidth) >> 1;
+                    } else if (this.barWidth < textWidth) {
+                        barLeft = (textWidth - this.barWidth) >> 1;
                     }
                 } else {
                     barLeft += textWidth;
+                    if (this.barHeight > textHeight) {
+                        textY = (this.barHeight - textHeight) >> 1;
+                    } else if (this.barHeight < textHeight) {
+                        barTop = (textHeight - this.barHeight) >> 1;
+                    }
                 }
 
                 this.image.print(
