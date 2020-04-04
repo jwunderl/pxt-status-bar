@@ -64,10 +64,13 @@ namespace ui.statusbar {
         }
 
         set current(v: number) {
+            const isDifferent = this.target != v;
             this.target = v;
-            if (this.flags ^ StatusBarFlag.SmoothTransition) {
+            if (!(this.flags & StatusBarFlag.SmoothTransition)) {
                 this._current = v;
             }
+            if (isDifferent)
+                this.updateDisplay();
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
@@ -104,10 +107,10 @@ namespace ui.statusbar {
                     width += this.font.charWidth * this.header.length;
                 }
             }
-
-            const newImg = image.create(width, height);
-            this.image = newImg;
-            console.log(`dbg: ${width} ${height} ${this.image} ${newImg}`)
+            if (!this.image || width !== this.image.width || height !== this.image.height) {
+                const newImg = image.create(width, height);
+                this._image = newImg;
+            }
             this.updateDisplay();
         }
 
@@ -116,11 +119,10 @@ namespace ui.statusbar {
                 this._current / this._max,
                 0,
                 1.0
-            );
+            ); 
             const fillWidth = this.barWidth - 2 * this.borderWidth;
             const fillHeight = this.barHeight - 2 * this.borderWidth;
             const barIsVertical = this.isVerticalBar();
-            
             let barLeft = 0;
             let barTop = 0;
             
@@ -154,7 +156,7 @@ namespace ui.statusbar {
                 this.image.fillRect(
                     barLeft + this.borderWidth,
                     barTop + this.borderWidth,
-                    barIsVertical ? fillWidth: (fillWidth * percent) | 0,
+                    barIsVertical ? fillWidth : (fillWidth * percent) | 0,
                     barIsVertical ? (fillHeight * percent) | 0 : fillHeight,
                     this.onColor
                 );
@@ -190,6 +192,7 @@ namespace ui.statusbar {
     export function setCurrent(sprite: Sprite, current: number) {
         const sb = getStatusBar(sprite);
         if (sb) sb.current = current;
+        sprite.setImage(sb.image)
     }
 
     export function setHeader(sprite: Sprite, header: string) {
