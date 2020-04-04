@@ -66,6 +66,8 @@ namespace ui.statusbar {
 
                         const { spriteToFollow } = sb;
                         if (spriteToFollow) {
+                            // TODO: update logic so that if bar is vertical it shows up to left of sprite,
+                            // with flag to do opposite (similar to LabelAtEnd, so it would show up on right / bottom of sprite)
                             s.x = spriteToFollow.x;
                             s.bottom = spriteToFollow.top - sb.followPadding;
 
