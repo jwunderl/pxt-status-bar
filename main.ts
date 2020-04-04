@@ -1,6 +1,11 @@
 enum StatusBarFlag {
     None = 0,
-    SmoothTransition = 1 << 0,
+    SmoothTransition = 1 << 0, // if set, update bar over time; otherwise update bar immediately
+    LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
+}
+
+namespace SpriteKind {
+    export const StatusBar = SpriteKind.create();
 }
 
 namespace ui.statusbar {
@@ -10,13 +15,14 @@ namespace ui.statusbar {
         borderWidth: number;
         // if not set, use offColor
         borderColor: number;
-        headerColor: number;
+        labelColor: number;
 
         protected flags: number;
-        protected _header: string;
+        protected _label: string;
         protected _image: Image;
 
         protected font: image.Font;
+        // todo: 'rounded border' / border-radius option? just 1px or 2px
 
         // hold state
         protected _current: number;
@@ -32,8 +38,8 @@ namespace ui.statusbar {
             this.borderWidth = 0;
             this.borderColor = undefined;
             this.flags = StatusBarFlag.SmoothTransition;
-            this._header = undefined;
-            this.headerColor = 0x1;
+            this._label = undefined;
+            this.labelColor = 0x1;
             this.font = image.font5;
 
             this._current = _max;
@@ -41,12 +47,12 @@ namespace ui.statusbar {
             this.rebuildImage();
         }
 
-        get header() {
-            return this._header;
+        get label() {
+            return this._label;
         }
         
-        set header(v: string) {
-            this._header = v;
+        set label(v: string) {
+            this._label = v;
             this.rebuildImage();
         }
 
@@ -100,17 +106,22 @@ namespace ui.statusbar {
             let width = this.barWidth;
             let height = this.barHeight;
 
-            if (this.header) {
+            if (this.label) {
+                const labelWidth = this.font.charWidth * this.label.length;
                 if (this.isVerticalBar()) {
+                    width = Math.max(width, labelWidth);
                     height += this.font.charHeight;
                 } else {
-                    width += this.font.charWidth * this.header.length;
+                    width += labelWidth;
+                    height = Math.max(height, this.font.charHeight);
                 }
             }
+
             if (!this.image || width !== this.image.width || height !== this.image.height) {
                 const newImg = image.create(width, height);
                 this._image = newImg;
             }
+
             this.updateDisplay();
         }
 
@@ -119,20 +130,38 @@ namespace ui.statusbar {
                 this._current / this._max,
                 0,
                 1.0
-            ); 
+            );
+
             const fillWidth = this.barWidth - 2 * this.borderWidth;
             const fillHeight = this.barHeight - 2 * this.borderWidth;
             const barIsVertical = this.isVerticalBar();
+            const borderColor = util.isNullOrUndefined(this.borderColor) ?
+                    this.offColor : this.borderColor;
+    
             let barLeft = 0;
             let barTop = 0;
             
-            if (this.header) {
-                this.image.print(this.header, 0, 0, this.headerColor, this.font);
+            if (this.label) {
+                // TODO: center text if text wider / taller than bar; otherwise center bar on text
+                const textWidth = this.font.charWidth * this.label.length;
+                let textX = 0;
+                let textY = 0;
                 if (barIsVertical) {
                     barTop += this.font.charHeight;
+                    if (this.barWidth > textWidth) {
+
+                    }
                 } else {
-                    barLeft += this.font.charWidth * this.header.length;
+                    barLeft += textWidth;
                 }
+
+                this.image.print(
+                    this.label,
+                    textX,
+                    textY,
+                    this.labelColor,
+                    this.font
+                );
             }
 
             this.image.fillRect(
@@ -140,8 +169,7 @@ namespace ui.statusbar {
                 barTop,
                 this.barWidth,
                 this.barHeight,
-                util.isNullOrUndefined(this.borderColor) ?
-                    this.offColor : this.borderColor
+                borderColor
             );
 
             this.image.fillRect(
@@ -156,8 +184,8 @@ namespace ui.statusbar {
                 this.image.fillRect(
                     barLeft + this.borderWidth,
                     barTop + this.borderWidth,
-                    barIsVertical ? fillWidth : (fillWidth * percent) | 0,
-                    barIsVertical ? (fillHeight * percent) | 0 : fillHeight,
+                    barIsVertical ? fillWidth : Math.round(fillWidth * percent),
+                    barIsVertical ? Math.round(fillHeight * percent) : fillHeight,
                     this.onColor
                 );
             }
@@ -172,7 +200,7 @@ namespace ui.statusbar {
         max: number
     ) {
         const sb = new StatusBar(width, height, onColor, offColor, max);
-        const output = sprites.create(sb.image, -1);
+        const output = sprites.create(sb.image, SpriteKind.StatusBar);
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
         output.data[STATUS_BAR_DATA_FIELD] = sb;
@@ -192,12 +220,25 @@ namespace ui.statusbar {
     export function setCurrent(sprite: Sprite, current: number) {
         const sb = getStatusBar(sprite);
         if (sb) sb.current = current;
-        sprite.setImage(sb.image)
     }
 
-    export function setHeader(sprite: Sprite, header: string) {
+    export function setLabel(sprite: Sprite, label: string, color?: number) {
         const sb = getStatusBar(sprite);
-        if (sb) sb.header = header;
+        if (sb) {
+            if (color)
+                sb.labelColor = color;
+            sb.label = label;
+            sprite.setImage(sb.image);
+        }
+    }
+
+    export function setBarBorder(sprite: Sprite, borderWidth: number, color: number) {
+        const sb = getStatusBar(sprite);
+        if (sb) {
+            sb.borderColor = color;
+            sb.borderWidth = borderWidth;
+            sb.updateDisplay();
+        }
     }
 
     function getStatusBar(sprite: Sprite) {
