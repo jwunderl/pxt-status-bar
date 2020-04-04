@@ -9,6 +9,9 @@ namespace SpriteKind {
     export const StatusBar = SpriteKind.create();
 }
 
+// TODO: option to show both target and display value, and getter for display value;
+// allow for dark souls / fighting style game animations
+
 namespace ui.statusbar {
     // TODO: store array of the managed sprites in scene using this key as well
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
@@ -52,7 +55,10 @@ namespace ui.statusbar {
             // array of managed sprites in scene.data
             game.onUpdate(() => {
                 sprites.allOfKind(SpriteKind.StatusBar).forEach(s => {
-                    applyChange(s, sb => sb.updateState());
+                    const sb = getStatusBar(s);
+                    if (sb) {
+                        sb.updateState();
+                    }
                 });
             });
         }
@@ -73,7 +79,6 @@ namespace ui.statusbar {
         set max(v: number) {
             this._max = v;
             this.updateState();
-            this.updateDisplay();
         }
 
         get current() {
@@ -87,8 +92,6 @@ namespace ui.statusbar {
                 this.displayValue = v;
             }
             this.updateState();
-            if (isDifferent)
-                this.updateDisplay();
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
@@ -140,9 +143,10 @@ namespace ui.statusbar {
         private lastUpdate = game.currentScene().millis();
         private throttleAmount = 100; 
         updateState() {
+            const { target, displayValue } = this;
             if (this.flags & StatusBarFlag.ConstrainAssignedValue) {
-                this.target = Math.constrain(this.target, 0, this.max);
-                this.displayValue = Math.constrain(this.target, 0, this.max);
+                this.target = Math.constrain(target, 0, this.max);
+                this.displayValue = Math.constrain(displayValue, 0, this.max);
             }
 
             const currTime = game.currentScene().millis();
@@ -150,11 +154,15 @@ namespace ui.statusbar {
                 return;
 
             if (this.target > this.displayValue) {
-                this.displayValue = Math.min(this.displayValue + 1, this.target);
+                this.displayValue = Math.min(displayValue + 1, this.target);
                 this.lastUpdate = currTime;
             } else if (this.target < this.displayValue) {
-                this.displayValue = Math.max(this.displayValue - 1, this.target);
+                this.displayValue = Math.max(displayValue - 1, this.target);
                 this.lastUpdate = currTime;
+            }
+            
+            if (displayValue !== this.displayValue) {
+                this.updateDisplay();
             }
         }
 
