@@ -2,6 +2,7 @@ enum StatusBarFlag {
     None = 0,
     SmoothTransition = 1 << 0, // if set, update bar over time; otherwise update bar immediately
     LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
+    ConstrainAssignedValue = 1 << 2, // if set, constrain values stored in status bar between 0 and max
 }
 
 namespace SpriteKind {
@@ -9,9 +10,9 @@ namespace SpriteKind {
 }
 
 namespace ui.statusbar {
-    const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     // TODO: store array of the managed sprites in scene using this key as well
-    
+    const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
+
     class StatusBar {
         borderWidth: number;
         // if not set, use offColor
@@ -26,7 +27,7 @@ namespace ui.statusbar {
         // todo: 'rounded border' / border-radius option? just 1px or 2px
 
         // hold state
-        protected _current: number;
+        protected displayValue: number;
         protected target: number;
 
         constructor(
@@ -43,9 +44,17 @@ namespace ui.statusbar {
             this.labelColor = 0x1;
             this.font = image.font5;
 
-            this._current = _max;
+            this.displayValue = _max;
             this.target = _max;
             this.rebuildImage();
+
+            // TODO: flag existance of game update with the creation of the
+            // array of managed sprites in scene.data
+            game.onUpdate(() => {
+                sprites.allOfKind(SpriteKind.StatusBar).forEach(s => {
+                    applyChange(s, sb => sb.updateState());
+                });
+            });
         }
 
         get label() {
@@ -63,6 +72,7 @@ namespace ui.statusbar {
 
         set max(v: number) {
             this._max = v;
+            this.updateState();
             this.updateDisplay();
         }
 
@@ -74,8 +84,9 @@ namespace ui.statusbar {
             const isDifferent = this.target != v;
             this.target = v;
             if (!(this.flags & StatusBarFlag.SmoothTransition)) {
-                this._current = v;
+                this.displayValue = v;
             }
+            this.updateState();
             if (isDifferent)
                 this.updateDisplay();
         }
@@ -126,13 +137,30 @@ namespace ui.statusbar {
             this.updateDisplay();
         }
 
+        private lastUpdate = game.currentScene().millis();
+        private throttleAmount = 100; 
         updateState() {
-            // apply state updates here then rerender if changed;
+            if (this.flags & StatusBarFlag.ConstrainAssignedValue) {
+                this.target = Math.constrain(this.target, 0, this.max);
+                this.displayValue = Math.constrain(this.target, 0, this.max);
+            }
+
+            const currTime = game.currentScene().millis();
+            if (Math.abs(this.lastUpdate - currTime) < this.throttleAmount)
+                return;
+
+            if (this.target > this.displayValue) {
+                this.displayValue = Math.min(this.displayValue + 1, this.target);
+                this.lastUpdate = currTime;
+            } else if (this.target < this.displayValue) {
+                this.displayValue = Math.max(this.displayValue - 1, this.target);
+                this.lastUpdate = currTime;
+            }
         }
 
         updateDisplay() {
             const percent = Math.constrain(
-                this._current / this._max,
+                this.displayValue / this._max,
                 0,
                 1.0
             );
