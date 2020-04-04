@@ -9,7 +9,8 @@ namespace SpriteKind {
 }
 
 namespace ui.statusbar {
-    const STATUS_BAR_DATA_FIELD = "STATUS_BAR_DATA_FIELD";
+    const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
+    // TODO: store array of the managed sprites in scene using this key as well
     
     class StatusBar {
         borderWidth: number;
@@ -125,6 +126,10 @@ namespace ui.statusbar {
             this.updateDisplay();
         }
 
+        updateState() {
+            // apply state updates here then rerender if changed;
+        }
+
         updateDisplay() {
             const percent = Math.constrain(
                 this._current / this._max,
@@ -218,48 +223,63 @@ namespace ui.statusbar {
     ) {
         const sb = new StatusBar(width, height, onColor, offColor, max);
         const output = sprites.create(sb.image, SpriteKind.StatusBar);
+
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
-        output.data[STATUS_BAR_DATA_FIELD] = sb;
+        output.data[STATUS_BAR_DATA_KEY] = sb;
+
         return output;
     }
 
     export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
-        const sb = getStatusBar(sprite);
-        if (sb) sb.setFlag(flag, on);
+        applyChange(sprite, sb => {
+            sb.setFlag(flag, on);
+        });
     }
 
     export function setMax(sprite: Sprite, max: number) {
-        const sb = getStatusBar(sprite);
-        if (sb) sb.max = max;
+        applyChange(sprite, sb => {
+            sb.max = max;
+        });
     }
 
     export function setCurrent(sprite: Sprite, current: number) {
-        const sb = getStatusBar(sprite);
-        if (sb) sb.current = current;
+        applyChange(sprite, sb => {
+            sb.current = current;
+        });
     }
 
     export function setLabel(sprite: Sprite, label: string, color?: number) {
-        const sb = getStatusBar(sprite);
-        if (sb) {
+        applyChange(sprite, sb => {
             if (color)
                 sb.labelColor = color;
             sb.label = label;
-            sprite.setImage(sb.image);
-        }
+        });
     }
 
     export function setBarBorder(sprite: Sprite, borderWidth: number, color: number) {
-        const sb = getStatusBar(sprite);
-        if (sb) {
+        applyChange(sprite, sb => {
             sb.borderColor = color;
             sb.borderWidth = borderWidth;
+        });
+    }
+
+    // passes back any return from action for getters / etc
+    function applyChange<T>(sprite: Sprite, action: (sb: StatusBar) => T): T {
+        const sb = getStatusBar(sprite);
+
+        if (sb) {
+            const output = action(sb);
             sb.updateDisplay();
+            sprite.setImage(sb.image);
+            return output;
         }
+
+        return undefined;
     }
 
     function getStatusBar(sprite: Sprite) {
-        return sprite.data[STATUS_BAR_DATA_FIELD] as StatusBar;
+        return sprite.data[STATUS_BAR_DATA_KEY] as StatusBar;
     }
 
     namespace util {
