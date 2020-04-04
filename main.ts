@@ -144,17 +144,27 @@ namespace ui.statusbar {
             if (this.label) {
                 const textWidth = this.font.charWidth * this.label.length;
                 const textHeight = this.font.charHeight;
+                const labelEnd = this.flags & StatusBarFlag.LabelAtEnd;
+
                 let textX = 0;
                 let textY = 0;
                 if (barIsVertical) {
-                    barTop += textHeight + 1;
+                    if (labelEnd) {
+                        textY = this.barHeight + 1;
+                    } else {
+                        barTop += textHeight + 1;
+                    }
                     if (this.barWidth > textWidth) {
                         textX = (this.barWidth - textWidth) >> 1;
                     } else if (this.barWidth < textWidth) {
                         barLeft = (textWidth - this.barWidth) >> 1;
                     }
                 } else {
-                    barLeft += textWidth;
+                    if (labelEnd) {
+                        textX = this.barWidth + 1;
+                    } else {
+                        barLeft += textWidth;
+                    }
                     if (this.barHeight > textHeight) {
                         textY = (this.barHeight - textHeight) >> 1;
                     } else if (this.barHeight < textHeight) {
