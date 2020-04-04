@@ -13,8 +13,6 @@ namespace SpriteKind {
 // allow for dark souls / fighting style game animations
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
-// TODO: support for setting the status as a health bar above sprite;
-//      needs to disable relative to camera, enable ghost, set x to other x, set bottom to other top + provided yPadding
 
 namespace ui.statusbar {
     // TODO: store array of the managed sprites in scene using this key as well
@@ -29,6 +27,9 @@ namespace ui.statusbar {
         protected flags: number;
         protected _label: string;
         protected _image: Image;
+
+        spriteToFollow: Sprite;
+        followPadding: number;
 
         protected font: image.Font;
         // todo: 'rounded border' / border-radius option? just 1px or 2px
@@ -62,6 +63,17 @@ namespace ui.statusbar {
                     const sb = getStatusBar(s);
                     if (sb) {
                         sb.updateState();
+
+                        const { spriteToFollow } = sb;
+                        if (spriteToFollow) {
+                            s.x = spriteToFollow.x;
+                            s.bottom = spriteToFollow.top - sb.followPadding;
+
+                            const toFollowIsRelativeToCamera = !!(spriteToFollow.flags & SpriteFlag.RelativeToCamera);
+                            if (!!(s.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
+                                s.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
+                            }
+                        }
                     }
                 });
             });
@@ -321,6 +333,17 @@ namespace ui.statusbar {
 
     function getStatusBar(sprite: Sprite) {
         return sprite.data[STATUS_BAR_DATA_KEY] as StatusBar;
+    }
+
+    export function setStatusBarForSprite(status: Sprite, toFollow: Sprite, padding = 0) {
+        applyChange(status, sb => {
+            // reset this to the default value;
+            // this will be changed with the follow logic to match toFollow,
+            // but if this is being reassigned it should handle that gracefully
+            status.setFlag(SpriteFlag.RelativeToCamera, true);
+            sb.spriteToFollow = toFollow;
+            sb.followPadding = padding;
+        });
     }
 
     namespace util {
