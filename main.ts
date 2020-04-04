@@ -9,8 +9,11 @@ namespace SpriteKind {
     export const StatusBar = SpriteKind.create();
 }
 
-// TODO: option to show both target and display value, and getter for display value;
+// TODO: option to show both target and display value, option to freeze at display value;
 // allow for dark souls / fighting style game animations
+
+// TODO: use a frame handler closer to rendering; moving follow sprite in on game update
+// should not break repositioning dependent on internal ordering
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
