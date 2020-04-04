@@ -12,6 +12,10 @@ namespace SpriteKind {
 // TODO: option to show both target and display value, and getter for display value;
 // allow for dark souls / fighting style game animations
 
+// TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
+// TODO: support for setting the status as a health bar above sprite;
+//      needs to disable relative to camera, enable ghost, set x to other x, set bottom to other top + provided yPadding
+
 namespace ui.statusbar {
     // TODO: store array of the managed sprites in scene using this key as well
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
@@ -263,6 +267,7 @@ namespace ui.statusbar {
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
         output.data[STATUS_BAR_DATA_KEY] = sb;
+        output.z = scene.HUD_Z + 5;
 
         return output;
     }
