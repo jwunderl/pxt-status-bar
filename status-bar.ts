@@ -4,6 +4,7 @@ enum StatusBarFlag {
     LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
     ConstrainAssignedValue = 1 << 2, // if set, constrain values stored in status bar between 0 and max
     PositionAtEnd = 1 << 3, // if set and bar is attached to a sprite, position on right or bottom (instead of top or left)
+    InvertBarDirection = 1 << 4, // if set, start 'on' from opposite side (top or right)
 }
 
 namespace SpriteKind {
@@ -19,8 +20,6 @@ namespace SpriteKind {
 
 // TODO: angled bars?  /::::::::::/ instead of |::::::::::|
 
-// TODO: probably invert vertical bars (should drain from top, not bottom; 75% should leave top quarter empty)
-// TODO: maybe offset x centering with text for vertical bars by -1, it feels off even if it's in the right space as theirs 1 px padding on right
 // TODO: adjust default drain rate as % of max
 
 namespace ui.statusbar {
@@ -224,7 +223,7 @@ namespace ui.statusbar {
                     if (this.barWidth > textWidth) {
                         textX = (this.barWidth - textWidth) >> 1;
                     } else if (this.barWidth < textWidth) {
-                        barLeft = (textWidth - this.barWidth) >> 1;
+                        barLeft = (textWidth - this.barWidth - 1) >> 1;
                     }
                 } else {
                     if (labelEnd) {
@@ -265,13 +264,12 @@ namespace ui.statusbar {
             );
 
             if (percent > 0) {
-                this.image.fillRect(
-                    barLeft + this.borderWidth,
-                    barTop + this.borderWidth,
-                    barIsVertical ? fillWidth : Math.round(fillWidth * percent),
-                    barIsVertical ? Math.round(fillHeight * percent) : fillHeight,
-                    this.onColor
-                );
+                const invertDir = (this.flags & StatusBarFlag.InvertBarDirection);
+                const w = barIsVertical ? fillWidth : Math.round(fillWidth * percent);
+                const h = barIsVertical ? Math.round(fillHeight * percent) : fillHeight;
+                const x = barLeft + this.borderWidth + ((barIsVertical || !invertDir) ? 0 : fillWidth - w);
+                const y = barTop + this.borderWidth + ((barIsVertical && !invertDir ? fillHeight - h : 0));
+                this.image.fillRect(x, y, w, h, this.onColor);
             }
         }
     }

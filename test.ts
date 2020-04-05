@@ -1,4 +1,5 @@
 const status = ui.statusbar.createSprite(50, 3, 0x7, 0x5, 50)
+// ui.statusbar.setFlag(status, StatusBarFlag.InvertBarDirection, true);
 // ui.statusbar.setFlag(status, StatusBarFlag.SmoothTransition, false);
 // ui.statusbar.setFlag(status, StatusBarFlag.LabelAtEnd, true);
 
@@ -30,13 +31,16 @@ const player = sprites.create(img`
     . . . . . f f . . f f . . . . .
 `)
 
-const sb2 = ui.statusbar.createSprite(20, 4, 0x7, 0x2, 40);
+const sb2 = ui.statusbar.createSprite(4, 20, 0x7, 0x2, 40);
 ui.statusbar.setBarBorder(sb2, 1, 0xb);
-ui.statusbar.attachStatusBarToSprite(sb2, player, 1)
+ui.statusbar.attachStatusBarToSprite(sb2, player, -4)
 controller.moveSprite(player)
+ui.statusbar.setLabel(sb2, "HP", 0x7);
 
 let curr = 40;
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     curr -= 5;
     ui.statusbar.setCurrent(sb2, curr)
 })
+
+scene.setBackgroundColor(0x1)
