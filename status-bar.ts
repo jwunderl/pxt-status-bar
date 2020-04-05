@@ -37,7 +37,10 @@ namespace ui.statusbar {
         protected _image: Image;
 
         spriteToFollow: Sprite;
+        // how far away from touching the sprite to be
         followPadding: number;
+        // alignment beside sprite; -5 will offset bar 5 to the left or above (depending on horizontal / vertical bar)
+        followAlignment: number;
 
         protected font: image.Font;
         // TODO: 'rounded border' / border-radius option? just 1px or 2px
@@ -68,16 +71,17 @@ namespace ui.statusbar {
         positionNextTo(status: Sprite, target: Sprite) {
             const positionAtEnd = !!(this.flags & StatusBarFlag.PositionAtEnd);
             const padding = this.followPadding;
+            const alignment = this.followAlignment;
 
             if (this.isVerticalBar()) {
-                status.y = target.y;
+                status.y = target.y + alignment;
                 if (positionAtEnd) {
                     status.left = target.right + padding;
                 } else {
                     status.right = target.left - padding;
                 }
             } else {
-                status.x = target.x;
+                status.x = target.x + alignment;
                 if (positionAtEnd) {
                     status.top = target.bottom + padding;
                 } else {
@@ -382,7 +386,7 @@ namespace ui.statusbar {
         return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
-    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0) {
+    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
             // this will be changed with the follow logic to match toFollow,
@@ -390,6 +394,7 @@ namespace ui.statusbar {
             status.setFlag(SpriteFlag.RelativeToCamera, true);
             sb.spriteToFollow = toFollow;
             sb.followPadding = padding;
+            sb.followAlignment = alignment;
         });
     }
 

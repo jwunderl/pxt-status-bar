@@ -33,7 +33,7 @@ const player = sprites.create(img`
 
 const sb2 = ui.statusbar.createSprite(4, 20, 0x7, 0x2, 40);
 ui.statusbar.setBarBorder(sb2, 1, 0xb);
-ui.statusbar.attachStatusBarToSprite(sb2, player, -4)
+ui.statusbar.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
 controller.moveSprite(player)
 ui.statusbar.setLabel(sb2, "HP", 0x7);
 
