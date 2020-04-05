@@ -17,6 +17,8 @@ namespace SpriteKind {
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
+// TODO: angled bars?  /::::::::::/ instead of |::::::::::|
+
 namespace ui.statusbar {
     // TODO: store array of the managed sprites in scene using this key as well
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
@@ -188,6 +190,8 @@ namespace ui.statusbar {
         }
 
         updateDisplay() {
+            this.image.fill(0x0);
+
             const percent = Math.constrain(
                 this.displayValue / this._max,
                 0,
@@ -284,7 +288,7 @@ namespace ui.statusbar {
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
         output.data[STATUS_BAR_DATA_KEY] = sb;
-        output.z = scene.HUD_Z + 5;
+        output.z = scene.HUD_Z - 5;
 
         return output;
     }
