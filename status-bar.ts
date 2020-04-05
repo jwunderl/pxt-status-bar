@@ -55,6 +55,8 @@ namespace ui.statusbar {
         hasHitZero: boolean;
         onStatusZeroHandler: () => void;
 
+        postProcessingHandler: (im: Image) => void;
+
         constructor(
             protected barWidth: number,
             protected barHeight: number,
@@ -293,6 +295,9 @@ namespace ui.statusbar {
                 const y = barTop + this.borderWidth + ((barIsVertical && !invertDir ? fillHeight - h : 0));
                 this.image.fillRect(x, y, w, h, this.onColor);
             }
+
+            if (this.postProcessingHandler)
+                this.postProcessingHandler(this.image);
         }
     }
 
