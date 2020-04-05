@@ -19,6 +19,10 @@ namespace SpriteKind {
 
 // TODO: angled bars?  /::::::::::/ instead of |::::::::::|
 
+// TODO: probably invert vertical bars (should drain from top, not bottom; 75% should leave top quarter empty)
+// TODO: maybe offset x centering with text for vertical bars by -1, it feels off even if it's in the right space as theirs 1 px padding on right
+// TODO: adjust default drain rate as % of max
+
 namespace ui.statusbar {
     // TODO: store array of the managed sprites in scene using this key as well
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
@@ -380,7 +384,7 @@ namespace ui.statusbar {
         return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
-    export function setStatusBarForSprite(status: Sprite, toFollow: Sprite, padding = 0) {
+    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
             // this will be changed with the follow logic to match toFollow,
