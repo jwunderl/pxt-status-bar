@@ -13,8 +13,7 @@ namespace SpriteKind {
 // TODO: option to show both target and display value, option to freeze at display value;
 // allow for dark souls / fighting style game animations
 
-// TODO: use a frame handler closer to rendering; moving follow sprite in on game update
-// should not break repositioning dependent on internal ordering
+// TODO: [on {status} zero] event handler
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
@@ -61,34 +60,6 @@ namespace ui.statusbar {
             this.displayValue = _max;
             this.target = _max;
             this.rebuildImage();
-
-            // TODO: flag existance of game update with the creation of the
-            // array of managed sprites in scene.data
-            game.onUpdate(() => {
-                sprites.allOfKind(SpriteKind.StatusBar).forEach(s => {
-                    const sb = getStatusBar(s);
-                    if (sb) {
-                        sb.updateState();
-
-                        const { spriteToFollow } = sb;
-                        if (spriteToFollow) {
-                            const toFollowIsRelativeToCamera = !!(spriteToFollow.flags & SpriteFlag.RelativeToCamera);
-                            if (!!(s.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
-                                s.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
-                            }
-
-                            this.positionNextTo(s, spriteToFollow);
-
-                            // if (this.isVerticalBar()) {
-                            //     s.x = spriteToFollow.x;
-                            //     s.bottom = spriteToFollow.top - sb.followPadding;
-                            // }
-                            // TODO: update logic so that if bar is vertical it shows up to left of sprite,
-                            // with flag to do opposite (similar to LabelAtEnd, so it would show up on right / bottom of sprite)
-                        }
-                    }
-                });
-            });
         }
 
         positionNextTo(status: Sprite, target: Sprite) {
@@ -316,7 +287,42 @@ namespace ui.statusbar {
         output.data[STATUS_BAR_DATA_KEY] = sb;
         output.z = scene.HUD_Z - 5;
 
+        init(output);
+
         return output;
+    }
+
+    function init(s: Sprite) {
+        let managedSprites = getManagedSprites();
+        if (!managedSprites) {
+            game.currentScene().data[STATUS_BAR_DATA_KEY] = managedSprites = [] as Sprite[];
+            game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY + 5, () => {
+                const managed = getManagedSprites();
+                for (let i = managed.length - 1; i >= 0; --i) {
+                    const spr = managed[i];
+                    if (spr.flags & sprites.Flag.Destroyed) {
+                        managed.removeAt(i);
+                        continue;
+                    }
+                    const sb = getStatusBar(spr);
+                    if (sb) {
+                        sb.updateState();
+
+                        const { spriteToFollow } = sb;
+                        if (spriteToFollow) {
+                            const toFollowIsRelativeToCamera = !!(spriteToFollow.flags & SpriteFlag.RelativeToCamera);
+                            if (!!(spr.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
+                                spr.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
+                            }
+
+                            sb.positionNextTo(spr, spriteToFollow);
+                        }
+                    }
+                }
+            });
+        }
+        
+        managedSprites.push(s);
     }
 
     export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
@@ -368,6 +374,10 @@ namespace ui.statusbar {
 
     function getStatusBar(sprite: Sprite) {
         return sprite.data[STATUS_BAR_DATA_KEY] as StatusBar;
+    }
+
+    function getManagedSprites() {
+        return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
     export function setStatusBarForSprite(status: Sprite, toFollow: Sprite, padding = 0) {
