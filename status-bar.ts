@@ -14,13 +14,17 @@ namespace SpriteKind {
 // TODO: option to show both target and display value, option to freeze at display value;
 // allow for dark souls / fighting style game animations
 
-// TODO: [on {status} zero] event handler
+// TODO: [on {status} zero] event handler; implemented just need to expose it
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
 // TODO: angled bars?  /::::::::::/ instead of |::::::::::|
 
 // TODO: adjust default drain rate as % of max
+
+// TODO: 'rounded border' / border-radius option? just 1px or 2px
+
+// TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
 namespace ui.statusbar {
     // TODO: store array of the managed sprites in scene using this key as well
@@ -43,11 +47,13 @@ namespace ui.statusbar {
         followAlignment: number;
 
         protected font: image.Font;
-        // TODO: 'rounded border' / border-radius option? just 1px or 2px
 
         // hold state
         protected displayValue: number;
         protected target: number;
+
+        hasHitZero: boolean;
+        onStatusZeroHandler: () => void;
 
         constructor(
             protected barWidth: number,
@@ -62,6 +68,8 @@ namespace ui.statusbar {
             this._label = undefined;
             this.labelColor = 0x1;
             this.font = image.font5;
+
+            this.hasHitZero = false;
 
             this.displayValue = _max;
             this.target = _max;
@@ -115,6 +123,16 @@ namespace ui.statusbar {
         set current(v: number) {
             const isDifferent = this.target != v;
             this.target = v;
+
+            if (v <= 0 && !this.hasHitZero) {
+                this.hasHitZero = true;
+                if (this.onStatusZeroHandler)
+                    this.onStatusZeroHandler();
+            } else if (v > 0 && this.hasHitZero) {
+                // reset if this was below zero and has been refilled
+                this.hasHitZero = false;
+            }
+
             if (!(this.flags & StatusBarFlag.SmoothTransition)) {
                 this.displayValue = v;
             }
@@ -181,10 +199,10 @@ namespace ui.statusbar {
                 return;
 
             if (this.target > this.displayValue) {
-                this.displayValue = Math.min(displayValue + 1, this.target);
+                this.displayValue = Math.min(displayValue + (this.max / 20), this.target);
                 this.lastUpdate = currTime;
             } else if (this.target < this.displayValue) {
-                this.displayValue = Math.max(displayValue - 1, this.target);
+                this.displayValue = Math.max(displayValue - (this.max / 20), this.target);
                 this.lastUpdate = currTime;
             }
             
