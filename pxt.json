@@ -7,7 +7,7 @@
     },
     "files": [
         "README.md",
-        "main.ts"
+        "status-bar.ts"
     ],
     "testFiles": [
         "test.ts"
