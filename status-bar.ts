@@ -20,14 +20,11 @@ namespace SpriteKind {
 
 // TODO: angled bars?  /::::::::::/ instead of |::::::::::|
 
-// TODO: adjust default drain rate as % of max
-
 // TODO: 'rounded border' / border-radius option? just 1px or 2px
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
 namespace ui.statusbar {
-    // TODO: store array of the managed sprites in scene using this key as well
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
 
     class StatusBar {
@@ -200,11 +197,13 @@ namespace ui.statusbar {
             if (Math.abs(this.lastUpdate - currTime) < this.throttleAmount)
                 return;
 
+            const change = this.max / (Math.max(this.barWidth, this.barHeight) - this.borderWidth * 2);
+
             if (this.target > this.displayValue) {
-                this.displayValue = Math.min(displayValue + (this.max / 20), this.target);
+                this.displayValue = Math.min(displayValue + change, this.target);
                 this.lastUpdate = currTime;
             } else if (this.target < this.displayValue) {
-                this.displayValue = Math.max(displayValue - (this.max / 20), this.target);
+                this.displayValue = Math.max(displayValue - change, this.target);
                 this.lastUpdate = currTime;
             }
             
@@ -247,6 +246,7 @@ namespace ui.statusbar {
                     if (this.barWidth > textWidth) {
                         textX = (this.barWidth - textWidth) >> 1;
                     } else if (this.barWidth < textWidth) {
+                        // minus 1 due to 1px padding on right side of fonts
                         barLeft = (textWidth - this.barWidth - 1) >> 1;
                     }
                 } else {
