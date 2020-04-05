@@ -3,6 +3,7 @@ enum StatusBarFlag {
     SmoothTransition = 1 << 0, // if set, update bar over time; otherwise update bar immediately
     LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
     ConstrainAssignedValue = 1 << 2, // if set, constrain values stored in status bar between 0 and max
+    PositionAtEnd = 1 << 3, // if set and bar is attached to a sprite, position on right or bottom (instead of top or left)
 }
 
 namespace SpriteKind {
@@ -37,7 +38,7 @@ namespace ui.statusbar {
         followPadding: number;
 
         protected font: image.Font;
-        // todo: 'rounded border' / border-radius option? just 1px or 2px
+        // TODO: 'rounded border' / border-radius option? just 1px or 2px
 
         // hold state
         protected displayValue: number;
@@ -71,19 +72,44 @@ namespace ui.statusbar {
 
                         const { spriteToFollow } = sb;
                         if (spriteToFollow) {
-                            // TODO: update logic so that if bar is vertical it shows up to left of sprite,
-                            // with flag to do opposite (similar to LabelAtEnd, so it would show up on right / bottom of sprite)
-                            s.x = spriteToFollow.x;
-                            s.bottom = spriteToFollow.top - sb.followPadding;
-
                             const toFollowIsRelativeToCamera = !!(spriteToFollow.flags & SpriteFlag.RelativeToCamera);
                             if (!!(s.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
                                 s.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
                             }
+
+                            this.positionNextTo(s, spriteToFollow);
+
+                            // if (this.isVerticalBar()) {
+                            //     s.x = spriteToFollow.x;
+                            //     s.bottom = spriteToFollow.top - sb.followPadding;
+                            // }
+                            // TODO: update logic so that if bar is vertical it shows up to left of sprite,
+                            // with flag to do opposite (similar to LabelAtEnd, so it would show up on right / bottom of sprite)
                         }
                     }
                 });
             });
+        }
+
+        positionNextTo(status: Sprite, target: Sprite) {
+            const positionAtEnd = !!(this.flags & StatusBarFlag.PositionAtEnd);
+            const padding = this.followPadding;
+
+            if (this.isVerticalBar()) {
+                status.y = target.y;
+                if (positionAtEnd) {
+                    status.left = target.right + padding;
+                } else {
+                    status.right = target.left - padding;
+                }
+            } else {
+                status.x = target.x;
+                if (positionAtEnd) {
+                    status.top = target.bottom + padding;
+                } else {
+                    status.bottom = target.top - padding;
+                }
+            }
         }
 
         get label() {
