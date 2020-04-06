@@ -1,5 +1,5 @@
-// meta={"simUrl":"https://trg-arcade.userpxt.io/v0.16.53/---simulator","cdnUrl":"https://pxt.azureedge.net","version":"0.0.2","target":"arcade","targetVersion":"0.16.53","repo":"jwunderl/pxt-status-bar"}
-// total=1175516 new=12.26% cached=81.93% other=5.80%
+// meta={"simUrl":"https://trg-arcade.userpxt.io/v0.16.53/---simulator","cdnUrl":"https://pxt.azureedge.net","version":"0.0.3","target":"arcade","targetVersion":"0.16.53","repo":"jwunderl/pxt-status-bar"}
+// total=1181979 new=12.79% cached=81.48% other=5.72%
 (function (ectx) {
 'use strict';
 const runtime = ectx.runtime;
@@ -244,7 +244,6 @@ pxtrt.mapKeyNames = [
  "onColor",
  "onEvent",
  "onUpdate",
- "onZeroHandler",
  "once",
  "options",
  "order",
@@ -264,7 +263,6 @@ pxtrt.mapKeyNames = [
  "playerIndex",
  "position",
  "positionNextTo",
- "postProcessingHandler",
  "preferredDelay",
  "pressureLevel",
  "prevTimeMillis",
@@ -403,7 +401,7 @@ const pxsim_pxtrt = pxsim.pxtrt;
 const pxsim_numops = pxsim.numops;
 
 
-function _main___P1930649(s) {
+function _main___P2157731(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -771,81 +769,136 @@ switch (step) {
     s.pc = 32; return s.tmp_0;
   case 32:
     r0 = s.retval;
-    globals.StatusBar___1929630 = (r0);
-    globals.STATUS_BAR_DATA_KEY___1929632 = ("STATUS_BAR_DATA_KEY");
-    s.tmp_0 = statusbars_createSprite__P1930225_mk(s);
-    s.tmp_0.arg0 = 50;
-    s.tmp_0.arg1 = 3;
-    s.tmp_0.arg2 = 50;
+    globals.StatusBar___2156554 = (r0);
+    s.tmp_0 = StatusBarKind_create__P2156560_mk(s);
     s.pc = 33; return s.tmp_0;
   case 33:
     r0 = s.retval;
-    globals.status___1904316 = (r0);
-    s.tmp_0 = statusbars_setColor__P1930360_mk(s);
-    s.tmp_0.arg0 = globals.status___1904316;
-    s.tmp_0.arg1 = 7;
-    s.tmp_0.arg2 = 5;
+    globals.Health___2156568 = (r0);
+    s.tmp_0 = StatusBarKind_create__P2156560_mk(s);
     s.pc = 34; return s.tmp_0;
   case 34:
     r0 = s.retval;
-    s.tmp_0 = statusbars_setValue__P1930272_mk(s);
-    s.tmp_0.arg0 = globals.status___1904316;
-    s.tmp_0.arg1 = 40;
+    globals.Energy___2156571 = (r0);
+    s.tmp_0 = StatusBarKind_create__P2156560_mk(s);
     s.pc = 35; return s.tmp_0;
   case 35:
     r0 = s.retval;
-    s.tmp_0 = statusbars_setLabel__P1930388_mk(s);
-    s.tmp_0.arg0 = globals.status___1904316;
-    s.tmp_0.arg1 = "HP";
-    s.tmp_0.arg2 = 7;
+    globals.Magic___2156574 = (r0);
+    s.tmp_0 = StatusBarKind_create__P2156560_mk(s);
     s.pc = 36; return s.tmp_0;
   case 36:
     r0 = s.retval;
-    s.tmp_0 = statusbars_setBarBorder__P1930374_mk(s);
-    s.tmp_0.arg0 = globals.status___1904316;
-    s.tmp_0.arg1 = 1;
-    s.tmp_0.arg2 = 11;
-    s.pc = 37; return s.tmp_0;
+    globals.EnemyHealth___2156577 = (r0);
+    globals.STATUS_BAR_DATA_KEY___2156579 = ("STATUS_BAR_DATA_KEY");
+    if ((globals.STATUS_BAR_DATA_KEY___2156579) && (globals.STATUS_BAR_DATA_KEY___2156579).vtable) {
+    setupResume(s, 37);
+    pxsim_String__stringConv(globals.STATUS_BAR_DATA_KEY___2156579);
+    checkResumeConsumed();
+    return;
+    } else { s.retval = (globals.STATUS_BAR_DATA_KEY___2156579) + ""; }
   case 37:
     r0 = s.retval;
-    s.tmp_0 = Sprite_top__P1900522_mk(s);
-    s.tmp_0.arg0 = globals.status___1904316;
-    s.tmp_0.arg1 = 5;
-    s.pc = 38; return s.tmp_0;
+    s.tmp_0 = r0;
+    r0 = pxsim_String__concat(s.tmp_0, "_SPRITES");
+    globals.MANAGED_SPRITES_KEY___2156583 = (r0);
+    if ((globals.STATUS_BAR_DATA_KEY___2156579) && (globals.STATUS_BAR_DATA_KEY___2156579).vtable) {
+    setupResume(s, 38);
+    pxsim_String__stringConv(globals.STATUS_BAR_DATA_KEY___2156579);
+    checkResumeConsumed();
+    return;
+    } else { s.retval = (globals.STATUS_BAR_DATA_KEY___2156579) + ""; }
   case 38:
     r0 = s.retval;
-    s.tmp_0 = Sprite_left__P1900518_mk(s);
-    s.tmp_0.arg0 = globals.status___1904316;
-    s.tmp_0.arg1 = 5;
-    s.pc = 39; return s.tmp_0;
+    s.tmp_0 = r0;
+    r0 = pxsim_String__concat(s.tmp_0, "_ON_ZERO");
+    globals.ZERO_HANDLERS_KEY___2156589 = (r0);
+    if ((globals.STATUS_BAR_DATA_KEY___2156579) && (globals.STATUS_BAR_DATA_KEY___2156579).vtable) {
+    setupResume(s, 39);
+    pxsim_String__stringConv(globals.STATUS_BAR_DATA_KEY___2156579);
+    checkResumeConsumed();
+    return;
+    } else { s.retval = (globals.STATUS_BAR_DATA_KEY___2156579) + ""; }
   case 39:
     r0 = s.retval;
-    s.tmp_0 = sprites_create__P1900490_mk(s);
-    r0 = pxsim.image.ofBuffer(_hex1904331);
-    s.tmp_0.arg0 = r0;
-    s.tmp_0.arg1 = undefined;
+    s.tmp_0 = r0;
+    r0 = pxsim_String__concat(s.tmp_0, "_ON_DISPLAY_UPDATE");
+    globals.POST_PROCESS_HANDLERS_KEY___2156595 = (r0);
+    s.tmp_0 = statusbars_createSprite__P2157218_mk(s);
+    s.tmp_0.arg0 = 50;
+    s.tmp_0.arg1 = 3;
+    s.tmp_0.arg2 = 50;
+    s.tmp_0.arg3 = globals.Health___2156568;
     s.pc = 40; return s.tmp_0;
   case 40:
     r0 = s.retval;
-    globals.player___1904332 = (r0);
-    s.tmp_0 = statusbars_createSprite__P1930225_mk(s);
-    s.tmp_0.arg0 = 4;
-    s.tmp_0.arg1 = 20;
-    s.tmp_0.arg2 = 40;
+    globals.status___1939253 = (r0);
+    s.tmp_0 = statusbars_setColor__P2157358_mk(s);
+    s.tmp_0.arg0 = globals.status___1939253;
+    s.tmp_0.arg1 = 7;
+    s.tmp_0.arg2 = 5;
     s.pc = 41; return s.tmp_0;
   case 41:
     r0 = s.retval;
-    globals.sb2___1904337 = (r0);
-    s.tmp_0 = statusbars_setBarBorder__P1930374_mk(s);
-    s.tmp_0.arg0 = globals.sb2___1904337;
-    s.tmp_0.arg1 = 1;
-    s.tmp_0.arg2 = 11;
+    s.tmp_0 = statusbars_setValue__P2157270_mk(s);
+    s.tmp_0.arg0 = globals.status___1939253;
+    s.tmp_0.arg1 = 40;
     s.pc = 42; return s.tmp_0;
   case 42:
     r0 = s.retval;
-    s.tmp_0 = statusbars_attachStatusBarToSprite__P1930338_mk(s);
-    s.tmp_0.arg0 = globals.sb2___1904337;
-    s.tmp_0.arg1 = globals.player___1904332;
+    s.tmp_0 = statusbars_setLabel__P2157386_mk(s);
+    s.tmp_0.arg0 = globals.status___1939253;
+    s.tmp_0.arg1 = "HP";
+    s.tmp_0.arg2 = 7;
+    s.pc = 43; return s.tmp_0;
+  case 43:
+    r0 = s.retval;
+    s.tmp_0 = statusbars_setBarBorder__P2157372_mk(s);
+    s.tmp_0.arg0 = globals.status___1939253;
+    s.tmp_0.arg1 = 1;
+    s.tmp_0.arg2 = 11;
+    s.pc = 44; return s.tmp_0;
+  case 44:
+    r0 = s.retval;
+    s.tmp_0 = Sprite_top__P1900522_mk(s);
+    s.tmp_0.arg0 = globals.status___1939253;
+    s.tmp_0.arg1 = 5;
+    s.pc = 45; return s.tmp_0;
+  case 45:
+    r0 = s.retval;
+    s.tmp_0 = Sprite_left__P1900518_mk(s);
+    s.tmp_0.arg0 = globals.status___1939253;
+    s.tmp_0.arg1 = 5;
+    s.pc = 46; return s.tmp_0;
+  case 46:
+    r0 = s.retval;
+    s.tmp_0 = sprites_create__P1900490_mk(s);
+    r0 = pxsim.image.ofBuffer(_hex1939269);
+    s.tmp_0.arg0 = r0;
+    s.tmp_0.arg1 = undefined;
+    s.pc = 47; return s.tmp_0;
+  case 47:
+    r0 = s.retval;
+    globals.player___1939270 = (r0);
+    s.tmp_0 = statusbars_createSprite__P2157218_mk(s);
+    s.tmp_0.arg0 = 4;
+    s.tmp_0.arg1 = 20;
+    s.tmp_0.arg2 = 40;
+    s.tmp_0.arg3 = globals.Energy___2156571;
+    s.pc = 48; return s.tmp_0;
+  case 48:
+    r0 = s.retval;
+    globals.sb2___1939275 = (r0);
+    s.tmp_0 = statusbars_setBarBorder__P2157372_mk(s);
+    s.tmp_0.arg0 = globals.sb2___1939275;
+    s.tmp_0.arg1 = 1;
+    s.tmp_0.arg2 = 11;
+    s.pc = 49; return s.tmp_0;
+  case 49:
+    r0 = s.retval;
+    s.tmp_0 = statusbars_attachStatusBarToSprite__P2157336_mk(s);
+    s.tmp_0.arg0 = globals.sb2___1939275;
+    s.tmp_0.arg1 = globals.player___1939270;
     s.tmp_0.arg2 = -4;
     s.tmp_3 = if_charHeight_1_mk(s);
     s.tmp_3.arg0 = globals.font5___1900264;
@@ -855,56 +908,56 @@ switch (step) {
       s.tmp_3.fn = s.tmp_3.arg0.vtable.iface["charHeight"];
       if (s.tmp_3.fn == null) { s.retval = s.tmp_3.arg0.fields["charHeight"]; }
       else if (!s.tmp_3.fn.isGetter) { s.retval = bind(s.tmp_3); }
-     else { s.pc = 44; return s.tmp_3; }
+     else { s.pc = 51; return s.tmp_3; }
     }
-  case 44:
+  case 51:
     r0 = s.retval;
     s.tmp_2 = r0;
     r0 = (s.tmp_2 / 2);
     s.tmp_1 = r0;
     r0 = (0 - s.tmp_1);
     s.tmp_0.arg3 = r0;
-    s.pc = 43; return s.tmp_0;
-  case 43:
+    s.pc = 50; return s.tmp_0;
+  case 50:
     r0 = s.retval;
     s.tmp_0 = controller_moveSprite__P1900471_mk(s);
-    s.tmp_0.arg0 = globals.player___1904332;
+    s.tmp_0.arg0 = globals.player___1939270;
     s.tmp_0.arg1 = 100;
     s.tmp_0.arg2 = 100;
-    s.pc = 45; return s.tmp_0;
-  case 45:
+    s.pc = 52; return s.tmp_0;
+  case 52:
     r0 = s.retval;
-    s.tmp_0 = statusbars_setLabel__P1930388_mk(s);
-    s.tmp_0.arg0 = globals.sb2___1904337;
+    s.tmp_0 = statusbars_setLabel__P2157386_mk(s);
+    s.tmp_0.arg0 = globals.sb2___1939275;
     s.tmp_0.arg1 = "HP";
     s.tmp_0.arg2 = 7;
-    s.pc = 46; return s.tmp_0;
-  case 46:
+    s.pc = 53; return s.tmp_0;
+  case 53:
     r0 = s.retval;
-    globals.curr___1904356 = (40);
+    globals.curr___1939295 = (40);
     s.tmp_0 = controller_Button_onEvent__P1900426_mk(s);
     s.tmp_0.arg0 = globals.A___1900392;
     s.tmp_0.arg1 = 2049;
-    s.tmp_0.arg2 = inline__P1904362;
-    s.pc = 47; return s.tmp_0;
-  case 47:
+    s.tmp_0.arg2 = inline__P1939299;
+    s.pc = 54; return s.tmp_0;
+  case 54:
     r0 = s.retval;
     s.tmp_0 = scene_setBackgroundColor__P1900912_mk(s);
     s.tmp_0.arg0 = 1;
-    s.pc = 48; return s.tmp_0;
-  case 48:
+    s.pc = 55; return s.tmp_0;
+  case 55:
     r0 = s.retval;
     r0 = undefined;
     return leave(s, r0)
   default: oops()
 } } }
-_main___P1930649.info = {"start":0,"length":0,"line":0,"column":0,"endLine":0,"endColumn":0,"fileName":"test.ts","functionName":"<main>","argumentNames":[]}
-_main___P1930649.continuations = [  ]
+_main___P2157731.info = {"start":0,"length":0,"line":0,"column":0,"endLine":0,"endColumn":0,"fileName":"test.ts","functionName":"<main>","argumentNames":[]}
+_main___P2157731.continuations = [ 37,38,39 ]
 
-function _main___P1930649_mk(s) {
+function _main___P2157731_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: _main___P1930649, depth: s.depth + 1,
+        parent: s, fn: _main___P2157731, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -929,7 +982,7 @@ const _hex1901340 = pxsim.BufferMethods.createBufferFromHex("8704200020000000000
 const _hex1901343 = pxsim.BufferMethods.createBufferFromHex("870420002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000cc00000000000000b0bbbbbbbbcb00c0cd000000000000001bddddddddbd0c1ccd000000000000b011cbccccccbc0c1ccd000000000000b01d6c666666bc0cbccd000000000000b01d6c616661bc0c1ccd000000000000b01d6c161666bccc1bcd000000000000b01d6c666166bcccbbcd000000000000b01d6c666666bccc1bcd000000000000b01d6c666661bccc1bcd000000000000b01d6c666661bcccbbcd000000000000b01d6c666661bccc1bcd000000000000b01d6c666666bc0c1ccd000000000000b01dcbccccccbc0cbccd000000000000c0b1bbbbbbbbbb0cdccb000000000000c0bbbbbbbbbbcb00dc0c00000000000000cccccccccc0c00cc000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 const _hex1901346 = pxsim.BufferMethods.createBufferFromHex("87042000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004004000000000000000000000000000054450000000000000000000000440b00bbbb00b0440000000000000040550b00000000b0550400000000000040b5000044bb00005b04000000000000b00b0044ddddbb00b00b0000000000000000405d55d5dd0b00000000000000000000d4555555ddbd0000000000000000000054555555d5bd0000000000000000b44055555555d5dd0b4b000000000040b54055555555d5dd0b5b040000000040b54055555555d5dd0b5b040000000000b44055115555d5dd0b4b000000000000000054115555d5bd00000000000000000000d4555555ddbd00000000000000000000405d55d5dd0b0000000000000000b00b0044ddddbb00b00b00000000000040b5000044bb00005b0400000000000040550b00000000b0550400000000000000440b00bbbb00b0440000000000000000000000544500000000000000000000000000004004000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
 const _hex1901349 = pxsim.BufferMethods.createBufferFromHex("870420002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000bbbb00000000000000000000000000b055bb00bbbbbb000000000000000000b0b5bdbcbbbbddcb0000000000000000b0dbcb5b5555bbdd0c00000000000000b0cbdcbdbb5b55dbcd0000000000000000c0dddb11d15bb5bd0c00000000000000bbbd111111b155bb0c00000000000000db1b111111115bb5cb00000000000000db1bb11d1199b9d5cb00000000000000db1b11bb9199b955cb000000000000005b1b11b19b99995bcb000000000000005b1d1111bb99995ccb00000000000000b0b511bbbb99995ccb00000000000000b0d51d919999d95b0b00000000000000005bdb919999c9d50b0000000000000000b0d51b99d9bcb5000000000000000000005bd5bbbc550b00000000000000000000b05b5555bd000000000000000000000000b0bbbb00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
-const _hex1904331 = pxsim.BufferMethods.createBufferFromHex("87041000100000000000000000000000000000f00f00000000f0fffffee0440000ffefefee4f4d00f0ff2effe4feff00f0eff2bfd12e42ffffe2f2fedf2442ff2fe2f24edd24520f2fe2f24edd24520fffe2f2fedf2442fff0eff2bfd12e42fff0ff2effe4feff0000ffeeefee4f4d0000f0fffffee04400000000f00f0000000000000000000000")
+const _hex1939269 = pxsim.BufferMethods.createBufferFromHex("87041000100000000000000000000000000000f00f00000000f0fffffee0440000ffefefee4f4d00f0ff2effe4feff00f0eff2bfd12e42ffffe2f2fedf2442ff2fe2f24edd24520f2fe2f24edd24520fffe2f2fedf2442fff0eff2bfd12e42fff0ff2effe4feff0000ffeeefee4f4d0000f0fffffee04400000000f00f0000000000000000000000")
 
 
 
@@ -1492,7 +1545,7 @@ function inline__P1901630_mk(s) {
 
 
 
-function inline__P1904362(s) {
+function inline__P1939299(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -1502,11 +1555,11 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    r0 = (globals.curr___1904356 - 5);
-    globals.curr___1904356 = (r0);
-    s.tmp_0 = statusbars_setValue__P1930272_mk(s);
-    s.tmp_0.arg0 = globals.sb2___1904337;
-    s.tmp_0.arg1 = globals.curr___1904356;
+    r0 = (globals.curr___1939295 - 5);
+    globals.curr___1939295 = (r0);
+    s.tmp_0 = statusbars_setValue__P2157270_mk(s);
+    s.tmp_0.arg0 = globals.sb2___1939275;
+    s.tmp_0.arg1 = globals.curr___1939295;
     s.pc = 1; return s.tmp_0;
   case 1:
     r0 = s.retval;
@@ -1514,12 +1567,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1904362.info = {"start":1365,"length":65,"line":41,"column":52,"endLine":44,"endColumn":1,"fileName":"test.ts","functionName":"inline","argumentNames":[]}
+inline__P1939299.info = {"start":1409,"length":65,"line":41,"column":52,"endLine":44,"endColumn":1,"fileName":"test.ts","functionName":"inline","argumentNames":[]}
 
-function inline__P1904362_mk(s) {
+function inline__P1939299_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1904362, depth: s.depth + 1,
+        parent: s, fn: inline__P1939299, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
 } }
@@ -2899,7 +2952,7 @@ function controller_addController__P1900438_mk(s) {
 
 
 
-function statusbars_attachStatusBarToSprite__P1930338(s) {
+function statusbars_attachStatusBarToSprite__P2157336(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -2916,13 +2969,13 @@ switch (step) {
       s.arg3 = (s.lambdaArgs[3]);
       s.lambdaArgs = null;
     }
-    r0 = pxsim_pxtcore_mkAction(4, inline__P1930345);
+    r0 = pxsim_pxtcore_mkAction(4, inline__P2157343);
     s.tmp_0 = r0;
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 0, s.arg0);
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 1, s.arg1);
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 2, s.arg2);
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 3, s.arg3);
-    s.tmp_1 = statusbars_applyChange__P1930266_mk(s);
+    s.tmp_1 = statusbars_applyChange__P2157264_mk(s);
     s.tmp_1.arg0 = s.arg0;
     s.tmp_1.arg1 = s.tmp_0;
     s.pc = 1; return s.tmp_1;
@@ -2932,12 +2985,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_attachStatusBarToSprite__P1930338.info = {"start":14540,"length":551,"line":438,"column":4,"endLine":448,"endColumn":5,"fileName":"status-bar.ts","functionName":"attachStatusBarToSprite","argumentNames":["status","toFollow","padding","alignment"]}
+statusbars_attachStatusBarToSprite__P2157336.info = {"start":15568,"length":551,"line":476,"column":4,"endLine":486,"endColumn":5,"fileName":"status-bar.ts","functionName":"attachStatusBarToSprite","argumentNames":["status","toFollow","padding","alignment"]}
 
-function statusbars_attachStatusBarToSprite__P1930338_mk(s) {
+function statusbars_attachStatusBarToSprite__P2157336_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_attachStatusBarToSprite__P1930338, depth: s.depth + 1,
+        parent: s, fn: statusbars_attachStatusBarToSprite__P2157336, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -2951,7 +3004,7 @@ function statusbars_attachStatusBarToSprite__P1930338_mk(s) {
 
 
 
-function inline__P1930345(s) {
+function inline__P2157343(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -2979,12 +3032,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1930345.info = {"start":14672,"length":411,"line":439,"column":28,"endLine":447,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
+inline__P2157343.info = {"start":15700,"length":411,"line":477,"column":28,"endLine":485,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
 
-function inline__P1930345_mk(s) {
+function inline__P2157343_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1930345, depth: s.depth + 1,
+        parent: s, fn: inline__P2157343, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   arg0: undefined,
@@ -3081,7 +3134,7 @@ function Sprite_setFlag__P1900534_mk(s) {
 
 
 
-function statusbars_applyChange__P1930266(s) {
+function statusbars_applyChange__P2157264(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -3091,42 +3144,42 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.sb___1930514 = undefined;
-    s.output___1930519 = undefined;
+    s.sb___2157553 = undefined;
+    s.output___2157558 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.arg1 = (s.lambdaArgs[1]);
       s.lambdaArgs = null;
     }
-    s.tmp_0 = statusbars_getStatusBar__P1930473_mk(s);
+    s.tmp_0 = statusbars_getStatusBar__P2157452_mk(s);
     s.tmp_0.arg0 = s.arg0;
     s.pc = 4; return s.tmp_0;
   case 4:
     r0 = s.retval;
-    s.sb___1930514 = (r0);
-    r0 = pxsim_numops_toBoolDecr(s.sb___1930514);
+    s.sb___2157553 = (r0);
+    r0 = pxsim_numops_toBoolDecr(s.sb___2157553);
     if (!r0) { step = 1; continue; }
     s.tmp_0 = lambda_2_mk(s);
     s.tmp_0.argL = s.arg1;
-    s.tmp_0.arg0 = s.sb___1930514;
+    s.tmp_0.arg0 = s.sb___2157553;
     setupLambda(s.tmp_0, s.tmp_0.argL);
     s.pc = 5; return s.tmp_0;
   case 5:
     r0 = s.retval;
-    s.output___1930519 = (r0);
-    s.tmp_0 = statusbars_StatusBar_updateDisplay__P1929649_mk(s);
-    s.tmp_0.arg0 = s.sb___1930514;
+    s.output___2157558 = (r0);
+    s.tmp_0 = statusbars_StatusBar_updateDisplay__P2156614_mk(s);
+    s.tmp_0.arg0 = s.sb___2157553;
     s.pc = 6; return s.tmp_0;
   case 6:
     r0 = s.retval;
     s.tmp_0 = Sprite_setImage__P1900513_mk(s);
     s.tmp_0.arg0 = s.arg0;
-    r0 = s.sb___1930514.fields["_image"];
+    r0 = s.sb___2157553.fields["_image"];
     s.tmp_0.arg1 = r0;
     s.pc = 7; return s.tmp_0;
   case 7:
     r0 = s.retval;
-    r0 = s.output___1930519;
+    r0 = s.output___2157558;
     { step = 3; continue; }
   case 1:
   case 2:
@@ -3135,16 +3188,16 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_applyChange__P1930266.info = {"start":19354,"length":314,"line":565,"column":4,"endLine":576,"endColumn":5,"fileName":"status-bar.ts","functionName":"applyChange","argumentNames":["status","action"]}
+statusbars_applyChange__P2157264.info = {"start":21404,"length":314,"line":627,"column":4,"endLine":638,"endColumn":5,"fileName":"status-bar.ts","functionName":"applyChange","argumentNames":["status","action"]}
 
-function statusbars_applyChange__P1930266_mk(s) {
+function statusbars_applyChange__P2157264_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_applyChange__P1930266, depth: s.depth + 1,
+        parent: s, fn: statusbars_applyChange__P2157264, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
-  sb___1930514: undefined,
-  output___1930519: undefined,
+  sb___2157553: undefined,
+  output___2157558: undefined,
   arg0: undefined,
   arg1: undefined,
 } }
@@ -3153,7 +3206,7 @@ function statusbars_applyChange__P1930266_mk(s) {
 
 
 
-function statusbars_StatusBar_image__P1929643(s) {
+function statusbars_StatusBar_image__P2156608(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -3168,18 +3221,18 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["_image"];
     return leaveAccessor(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_image__P1929643.info = {"start":5150,"length":55,"line":160,"column":8,"endLine":162,"endColumn":9,"fileName":"status-bar.ts","functionName":"image","argumentNames":["this"]}
-statusbars_StatusBar_image__P1929643.isGetter = true;
+statusbars_StatusBar_image__P2156608.info = {"start":5974,"length":55,"line":192,"column":8,"endLine":194,"endColumn":9,"fileName":"status-bar.ts","functionName":"image","argumentNames":["this"]}
+statusbars_StatusBar_image__P2156608.isGetter = true;
 
-function statusbars_StatusBar_image__P1929643_mk(s) {
+function statusbars_StatusBar_image__P2156608_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_image__P1929643, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_image__P2156608, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
@@ -3819,7 +3872,7 @@ function Fx_add__P1899859_mk(s) {
 
 
 
-function statusbars_StatusBar_updateDisplay__P1929649(s) {
+function statusbars_StatusBar_updateDisplay__P2156614(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -3829,29 +3882,30 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.percent___1929997 = undefined;
-    s.fillWidth___1930005 = undefined;
-    s.fillHeight___1930013 = undefined;
-    s.barIsVertical___1930021 = undefined;
-    s.borderColor___1930024 = undefined;
-    s.barLeft___1930034 = undefined;
-    s.barTop___1930035 = undefined;
-    s.textWidth___1930037 = undefined;
-    s.textHeight___1930044 = undefined;
-    s.labelEnd___1930048 = undefined;
-    s.textX___1930054 = undefined;
-    s.textY___1930055 = undefined;
-    s.invertDir___1930159 = undefined;
-    s.w___1930166 = undefined;
-    s.h___1930175 = undefined;
-    s.x___1930184 = undefined;
-    s.y___1930198 = undefined;
+    s.percent___2156977 = undefined;
+    s.fillWidth___2156985 = undefined;
+    s.fillHeight___2156993 = undefined;
+    s.barIsVertical___2157001 = undefined;
+    s.borderColor___2157004 = undefined;
+    s.barLeft___2157014 = undefined;
+    s.barTop___2157015 = undefined;
+    s.textWidth___2157017 = undefined;
+    s.textHeight___2157024 = undefined;
+    s.labelEnd___2157028 = undefined;
+    s.textX___2157034 = undefined;
+    s.textY___2157035 = undefined;
+    s.invertDir___2157139 = undefined;
+    s.w___2157146 = undefined;
+    s.h___2157155 = undefined;
+    s.x___2157164 = undefined;
+    s.y___2157178 = undefined;
+    s.handler___2157200 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["_image"];
     s.tmp_0 = r0;
     r0 = pxsim_ImageMethods.fill(s.tmp_0, 0);
@@ -3864,10 +3918,10 @@ switch (step) {
     s.tmp_0.arg0 = r0;
     s.tmp_0.arg1 = 0;
     s.tmp_0.arg2 = 1;
-    s.pc = 35; return s.tmp_0;
-  case 35:
+    s.pc = 39; return s.tmp_0;
+  case 39:
     r0 = s.retval;
-    s.percent___1929997 = (r0);
+    s.percent___2156977 = (r0);
     r0 = s.arg0.fields["barWidth"];
     s.tmp_0 = r0;
     r0 = s.arg0.fields["borderWidth"];
@@ -3875,7 +3929,7 @@ switch (step) {
     r0 = (2 * s.tmp_2);
     s.tmp_1 = r0;
     r0 = (s.tmp_0 - s.tmp_1);
-    s.fillWidth___1930005 = (r0);
+    s.fillWidth___2156985 = (r0);
     r0 = s.arg0.fields["barHeight"];
     s.tmp_0 = r0;
     r0 = s.arg0.fields["borderWidth"];
@@ -3883,18 +3937,18 @@ switch (step) {
     r0 = (2 * s.tmp_2);
     s.tmp_1 = r0;
     r0 = (s.tmp_0 - s.tmp_1);
-    s.fillHeight___1930013 = (r0);
+    s.fillHeight___2156993 = (r0);
     r0 = s.arg0.fields["barHeight"];
     s.tmp_0 = r0;
     r0 = s.arg0.fields["barWidth"];
     s.tmp_1 = r0;
     r0 = (s.tmp_0 > s.tmp_1);
-    s.barIsVertical___1930021 = (r0);
-    s.tmp_1 = statusbars_util_isNullOrUndefined__P1930027_mk(s);
+    s.barIsVertical___2157001 = (r0);
+    s.tmp_1 = statusbars_util_isNullOrUndefined__P2157007_mk(s);
     r0 = s.arg0.fields["borderColor"];
     s.tmp_1.arg0 = r0;
-    s.pc = 36; return s.tmp_1;
-  case 36:
+    s.pc = 40; return s.tmp_1;
+  case 40:
     r0 = s.retval;
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
@@ -3906,9 +3960,9 @@ switch (step) {
   case 2:
     // jmp value (already in r0)
     s.tmp_2 = r0;
-    s.borderColor___1930024 = (s.tmp_2);
-    s.barLeft___1930034 = (0);
-    s.barTop___1930035 = (0);
+    s.borderColor___2157004 = (s.tmp_2);
+    s.barLeft___2157014 = (0);
+    s.barTop___2157015 = (0);
     r0 = s.arg0.fields["_label"];
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
@@ -3922,9 +3976,9 @@ switch (step) {
       s.tmp_2.fn = s.tmp_2.arg0.vtable.iface["charWidth"];
       if (s.tmp_2.fn == null) { s.retval = s.tmp_2.arg0.fields["charWidth"]; }
       else if (!s.tmp_2.fn.isGetter) { s.retval = bind(s.tmp_2); }
-     else { s.pc = 37; return s.tmp_2; }
+     else { s.pc = 41; return s.tmp_2; }
     }
-  case 37:
+  case 41:
     r0 = s.retval;
     s.tmp_1 = r0;
     r0 = s.arg0.fields["_label"];
@@ -3932,7 +3986,7 @@ switch (step) {
     r0 = pxsim_String_.length(s.tmp_4);
     s.tmp_3 = r0;
     r0 = (s.tmp_1 * s.tmp_3);
-    s.textWidth___1930037 = (r0);
+    s.textWidth___2157017 = (r0);
     s.tmp_0 = if_charHeight_1_mk(s);
     r0 = s.arg0.fields["font"];
     s.tmp_0.arg0 = r0;
@@ -3942,103 +3996,103 @@ switch (step) {
       s.tmp_0.fn = s.tmp_0.arg0.vtable.iface["charHeight"];
       if (s.tmp_0.fn == null) { s.retval = s.tmp_0.arg0.fields["charHeight"]; }
       else if (!s.tmp_0.fn.isGetter) { s.retval = bind(s.tmp_0); }
-     else { s.pc = 38; return s.tmp_0; }
+     else { s.pc = 42; return s.tmp_0; }
     }
-  case 38:
+  case 42:
     r0 = s.retval;
-    s.textHeight___1930044 = (r0);
+    s.textHeight___2157024 = (r0);
     r0 = s.arg0.fields["flags"];
     s.tmp_0 = r0;
     r0 = (s.tmp_0 & 2);
-    s.labelEnd___1930048 = (r0);
-    s.textX___1930054 = (0);
-    s.textY___1930055 = (0);
-    r0 = pxsim_numops_toBoolDecr(s.barIsVertical___1930021);
+    s.labelEnd___2157028 = (r0);
+    s.textX___2157034 = (0);
+    s.textY___2157035 = (0);
+    r0 = pxsim_numops_toBoolDecr(s.barIsVertical___2157001);
     if (!r0) { step = 9; continue; }
-    r0 = pxsim_numops_toBoolDecr(s.labelEnd___1930048);
+    r0 = pxsim_numops_toBoolDecr(s.labelEnd___2157028);
     if (!r0) { step = 3; continue; }
     r0 = s.arg0.fields["barHeight"];
     s.tmp_0 = r0;
     r0 = (s.tmp_0 + 1);
-    s.textY___1930055 = (r0);
+    s.textY___2157035 = (r0);
     { step = 4; continue; }
   case 3:
-    s.tmp_0 = r0 = s.barTop___1930035;
-    r0 = (s.textHeight___1930044 + 1);
+    s.tmp_0 = r0 = s.barTop___2157015;
+    r0 = (s.textHeight___2157024 + 1);
     s.tmp_1 = r0;
     r0 = (s.tmp_0 + s.tmp_1);
-    s.barTop___1930035 = (r0);
+    s.barTop___2157015 = (r0);
   case 4:
     r0 = s.arg0.fields["barWidth"];
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 > s.textWidth___1930037);
+    r0 = (s.tmp_1 > s.textWidth___2157017);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 5; continue; }
     r0 = s.arg0.fields["barWidth"];
     s.tmp_3 = r0;
-    r0 = (s.tmp_3 - s.textWidth___1930037);
+    r0 = (s.tmp_3 - s.textWidth___2157017);
     s.tmp_2 = r0;
     r0 = (s.tmp_2 >> 1);
-    s.textX___1930054 = (r0);
+    s.textX___2157034 = (r0);
     { step = 8; continue; }
   case 5:
     r0 = s.arg0.fields["barWidth"];
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 < s.textWidth___1930037);
+    r0 = (s.tmp_1 < s.textWidth___2157017);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 6; continue; }
     r0 = s.arg0.fields["barWidth"];
     s.tmp_4 = r0;
-    r0 = (s.textWidth___1930037 - s.tmp_4);
+    r0 = (s.textWidth___2157017 - s.tmp_4);
     s.tmp_3 = r0;
     r0 = (s.tmp_3 - 1);
     s.tmp_2 = r0;
     r0 = (s.tmp_2 >> 1);
-    s.barLeft___1930034 = (r0);
+    s.barLeft___2157014 = (r0);
   case 6:
   case 7:
   case 8:
     { step = 16; continue; }
   case 9:
-    r0 = pxsim_numops_toBoolDecr(s.labelEnd___1930048);
+    r0 = pxsim_numops_toBoolDecr(s.labelEnd___2157028);
     if (!r0) { step = 10; continue; }
     r0 = s.arg0.fields["barWidth"];
     s.tmp_0 = r0;
     r0 = (s.tmp_0 + 1);
-    s.textX___1930054 = (r0);
+    s.textX___2157034 = (r0);
     { step = 11; continue; }
   case 10:
-    r0 = (s.barLeft___1930034 + s.textWidth___1930037);
-    s.barLeft___1930034 = (r0);
+    r0 = (s.barLeft___2157014 + s.textWidth___2157017);
+    s.barLeft___2157014 = (r0);
   case 11:
     r0 = s.arg0.fields["barHeight"];
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 > s.textHeight___1930044);
+    r0 = (s.tmp_1 > s.textHeight___2157024);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 12; continue; }
     r0 = s.arg0.fields["barHeight"];
     s.tmp_3 = r0;
-    r0 = (s.tmp_3 - s.textHeight___1930044);
+    r0 = (s.tmp_3 - s.textHeight___2157024);
     s.tmp_2 = r0;
     r0 = (s.tmp_2 >> 1);
-    s.textY___1930055 = (r0);
+    s.textY___2157035 = (r0);
     { step = 15; continue; }
   case 12:
     r0 = s.arg0.fields["barHeight"];
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 < s.textHeight___1930044);
+    r0 = (s.tmp_1 < s.textHeight___2157024);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 13; continue; }
     r0 = s.arg0.fields["barHeight"];
     s.tmp_3 = r0;
-    r0 = (s.textHeight___1930044 - s.tmp_3);
+    r0 = (s.textHeight___2157024 - s.tmp_3);
     s.tmp_2 = r0;
     r0 = (s.tmp_2 >> 1);
-    s.barTop___1930035 = (r0);
+    s.barTop___2157015 = (r0);
   case 13:
   case 14:
   case 15:
@@ -4048,88 +4102,88 @@ switch (step) {
     s.tmp_0.arg0 = r0;
     r0 = s.arg0.fields["_label"];
     s.tmp_0.arg1 = r0;
-    s.tmp_0.arg2 = s.textX___1930054;
-    s.tmp_0.arg3 = s.textY___1930055;
+    s.tmp_0.arg2 = s.textX___2157034;
+    s.tmp_0.arg3 = s.textY___2157035;
     r0 = s.arg0.fields["labelColor"];
     s.tmp_0.arg4 = r0;
     r0 = s.arg0.fields["font"];
     s.tmp_0.arg5 = r0;
     s.tmp_0.arg6 = undefined;
-    s.pc = 39; return s.tmp_0;
-  case 39:
+    s.pc = 43; return s.tmp_0;
+  case 43:
     r0 = s.retval;
   case 17:
   case 18:
     s.tmp_0 = helpers_imageFillRect__P1900244_mk(s);
     r0 = s.arg0.fields["_image"];
     s.tmp_0.arg0 = r0;
-    s.tmp_0.arg1 = s.barLeft___1930034;
-    s.tmp_0.arg2 = s.barTop___1930035;
+    s.tmp_0.arg1 = s.barLeft___2157014;
+    s.tmp_0.arg2 = s.barTop___2157015;
     r0 = s.arg0.fields["barWidth"];
     s.tmp_0.arg3 = r0;
     r0 = s.arg0.fields["barHeight"];
     s.tmp_0.arg4 = r0;
-    s.tmp_0.arg5 = s.borderColor___1930024;
-    s.pc = 40; return s.tmp_0;
-  case 40:
+    s.tmp_0.arg5 = s.borderColor___2157004;
+    s.pc = 44; return s.tmp_0;
+  case 44:
     r0 = s.retval;
     s.tmp_0 = helpers_imageFillRect__P1900244_mk(s);
     r0 = s.arg0.fields["_image"];
     s.tmp_0.arg0 = r0;
     r0 = s.arg0.fields["borderWidth"];
     s.tmp_1 = r0;
-    r0 = (s.barLeft___1930034 + s.tmp_1);
+    r0 = (s.barLeft___2157014 + s.tmp_1);
     s.tmp_0.arg1 = r0;
     r0 = s.arg0.fields["borderWidth"];
     s.tmp_2 = r0;
-    r0 = (s.barTop___1930035 + s.tmp_2);
+    r0 = (s.barTop___2157015 + s.tmp_2);
     s.tmp_0.arg2 = r0;
-    s.tmp_0.arg3 = s.fillWidth___1930005;
-    s.tmp_0.arg4 = s.fillHeight___1930013;
+    s.tmp_0.arg3 = s.fillWidth___2156985;
+    s.tmp_0.arg4 = s.fillHeight___2156993;
     r0 = s.arg0.fields["offColor"];
     s.tmp_0.arg5 = r0;
-    s.pc = 41; return s.tmp_0;
-  case 41:
+    s.pc = 45; return s.tmp_0;
+  case 45:
     r0 = s.retval;
-    r0 = (s.percent___1929997 > 0);
+    r0 = (s.percent___2156977 > 0);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 31; continue; }
     r0 = s.arg0.fields["flags"];
     s.tmp_1 = r0;
     r0 = (s.tmp_1 & 16);
-    s.invertDir___1930159 = (r0);
-    r0 = pxsim_numops_toBoolDecr(s.barIsVertical___1930021);
+    s.invertDir___2157139 = (r0);
+    r0 = pxsim_numops_toBoolDecr(s.barIsVertical___2157001);
     if (!r0) { step = 19; continue; }
-    r0 = s.fillWidth___1930005;
+    r0 = s.fillWidth___2156985;
     { step = 20; continue; }
   case 19:
-    r0 = (s.fillWidth___1930005 * s.percent___1929997);
+    r0 = (s.fillWidth___2156985 * s.percent___2156977);
     s.tmp_0 = r0;
     r0 = pxsim.Math_.round(s.tmp_0);
   case 20:
     // jmp value (already in r0)
     s.tmp_1 = r0;
-    s.w___1930166 = (s.tmp_1);
-    r0 = pxsim_numops_toBoolDecr(s.barIsVertical___1930021);
+    s.w___2157146 = (s.tmp_1);
+    r0 = pxsim_numops_toBoolDecr(s.barIsVertical___2157001);
     if (!r0) { step = 21; continue; }
-    r0 = (s.fillHeight___1930013 * s.percent___1929997);
+    r0 = (s.fillHeight___2156993 * s.percent___2156977);
     s.tmp_0 = r0;
     r0 = pxsim.Math_.round(s.tmp_0);
     { step = 22; continue; }
   case 21:
-    r0 = s.fillHeight___1930013;
+    r0 = s.fillHeight___2156993;
   case 22:
     // jmp value (already in r0)
     s.tmp_1 = r0;
-    s.h___1930175 = (s.tmp_1);
-    s.tmp_0 = r0 = s.barIsVertical___1930021;
+    s.h___2157155 = (s.tmp_1);
+    s.tmp_0 = r0 = s.barIsVertical___2157001;
     r0 = pxsim_numops_toBool(s.tmp_0);
     if (!r0) { step = 23; continue; }
     r0 = s.tmp_0;
     { step = 24; continue; }
   case 23:
-    r0 = pxsim_numops_toBoolDecr(s.invertDir___1930159);
+    r0 = pxsim_numops_toBoolDecr(s.invertDir___2157139);
     s.tmp_1 = r0;
     r0 = pxsim_Boolean__bang(s.tmp_1);
   case 24:
@@ -4140,23 +4194,23 @@ switch (step) {
     r0 = 0;
     { step = 26; continue; }
   case 25:
-    r0 = (s.fillWidth___1930005 - s.w___1930166);
+    r0 = (s.fillWidth___2156985 - s.w___2157146);
   case 26:
     // jmp value (already in r0)
     s.tmp_3 = r0;
     r0 = s.arg0.fields["borderWidth"];
     s.tmp_5 = r0;
-    r0 = (s.barLeft___1930034 + s.tmp_5);
+    r0 = (s.barLeft___2157014 + s.tmp_5);
     s.tmp_4 = r0;
     r0 = (s.tmp_4 + s.tmp_3);
-    s.x___1930184 = (r0);
-    s.tmp_0 = r0 = s.barIsVertical___1930021;
+    s.x___2157164 = (r0);
+    s.tmp_0 = r0 = s.barIsVertical___2157001;
     r0 = pxsim_numops_toBool(s.tmp_0);
     if (r0) { step = 27; continue; }
     r0 = s.tmp_0;
     { step = 28; continue; }
   case 27:
-    r0 = pxsim_numops_toBoolDecr(s.invertDir___1930159);
+    r0 = pxsim_numops_toBoolDecr(s.invertDir___2157139);
     s.tmp_1 = r0;
     r0 = pxsim_Boolean__bang(s.tmp_1);
   case 28:
@@ -4164,7 +4218,7 @@ switch (step) {
     s.tmp_2 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_2);
     if (!r0) { step = 29; continue; }
-    r0 = (s.fillHeight___1930013 - s.h___1930175);
+    r0 = (s.fillHeight___2156993 - s.h___2157155);
     { step = 30; continue; }
   case 29:
     r0 = 0;
@@ -4173,55 +4227,77 @@ switch (step) {
     s.tmp_3 = r0;
     r0 = s.arg0.fields["borderWidth"];
     s.tmp_5 = r0;
-    r0 = (s.barTop___1930035 + s.tmp_5);
+    r0 = (s.barTop___2157015 + s.tmp_5);
     s.tmp_4 = r0;
     r0 = (s.tmp_4 + s.tmp_3);
-    s.y___1930198 = (r0);
+    s.y___2157178 = (r0);
     s.tmp_0 = helpers_imageFillRect__P1900244_mk(s);
     r0 = s.arg0.fields["_image"];
     s.tmp_0.arg0 = r0;
-    s.tmp_0.arg1 = s.x___1930184;
-    s.tmp_0.arg2 = s.y___1930198;
-    s.tmp_0.arg3 = s.w___1930166;
-    s.tmp_0.arg4 = s.h___1930175;
+    s.tmp_0.arg1 = s.x___2157164;
+    s.tmp_0.arg2 = s.y___2157178;
+    s.tmp_0.arg3 = s.w___2157146;
+    s.tmp_0.arg4 = s.h___2157155;
     r0 = s.arg0.fields["onColor"];
     s.tmp_0.arg5 = r0;
-    s.pc = 42; return s.tmp_0;
-  case 42:
+    s.pc = 46; return s.tmp_0;
+  case 46:
     r0 = s.retval;
   case 31:
   case 32:
-    r0 = s.arg0.fields["postProcessingHandler"];
-    s.tmp_0 = r0;
-    r0 = pxsim_numops_toBoolDecr(s.tmp_0);
-    if (!r0) { step = 33; continue; }
-    s.tmp_1 = if_postProcessingHandler_2_mk(s);
-    s.tmp_1.arg0 = s.arg0;
-    r0 = s.arg0.fields["_image"];
-    s.tmp_1.arg1 = r0;
-    if (!s.tmp_1.arg0.vtable.iface) {
-      setupLambda(s.tmp_1, pxsim_pxtrt.mapGetByString(s.tmp_1.arg0, "postProcessingHandler"), 2);
-      s.pc = 43; return s.tmp_1;
-    } else {
-      s.tmp_1.fn = s.tmp_1.arg0.vtable.iface["postProcessingHandler"];
-      if (s.tmp_1.fn == null) { setupLambda(s.tmp_1, s.tmp_1.arg0.fields["postProcessingHandler"], 2); s.pc = 43; return s.tmp_1; }
-      else if (s.tmp_1.fn.isGetter) { s.tmp_1.stage2Call = true; s.pc = 43; return s.tmp_1;; }
-     else { s.pc = 43; return s.tmp_1; }
-    }
-  case 43:
+    s.tmp_1 = statusbars_getPostProcessHandlers__P2157207_mk(s);
+    s.pc = 47; return s.tmp_1;
+  case 47:
     r0 = s.retval;
+    s.tmp_0 = r0;
+    r0 = pxsim_numops_toBool(s.tmp_0);
+    if (!r0) { step = 33; continue; }
+    r0 = s.tmp_0;
+    { step = 34; continue; }
   case 33:
+    r0 = pxsim_Array__mk();
   case 34:
+    // jmp value (already in r0)
+    s.tmp_2 = r0;
+    r0 = s.arg0.fields["kind"];
+    s.tmp_3 = r0;
+    r0 = pxsim_Array__getAt(s.tmp_2, s.tmp_3);
+    s.handler___2157200 = (r0);
+    r0 = s.arg0.fields["sprite"];
+    s.tmp_0 = r0;
+    r0 = pxsim_numops_toBool(s.tmp_0);
+    if (r0) { step = 35; continue; }
+    r0 = s.tmp_0;
+    { step = 36; continue; }
+  case 35:
+    r0 = s.handler___2157200;
+  case 36:
+    // jmp value (already in r0)
+    s.tmp_1 = r0;
+    r0 = pxsim_numops_toBoolDecr(s.tmp_1);
+    if (!r0) { step = 37; continue; }
+    s.tmp_2 = lambda_3_mk(s);
+    s.tmp_2.argL = s.handler___2157200;
+    r0 = s.arg0.fields["sprite"];
+    s.tmp_2.arg0 = r0;
+    r0 = s.arg0.fields["_image"];
+    s.tmp_2.arg1 = r0;
+    setupLambda(s.tmp_2, s.tmp_2.argL);
+    s.pc = 48; return s.tmp_2;
+  case 48:
+    r0 = s.retval;
+  case 37:
+  case 38:
     r0 = undefined;
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_updateDisplay__P1929649.info = {"start":7496,"length":3299,"line":227,"column":8,"endLine":313,"endColumn":9,"fileName":"status-bar.ts","functionName":"updateDisplay","argumentNames":["this"]}
+statusbars_StatusBar_updateDisplay__P2156614.info = {"start":8320,"length":3362,"line":259,"column":8,"endLine":346,"endColumn":9,"fileName":"status-bar.ts","functionName":"updateDisplay","argumentNames":["this"]}
 
-function statusbars_StatusBar_updateDisplay__P1929649_mk(s) {
+function statusbars_StatusBar_updateDisplay__P2156614_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_updateDisplay__P1929649, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_updateDisplay__P2156614, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -4229,23 +4305,133 @@ function statusbars_StatusBar_updateDisplay__P1929649_mk(s) {
   tmp_3: undefined,
   tmp_4: undefined,
   tmp_5: undefined,
-  percent___1929997: undefined,
-  fillWidth___1930005: undefined,
-  fillHeight___1930013: undefined,
-  barIsVertical___1930021: undefined,
-  borderColor___1930024: undefined,
-  barLeft___1930034: undefined,
-  barTop___1930035: undefined,
-  textWidth___1930037: undefined,
-  textHeight___1930044: undefined,
-  labelEnd___1930048: undefined,
-  textX___1930054: undefined,
-  textY___1930055: undefined,
-  invertDir___1930159: undefined,
-  w___1930166: undefined,
-  h___1930175: undefined,
-  x___1930184: undefined,
-  y___1930198: undefined,
+  percent___2156977: undefined,
+  fillWidth___2156985: undefined,
+  fillHeight___2156993: undefined,
+  barIsVertical___2157001: undefined,
+  borderColor___2157004: undefined,
+  barLeft___2157014: undefined,
+  barTop___2157015: undefined,
+  textWidth___2157017: undefined,
+  textHeight___2157024: undefined,
+  labelEnd___2157028: undefined,
+  textX___2157034: undefined,
+  textY___2157035: undefined,
+  invertDir___2157139: undefined,
+  w___2157146: undefined,
+  h___2157155: undefined,
+  x___2157164: undefined,
+  y___2157178: undefined,
+  handler___2157200: undefined,
+  arg0: undefined,
+} }
+
+
+
+
+
+function statusbars_getPostProcessHandlers__P2157207(s) {
+let r0 = s.r0, step = s.pc;
+s.pc = -1;
+
+
+while (true) {
+if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
+switch (step) {
+  case 0:
+
+    s.tmp_0 = statusbars_getSceneData__P2157574_mk(s);
+    s.tmp_0.arg0 = globals.POST_PROCESS_HANDLERS_KEY___2156595;
+    s.pc = 1; return s.tmp_0;
+  case 1:
+    r0 = s.retval;
+    return leave(s, r0)
+  default: oops()
+} } }
+statusbars_getPostProcessHandlers__P2157207.info = {"start":22155,"length":143,"line":656,"column":4,"endLine":658,"endColumn":5,"fileName":"status-bar.ts","functionName":"getPostProcessHandlers","argumentNames":[]}
+
+function statusbars_getPostProcessHandlers__P2157207_mk(s) {
+    checkStack(s.depth);
+    return {
+        parent: s, fn: statusbars_getPostProcessHandlers__P2157207, depth: s.depth + 1,
+        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
+  tmp_0: undefined,
+} }
+
+
+
+
+
+function statusbars_getSceneData__P2157574(s) {
+let r0 = s.r0, step = s.pc;
+s.pc = -1;
+
+
+while (true) {
+if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
+switch (step) {
+  case 0:
+
+    if (s.lambdaArgs) {
+      s.arg0 = (s.lambdaArgs[0]);
+      s.lambdaArgs = null;
+    }
+    s.tmp_2 = game_currentScene__P1900682_mk(s);
+    s.pc = 1; return s.tmp_2;
+  case 1:
+    r0 = s.retval;
+    s.tmp_1 = r0;
+    r0 = s.tmp_1.fields["_data"];
+    s.tmp_0 = r0;
+    r0 = pxsim_pxtrt.mapGetGeneric(s.tmp_0, s.arg0);
+    return leave(s, r0)
+  default: oops()
+} } }
+statusbars_getSceneData__P2157574.info = {"start":21837,"length":88,"line":644,"column":4,"endLine":646,"endColumn":5,"fileName":"status-bar.ts","functionName":"getSceneData","argumentNames":["key"]}
+
+function statusbars_getSceneData__P2157574_mk(s) {
+    checkStack(s.depth);
+    return {
+        parent: s, fn: statusbars_getSceneData__P2157574, depth: s.depth + 1,
+        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
+  tmp_0: undefined,
+  tmp_1: undefined,
+  tmp_2: undefined,
+  arg0: undefined,
+} }
+
+
+
+
+
+function scene_Scene_data__P1900903(s) {
+let r0 = s.r0, step = s.pc;
+s.pc = -1;
+
+
+while (true) {
+if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
+switch (step) {
+  case 0:
+
+    if (s.lambdaArgs) {
+      s.arg0 = (s.lambdaArgs[0]);
+      s.lambdaArgs = null;
+    }
+    r0 = s.arg0;
+    if (!checkSubtype(r0, scene_Scene__C1900901_VT)) failedCast(r0);
+    r0 = s.arg0.fields["_data"];
+    return leaveAccessor(s, r0)
+  default: oops()
+} } }
+scene_Scene_data__P1900903.info = {"start":6208,"length":53,"line":169,"column":8,"endLine":171,"endColumn":9,"fileName":"pxt_modules/game/scene.ts","functionName":"data","argumentNames":["this"]}
+scene_Scene_data__P1900903.isGetter = true;
+
+function scene_Scene_data__P1900903_mk(s) {
+    checkStack(s.depth);
+    return {
+        parent: s, fn: scene_Scene_data__P1900903, depth: s.depth + 1,
+        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
 
@@ -5053,7 +5239,7 @@ function helpers_imageDrawIcon__P1900243_mk(s) {
 
 
 
-function statusbars_StatusBar_label__P1929636(s) {
+function statusbars_StatusBar_label__P2156601(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -5068,18 +5254,18 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["_label"];
     return leaveAccessor(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_label__P1929636.info = {"start":3939,"length":55,"line":112,"column":8,"endLine":114,"endColumn":9,"fileName":"status-bar.ts","functionName":"label","argumentNames":["this"]}
-statusbars_StatusBar_label__P1929636.isGetter = true;
+statusbars_StatusBar_label__P2156601.info = {"start":4689,"length":55,"line":143,"column":8,"endLine":145,"endColumn":9,"fileName":"status-bar.ts","functionName":"label","argumentNames":["this"]}
+statusbars_StatusBar_label__P2156601.isGetter = true;
 
-function statusbars_StatusBar_label__P1929636_mk(s) {
+function statusbars_StatusBar_label__P2156601_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_label__P1929636, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_label__P2156601, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
@@ -5088,7 +5274,7 @@ function statusbars_StatusBar_label__P1929636_mk(s) {
 
 
 
-function statusbars_util_isNullOrUndefined__P1930027(s) {
+function statusbars_util_isNullOrUndefined__P2157007(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -5117,12 +5303,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_util_isNullOrUndefined__P1930027.info = {"start":19928,"length":126,"line":587,"column":8,"endLine":589,"endColumn":9,"fileName":"status-bar.ts","functionName":"isNullOrUndefined","argumentNames":["v"]}
+statusbars_util_isNullOrUndefined__P2157007.info = {"start":22329,"length":126,"line":661,"column":8,"endLine":663,"endColumn":9,"fileName":"status-bar.ts","functionName":"isNullOrUndefined","argumentNames":["v"]}
 
-function statusbars_util_isNullOrUndefined__P1930027_mk(s) {
+function statusbars_util_isNullOrUndefined__P2157007_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_util_isNullOrUndefined__P1930027, depth: s.depth + 1,
+        parent: s, fn: statusbars_util_isNullOrUndefined__P2157007, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -5133,7 +5319,7 @@ function statusbars_util_isNullOrUndefined__P1930027_mk(s) {
 
 
 
-function statusbars_StatusBar_isVerticalBar__P1929645(s) {
+function statusbars_StatusBar_isVerticalBar__P2156610(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -5148,7 +5334,7 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["barHeight"];
     s.tmp_0 = r0;
     r0 = s.arg0.fields["barWidth"];
@@ -5157,12 +5343,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_isVerticalBar__P1929645.info = {"start":5311,"length":88,"line":168,"column":8,"endLine":170,"endColumn":9,"fileName":"status-bar.ts","functionName":"isVerticalBar","argumentNames":["this"]}
+statusbars_StatusBar_isVerticalBar__P2156610.info = {"start":6135,"length":88,"line":200,"column":8,"endLine":202,"endColumn":9,"fileName":"status-bar.ts","functionName":"isVerticalBar","argumentNames":["this"]}
 
-function statusbars_StatusBar_isVerticalBar__P1929645_mk(s) {
+function statusbars_StatusBar_isVerticalBar__P2156610_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_isVerticalBar__P1929645, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_isVerticalBar__P2156610, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -5235,7 +5421,7 @@ function Math_constrain__P1899939_mk(s) {
 
 
 
-function statusbars_getStatusBar__P1930473(s) {
+function statusbars_getStatusBar__P2157452(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -5255,16 +5441,16 @@ switch (step) {
   case 1:
     r0 = s.retval;
     s.tmp_0 = r0;
-    r0 = pxsim_pxtrt.mapGetGeneric(s.tmp_0, globals.STATUS_BAR_DATA_KEY___1929632);
+    r0 = pxsim_pxtrt.mapGetGeneric(s.tmp_0, globals.STATUS_BAR_DATA_KEY___2156579);
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_getStatusBar__P1930473.info = {"start":19674,"length":107,"line":578,"column":4,"endLine":580,"endColumn":5,"fileName":"status-bar.ts","functionName":"getStatusBar","argumentNames":["status"]}
+statusbars_getStatusBar__P2157452.info = {"start":21724,"length":107,"line":640,"column":4,"endLine":642,"endColumn":5,"fileName":"status-bar.ts","functionName":"getStatusBar","argumentNames":["status"]}
 
-function statusbars_getStatusBar__P1930473_mk(s) {
+function statusbars_getStatusBar__P2157452_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_getStatusBar__P1930473, depth: s.depth + 1,
+        parent: s, fn: statusbars_getStatusBar__P2157452, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -6890,7 +7076,7 @@ function Sprite_top__P1900521_mk(s) {
 
 
 
-function statusbars_setBarBorder__P1930374(s) {
+function statusbars_setBarBorder__P2157372(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -6906,11 +7092,11 @@ switch (step) {
       s.arg2 = (s.lambdaArgs[2]);
       s.lambdaArgs = null;
     }
-    r0 = pxsim_pxtcore_mkAction(2, inline__P1930380);
+    r0 = pxsim_pxtcore_mkAction(2, inline__P2157378);
     s.tmp_0 = r0;
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 0, s.arg2);
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 1, s.arg1);
-    s.tmp_1 = statusbars_applyChange__P1930266_mk(s);
+    s.tmp_1 = statusbars_applyChange__P2157264_mk(s);
     s.tmp_1.arg0 = s.arg0;
     s.tmp_1.arg1 = s.tmp_0;
     s.pc = 1; return s.tmp_1;
@@ -6920,12 +7106,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_setBarBorder__P1930374.info = {"start":16124,"length":214,"line":478,"column":4,"endLine":483,"endColumn":5,"fileName":"status-bar.ts","functionName":"setBarBorder","argumentNames":["status","borderWidth","color"]}
+statusbars_setBarBorder__P2157372.info = {"start":17152,"length":214,"line":516,"column":4,"endLine":521,"endColumn":5,"fileName":"status-bar.ts","functionName":"setBarBorder","argumentNames":["status","borderWidth","color"]}
 
-function statusbars_setBarBorder__P1930374_mk(s) {
+function statusbars_setBarBorder__P2157372_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_setBarBorder__P1930374, depth: s.depth + 1,
+        parent: s, fn: statusbars_setBarBorder__P2157372, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -6938,7 +7124,7 @@ function statusbars_setBarBorder__P1930374_mk(s) {
 
 
 
-function inline__P1930380(s) {
+function inline__P2157378(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -6958,12 +7144,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1930380.info = {"start":16235,"length":95,"line":479,"column":28,"endLine":482,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
+inline__P2157378.info = {"start":17263,"length":95,"line":517,"column":28,"endLine":520,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
 
-function inline__P1930380_mk(s) {
+function inline__P2157378_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1930380, depth: s.depth + 1,
+        parent: s, fn: inline__P2157378, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
@@ -6972,7 +7158,7 @@ function inline__P1930380_mk(s) {
 
 
 
-function statusbars_setLabel__P1930388(s) {
+function statusbars_setLabel__P2157386(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -6988,11 +7174,11 @@ switch (step) {
       s.arg2 = (s.lambdaArgs[2]);
       s.lambdaArgs = null;
     }
-    r0 = pxsim_pxtcore_mkAction(2, inline__P1930394);
+    r0 = pxsim_pxtcore_mkAction(2, inline__P2157392);
     s.tmp_0 = r0;
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 0, s.arg2);
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 1, s.arg1);
-    s.tmp_1 = statusbars_applyChange__P1930266_mk(s);
+    s.tmp_1 = statusbars_applyChange__P2157264_mk(s);
     s.tmp_1.arg0 = s.arg0;
     s.tmp_1.arg1 = s.tmp_0;
     s.pc = 1; return s.tmp_1;
@@ -7002,12 +7188,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_setLabel__P1930388.info = {"start":16701,"length":219,"line":495,"column":4,"endLine":501,"endColumn":5,"fileName":"status-bar.ts","functionName":"setLabel","argumentNames":["status","label","color"]}
+statusbars_setLabel__P2157386.info = {"start":17729,"length":219,"line":533,"column":4,"endLine":539,"endColumn":5,"fileName":"status-bar.ts","functionName":"setLabel","argumentNames":["status","label","color"]}
 
-function statusbars_setLabel__P1930388_mk(s) {
+function statusbars_setLabel__P2157386_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_setLabel__P1930388, depth: s.depth + 1,
+        parent: s, fn: statusbars_setLabel__P2157386, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -7020,7 +7206,7 @@ function statusbars_setLabel__P1930388_mk(s) {
 
 
 
-function inline__P1930394(s) {
+function inline__P2157392(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7039,7 +7225,7 @@ switch (step) {
     r0 = (s.arg0).fields["labelColor"] = (s.caps[0]);
   case 1:
   case 2:
-    s.tmp_0 = statusbars_StatusBar_label__P1929637_mk(s);
+    s.tmp_0 = statusbars_StatusBar_label__P2156602_mk(s);
     s.tmp_0.arg0 = s.arg0;
     s.tmp_0.arg1 = s.caps[1];
     s.pc = 3; return s.tmp_0;
@@ -7049,12 +7235,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1930394.info = {"start":16803,"length":109,"line":496,"column":28,"endLine":500,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
+inline__P2157392.info = {"start":17831,"length":109,"line":534,"column":28,"endLine":538,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
 
-function inline__P1930394_mk(s) {
+function inline__P2157392_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1930394, depth: s.depth + 1,
+        parent: s, fn: inline__P2157392, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   arg0: undefined,
@@ -7064,7 +7250,7 @@ function inline__P1930394_mk(s) {
 
 
 
-function statusbars_StatusBar_label__P1929637(s) {
+function statusbars_StatusBar_label__P2156602(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7080,9 +7266,9 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = (s.arg0).fields["_label"] = (s.arg1);
-    s.tmp_0 = statusbars_StatusBar_rebuildImage__P1929647_mk(s);
+    s.tmp_0 = statusbars_StatusBar_rebuildImage__P2156612_mk(s);
     s.tmp_0.arg0 = s.arg0;
     s.pc = 1; return s.tmp_0;
   case 1:
@@ -7091,12 +7277,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_label__P1929637.info = {"start":4012,"length":94,"line":116,"column":8,"endLine":119,"endColumn":9,"fileName":"status-bar.ts","functionName":"label","argumentNames":["this","v"]}
+statusbars_StatusBar_label__P2156602.info = {"start":4762,"length":94,"line":147,"column":8,"endLine":150,"endColumn":9,"fileName":"status-bar.ts","functionName":"label","argumentNames":["this","v"]}
 
-function statusbars_StatusBar_label__P1929637_mk(s) {
+function statusbars_StatusBar_label__P2156602_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_label__P1929637, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_label__P2156602, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   arg0: undefined,
@@ -7107,7 +7293,7 @@ function statusbars_StatusBar_label__P1929637_mk(s) {
 
 
 
-function statusbars_StatusBar_rebuildImage__P1929647(s) {
+function statusbars_StatusBar_rebuildImage__P2156612(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7117,20 +7303,20 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.width___1929854 = undefined;
-    s.height___1929857 = undefined;
-    s.labelWidth___1929861 = undefined;
-    s.newImg___1929903 = undefined;
+    s.width___2156834 = undefined;
+    s.height___2156837 = undefined;
+    s.labelWidth___2156841 = undefined;
+    s.newImg___2156883 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["barWidth"];
-    s.width___1929854 = (r0);
+    s.width___2156834 = (r0);
     r0 = s.arg0.fields["barHeight"];
-    s.height___1929857 = (r0);
+    s.height___2156837 = (r0);
     r0 = s.arg0.fields["_label"];
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
@@ -7154,7 +7340,7 @@ switch (step) {
     r0 = pxsim_String_.length(s.tmp_4);
     s.tmp_3 = r0;
     r0 = (s.tmp_1 * s.tmp_3);
-    s.labelWidth___1929861 = (r0);
+    s.labelWidth___2156841 = (r0);
     r0 = s.arg0.fields["barHeight"];
     s.tmp_1 = r0;
     r0 = s.arg0.fields["barWidth"];
@@ -7164,13 +7350,13 @@ switch (step) {
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 1; continue; }
     s.tmp_3 = Math_max__P1899823_mk(s);
-    s.tmp_3.arg0 = s.width___1929854;
-    s.tmp_3.arg1 = s.labelWidth___1929861;
+    s.tmp_3.arg0 = s.width___2156834;
+    s.tmp_3.arg1 = s.labelWidth___2156841;
     s.pc = 12; return s.tmp_3;
   case 12:
     r0 = s.retval;
-    s.width___1929854 = (r0);
-    s.tmp_0 = r0 = s.height___1929857;
+    s.width___2156834 = (r0);
+    s.tmp_0 = r0 = s.height___2156837;
     s.tmp_3 = if_charHeight_1_mk(s);
     r0 = s.arg0.fields["font"];
     s.tmp_3.arg0 = r0;
@@ -7188,13 +7374,13 @@ switch (step) {
     r0 = (s.tmp_2 + 1);
     s.tmp_1 = r0;
     r0 = (s.tmp_0 + s.tmp_1);
-    s.height___1929857 = (r0);
+    s.height___2156837 = (r0);
     { step = 2; continue; }
   case 1:
-    r0 = (s.width___1929854 + s.labelWidth___1929861);
-    s.width___1929854 = (r0);
+    r0 = (s.width___2156834 + s.labelWidth___2156841);
+    s.width___2156834 = (r0);
     s.tmp_0 = Math_max__P1899823_mk(s);
-    s.tmp_0.arg0 = s.height___1929857;
+    s.tmp_0.arg0 = s.height___2156837;
     s.tmp_1 = if_charHeight_1_mk(s);
     r0 = s.arg0.fields["font"];
     s.tmp_1.arg0 = r0;
@@ -7212,7 +7398,7 @@ switch (step) {
     s.pc = 14; return s.tmp_0;
   case 14:
     r0 = s.retval;
-    s.height___1929857 = (r0);
+    s.height___2156837 = (r0);
   case 2:
   case 3:
   case 4:
@@ -7227,7 +7413,7 @@ switch (step) {
     r0 = s.tmp_0;
     { step = 6; continue; }
   case 5:
-    s.tmp_3 = r0 = s.width___1929854;
+    s.tmp_3 = r0 = s.width___2156834;
     r0 = s.arg0.fields["_image"];
     s.tmp_5 = r0;
     r0 = pxsim_ImageMethods.width(s.tmp_5);
@@ -7241,7 +7427,7 @@ switch (step) {
     r0 = s.tmp_6;
     { step = 8; continue; }
   case 7:
-    s.tmp_7 = r0 = s.height___1929857;
+    s.tmp_7 = r0 = s.height___2156837;
     r0 = s.arg0.fields["_image"];
     s.tmp_9 = r0;
     r0 = pxsim_ImageMethods.height(s.tmp_9);
@@ -7252,12 +7438,12 @@ switch (step) {
     s.tmp_10 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_10);
     if (!r0) { step = 9; continue; }
-    r0 = pxsim.image.create(s.width___1929854, s.height___1929857);
-    s.newImg___1929903 = (r0);
-    r0 = (s.arg0).fields["_image"] = (s.newImg___1929903);
+    r0 = pxsim.image.create(s.width___2156834, s.height___2156837);
+    s.newImg___2156883 = (r0);
+    r0 = (s.arg0).fields["_image"] = (s.newImg___2156883);
   case 9:
   case 10:
-    s.tmp_0 = statusbars_StatusBar_updateDisplay__P1929649_mk(s);
+    s.tmp_0 = statusbars_StatusBar_updateDisplay__P2156614_mk(s);
     s.tmp_0.arg0 = s.arg0;
     s.pc = 16; return s.tmp_0;
   case 16:
@@ -7266,12 +7452,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_rebuildImage__P1929647.info = {"start":5525,"length":788,"line":176,"column":8,"endLine":197,"endColumn":9,"fileName":"status-bar.ts","functionName":"rebuildImage","argumentNames":["this"]}
+statusbars_StatusBar_rebuildImage__P2156612.info = {"start":6349,"length":788,"line":208,"column":8,"endLine":229,"endColumn":9,"fileName":"status-bar.ts","functionName":"rebuildImage","argumentNames":["this"]}
 
-function statusbars_StatusBar_rebuildImage__P1929647_mk(s) {
+function statusbars_StatusBar_rebuildImage__P2156612_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_rebuildImage__P1929647, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_rebuildImage__P2156612, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -7284,10 +7470,10 @@ function statusbars_StatusBar_rebuildImage__P1929647_mk(s) {
   tmp_8: undefined,
   tmp_9: undefined,
   tmp_10: undefined,
-  width___1929854: undefined,
-  height___1929857: undefined,
-  labelWidth___1929861: undefined,
-  newImg___1929903: undefined,
+  width___2156834: undefined,
+  height___2156837: undefined,
+  labelWidth___2156841: undefined,
+  newImg___2156883: undefined,
   arg0: undefined,
 } }
 
@@ -7295,7 +7481,7 @@ function statusbars_StatusBar_rebuildImage__P1929647_mk(s) {
 
 
 
-function statusbars_setValue__P1930272(s) {
+function statusbars_setValue__P2157270(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7310,10 +7496,10 @@ switch (step) {
       s.arg1 = (s.lambdaArgs[1]);
       s.lambdaArgs = null;
     }
-    r0 = pxsim_pxtcore_mkAction(1, inline__P1930277);
+    r0 = pxsim_pxtcore_mkAction(1, inline__P2157275);
     s.tmp_0 = r0;
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 0, s.arg1);
-    s.tmp_1 = statusbars_applyChange__P1930266_mk(s);
+    s.tmp_1 = statusbars_applyChange__P2157264_mk(s);
     s.tmp_1.arg0 = s.arg0;
     s.tmp_1.arg1 = s.tmp_0;
     s.pc = 1; return s.tmp_1;
@@ -7323,12 +7509,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_setValue__P1930272.info = {"start":12233,"length":143,"line":363,"column":4,"endLine":367,"endColumn":5,"fileName":"status-bar.ts","functionName":"setValue","argumentNames":["status","value"]}
+statusbars_setValue__P2157270.info = {"start":13259,"length":143,"line":401,"column":4,"endLine":405,"endColumn":5,"fileName":"status-bar.ts","functionName":"setValue","argumentNames":["status","value"]}
 
-function statusbars_setValue__P1930272_mk(s) {
+function statusbars_setValue__P2157270_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_setValue__P1930272, depth: s.depth + 1,
+        parent: s, fn: statusbars_setValue__P2157270, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -7340,7 +7526,7 @@ function statusbars_setValue__P1930272_mk(s) {
 
 
 
-function inline__P1930277(s) {
+function inline__P2157275(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7354,7 +7540,7 @@ switch (step) {
       s.arg0 = (s.lambdaArgs[0]);
       s.lambdaArgs = null;
     }
-    s.tmp_0 = statusbars_StatusBar_current__P1929641_mk(s);
+    s.tmp_0 = statusbars_StatusBar_current__P2156606_mk(s);
     s.tmp_0.arg0 = s.arg0;
     s.tmp_0.arg1 = s.caps[0];
     s.pc = 1; return s.tmp_0;
@@ -7364,12 +7550,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1930277.info = {"start":12319,"length":49,"line":364,"column":28,"endLine":366,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
+inline__P2157275.info = {"start":13345,"length":49,"line":402,"column":28,"endLine":404,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
 
-function inline__P1930277_mk(s) {
+function inline__P2157275_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1930277, depth: s.depth + 1,
+        parent: s, fn: inline__P2157275, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   arg0: undefined,
@@ -7379,7 +7565,7 @@ function inline__P1930277_mk(s) {
 
 
 
-function statusbars_StatusBar_current__P1929641(s) {
+function statusbars_StatusBar_current__P2156606(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7389,18 +7575,19 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.isDifferent___1929781 = undefined;
+    s.isDifferent___2156747 = undefined;
+    s.handler___2156763 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.arg1 = (s.lambdaArgs[1]);
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["target"];
     s.tmp_0 = r0;
     r0 = (s.tmp_0 != s.arg1);
-    s.isDifferent___1929781 = (r0);
+    s.isDifferent___2156747 = (r0);
     r0 = (s.arg0).fields["target"] = (s.arg1);
     r0 = (s.arg1 <= 0);
     s.tmp_0 = r0;
@@ -7418,46 +7605,68 @@ switch (step) {
     // jmp value (already in r0)
     s.tmp_3 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_3);
-    if (!r0) { step = 5; continue; }
+    if (!r0) { step = 9; continue; }
     r0 = (s.arg0).fields["hasHitZero"] = (true);
-    r0 = s.arg0.fields["onZeroHandler"];
-    s.tmp_0 = r0;
-    r0 = pxsim_numops_toBoolDecr(s.tmp_0);
-    if (!r0) { step = 3; continue; }
-    s.tmp_1 = if_onZeroHandler_1_mk(s);
-    s.tmp_1.arg0 = s.arg0;
-    if (!s.tmp_1.arg0.vtable.iface) {
-      setupLambda(s.tmp_1, pxsim_pxtrt.mapGetByString(s.tmp_1.arg0, "onZeroHandler"), 1);
-      s.pc = 13; return s.tmp_1;
-    } else {
-      s.tmp_1.fn = s.tmp_1.arg0.vtable.iface["onZeroHandler"];
-      if (s.tmp_1.fn == null) { setupLambda(s.tmp_1, s.tmp_1.arg0.fields["onZeroHandler"], 1); s.pc = 13; return s.tmp_1; }
-      else if (s.tmp_1.fn.isGetter) { s.tmp_1.stage2Call = true; s.pc = 13; return s.tmp_1;; }
-     else { s.pc = 13; return s.tmp_1; }
-    }
-  case 13:
+    s.tmp_1 = statusbars_getZeroHandlers__P2156770_mk(s);
+    s.pc = 17; return s.tmp_1;
+  case 17:
     r0 = s.retval;
-  case 3:
-  case 4:
-    { step = 10; continue; }
-  case 5:
-    r0 = (s.arg1 > 0);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBool(s.tmp_0);
-    if (r0) { step = 6; continue; }
+    if (!r0) { step = 3; continue; }
     r0 = s.tmp_0;
-    { step = 7; continue; }
+    { step = 4; continue; }
+  case 3:
+    r0 = pxsim_Array__mk();
+  case 4:
+    // jmp value (already in r0)
+    s.tmp_2 = r0;
+    r0 = s.arg0.fields["kind"];
+    s.tmp_3 = r0;
+    r0 = pxsim_Array__getAt(s.tmp_2, s.tmp_3);
+    s.handler___2156763 = (r0);
+    r0 = s.arg0.fields["sprite"];
+    s.tmp_0 = r0;
+    r0 = pxsim_numops_toBool(s.tmp_0);
+    if (r0) { step = 5; continue; }
+    r0 = s.tmp_0;
+    { step = 6; continue; }
+  case 5:
+    r0 = s.handler___2156763;
   case 6:
-    r0 = s.arg0.fields["hasHitZero"];
-  case 7:
     // jmp value (already in r0)
     s.tmp_1 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_1);
-    if (!r0) { step = 8; continue; }
-    r0 = (s.arg0).fields["hasHitZero"] = (false);
+    if (!r0) { step = 7; continue; }
+    s.tmp_2 = lambda_2_mk(s);
+    s.tmp_2.argL = s.handler___2156763;
+    r0 = s.arg0.fields["sprite"];
+    s.tmp_2.arg0 = r0;
+    setupLambda(s.tmp_2, s.tmp_2.argL);
+    s.pc = 18; return s.tmp_2;
+  case 18:
+    r0 = s.retval;
+  case 7:
   case 8:
+    { step = 14; continue; }
   case 9:
+    r0 = (s.arg1 > 0);
+    s.tmp_0 = r0;
+    r0 = pxsim_numops_toBool(s.tmp_0);
+    if (r0) { step = 10; continue; }
+    r0 = s.tmp_0;
+    { step = 11; continue; }
   case 10:
+    r0 = s.arg0.fields["hasHitZero"];
+  case 11:
+    // jmp value (already in r0)
+    s.tmp_1 = r0;
+    r0 = pxsim_numops_toBoolDecr(s.tmp_1);
+    if (!r0) { step = 12; continue; }
+    r0 = (s.arg0).fields["hasHitZero"] = (false);
+  case 12:
+  case 13:
+  case 14:
     r0 = s.arg0.fields["flags"];
     s.tmp_3 = r0;
     r0 = (s.tmp_3 & 1);
@@ -7467,31 +7676,32 @@ switch (step) {
     r0 = pxsim_Boolean__bang(s.tmp_1);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
-    if (!r0) { step = 11; continue; }
+    if (!r0) { step = 15; continue; }
     r0 = (s.arg0).fields["displayValue"] = (s.arg1);
-  case 11:
-  case 12:
-    s.tmp_0 = statusbars_StatusBar_updateState__P1929648_mk(s);
+  case 15:
+  case 16:
+    s.tmp_0 = statusbars_StatusBar_updateState__P2156613_mk(s);
     s.tmp_0.arg0 = s.arg0;
-    s.pc = 14; return s.tmp_0;
-  case 14:
+    s.pc = 19; return s.tmp_0;
+  case 19:
     r0 = s.retval;
     r0 = undefined;
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_current__P1929641.info = {"start":4343,"length":610,"line":134,"column":8,"endLine":151,"endColumn":9,"fileName":"status-bar.ts","functionName":"current","argumentNames":["this","v"]}
+statusbars_StatusBar_current__P2156606.info = {"start":5093,"length":684,"line":165,"column":8,"endLine":183,"endColumn":9,"fileName":"status-bar.ts","functionName":"current","argumentNames":["this","v"]}
 
-function statusbars_StatusBar_current__P1929641_mk(s) {
+function statusbars_StatusBar_current__P2156606_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_current__P1929641, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_current__P2156606, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
   tmp_2: undefined,
   tmp_3: undefined,
-  isDifferent___1929781: undefined,
+  isDifferent___2156747: undefined,
+  handler___2156763: undefined,
   arg0: undefined,
   arg1: undefined,
 } }
@@ -7500,7 +7710,7 @@ function statusbars_StatusBar_current__P1929641_mk(s) {
 
 
 
-function statusbars_StatusBar_updateState__P1929648(s) {
+function statusbars_StatusBar_updateState__P2156613(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7510,16 +7720,16 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.target___1929914 = undefined;
-    s.displayValue___1929915 = undefined;
-    s.currTime___1929930 = undefined;
-    s.change___1929943 = undefined;
+    s.target___2156894 = undefined;
+    s.displayValue___2156895 = undefined;
+    s.currTime___2156910 = undefined;
+    s.change___2156923 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     s.tmp_0 = if_target_1_mk(s);
     s.tmp_1 = r0 = s.arg0;
     s.tmp_0.arg0 = r0;
@@ -7533,7 +7743,7 @@ switch (step) {
     }
   case 12:
     r0 = s.retval;
-    s.target___1929914 = (r0);
+    s.target___2156894 = (r0);
     s.tmp_2 = if_displayValue_1_mk(s);
     s.tmp_2.arg0 = s.tmp_1;
     if (!s.tmp_2.arg0.vtable.iface) {
@@ -7546,7 +7756,7 @@ switch (step) {
     }
   case 13:
     r0 = s.retval;
-    s.displayValue___1929915 = (r0);
+    s.displayValue___2156895 = (r0);
     r0 = s.arg0.fields["flags"];
     s.tmp_1 = r0;
     r0 = (s.tmp_1 & 4);
@@ -7555,7 +7765,7 @@ switch (step) {
     if (!r0) { step = 1; continue; }
     s.tmp_2 = r0 = s.arg0;
     s.tmp_4 = Math_constrain__P1899939_mk(s);
-    s.tmp_4.arg0 = s.target___1929914;
+    s.tmp_4.arg0 = s.target___2156894;
     s.tmp_4.arg1 = 0;
     r0 = s.arg0.fields["_max"];
     s.tmp_4.arg2 = r0;
@@ -7566,7 +7776,7 @@ switch (step) {
     r0 = (s.tmp_2).fields["target"] = (s.tmp_3);
     s.tmp_0 = r0 = s.arg0;
     s.tmp_2 = Math_constrain__P1899939_mk(s);
-    s.tmp_2.arg0 = s.displayValue___1929915;
+    s.tmp_2.arg0 = s.displayValue___2156895;
     s.tmp_2.arg1 = 0;
     r0 = s.arg0.fields["_max"];
     s.tmp_2.arg2 = r0;
@@ -7583,11 +7793,11 @@ switch (step) {
     r0 = s.retval;
     s.tmp_0 = r0;
     r0 = s.tmp_0.fields["_millis"];
-    s.currTime___1929930 = (r0);
+    s.currTime___2156910 = (r0);
     s.tmp_2 = Math_abs__P1899821_mk(s);
     r0 = s.arg0.fields["lastUpdate"];
     s.tmp_3 = r0;
-    r0 = (s.tmp_3 - s.currTime___1929930);
+    r0 = (s.tmp_3 - s.currTime___2156910);
     s.tmp_2.arg0 = r0;
     s.pc = 17; return s.tmp_2;
   case 17:
@@ -7620,7 +7830,7 @@ switch (step) {
     r0 = (s.tmp_7 - s.tmp_9);
     s.tmp_6 = r0;
     r0 = (s.tmp_5 / s.tmp_6);
-    s.change___1929943 = (r0);
+    s.change___2156923 = (r0);
     r0 = s.arg0.fields["target"];
     s.tmp_1 = r0;
     r0 = s.arg0.fields["displayValue"];
@@ -7631,7 +7841,7 @@ switch (step) {
     if (!r0) { step = 5; continue; }
     s.tmp_3 = r0 = s.arg0;
     s.tmp_5 = Math_min__P1899824_mk(s);
-    r0 = (s.displayValue___1929915 + s.change___1929943);
+    r0 = (s.displayValue___2156895 + s.change___2156923);
     s.tmp_5.arg0 = r0;
     r0 = s.arg0.fields["target"];
     s.tmp_5.arg1 = r0;
@@ -7640,7 +7850,7 @@ switch (step) {
     r0 = s.retval;
     s.tmp_4 = r0;
     r0 = (s.tmp_3).fields["displayValue"] = (s.tmp_4);
-    r0 = (s.arg0).fields["lastUpdate"] = (s.currTime___1929930);
+    r0 = (s.arg0).fields["lastUpdate"] = (s.currTime___2156910);
     { step = 8; continue; }
   case 5:
     r0 = s.arg0.fields["target"];
@@ -7653,7 +7863,7 @@ switch (step) {
     if (!r0) { step = 6; continue; }
     s.tmp_3 = r0 = s.arg0;
     s.tmp_5 = Math_max__P1899823_mk(s);
-    r0 = (s.displayValue___1929915 - s.change___1929943);
+    r0 = (s.displayValue___2156895 - s.change___2156923);
     s.tmp_5.arg0 = r0;
     r0 = s.arg0.fields["target"];
     s.tmp_5.arg1 = r0;
@@ -7662,17 +7872,17 @@ switch (step) {
     r0 = s.retval;
     s.tmp_4 = r0;
     r0 = (s.tmp_3).fields["displayValue"] = (s.tmp_4);
-    r0 = (s.arg0).fields["lastUpdate"] = (s.currTime___1929930);
+    r0 = (s.arg0).fields["lastUpdate"] = (s.currTime___2156910);
   case 6:
   case 7:
   case 8:
     r0 = s.arg0.fields["displayValue"];
     s.tmp_1 = r0;
-    r0 = (s.displayValue___1929915 !== s.tmp_1);
+    r0 = (s.displayValue___2156895 !== s.tmp_1);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 9; continue; }
-    s.tmp_2 = statusbars_StatusBar_updateDisplay__P1929649_mk(s);
+    s.tmp_2 = statusbars_StatusBar_updateDisplay__P2156614_mk(s);
     s.tmp_2.arg0 = s.arg0;
     s.pc = 21; return s.tmp_2;
   case 21:
@@ -7684,12 +7894,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_updateState__P1929648.info = {"start":6421,"length":1065,"line":201,"column":8,"endLine":225,"endColumn":9,"fileName":"status-bar.ts","functionName":"updateState","argumentNames":["this"]}
+statusbars_StatusBar_updateState__P2156613.info = {"start":7245,"length":1065,"line":233,"column":8,"endLine":257,"endColumn":9,"fileName":"status-bar.ts","functionName":"updateState","argumentNames":["this"]}
 
-function statusbars_StatusBar_updateState__P1929648_mk(s) {
+function statusbars_StatusBar_updateState__P2156613_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_updateState__P1929648, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_updateState__P2156613, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -7702,10 +7912,10 @@ function statusbars_StatusBar_updateState__P1929648_mk(s) {
   tmp_8: undefined,
   tmp_9: undefined,
   tmp_10: undefined,
-  target___1929914: undefined,
-  displayValue___1929915: undefined,
-  currTime___1929930: undefined,
-  change___1929943: undefined,
+  target___2156894: undefined,
+  displayValue___2156895: undefined,
+  currTime___2156910: undefined,
+  change___2156923: undefined,
   arg0: undefined,
 } }
 
@@ -7747,7 +7957,7 @@ function scene_Scene_millis__P1900904_mk(s) {
 
 
 
-function statusbars_StatusBar_max__P1929638(s) {
+function statusbars_StatusBar_max__P2156603(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7762,18 +7972,18 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["_max"];
     return leaveAccessor(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_max__P1929638.info = {"start":4116,"length":51,"line":121,"column":8,"endLine":123,"endColumn":9,"fileName":"status-bar.ts","functionName":"max","argumentNames":["this"]}
-statusbars_StatusBar_max__P1929638.isGetter = true;
+statusbars_StatusBar_max__P2156603.info = {"start":4866,"length":51,"line":152,"column":8,"endLine":154,"endColumn":9,"fileName":"status-bar.ts","functionName":"max","argumentNames":["this"]}
+statusbars_StatusBar_max__P2156603.isGetter = true;
 
-function statusbars_StatusBar_max__P1929638_mk(s) {
+function statusbars_StatusBar_max__P2156603_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_max__P1929638, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_max__P2156603, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
@@ -7782,7 +7992,39 @@ function statusbars_StatusBar_max__P1929638_mk(s) {
 
 
 
-function statusbars_StatusBar_current__P1929640(s) {
+function statusbars_getZeroHandlers__P2156770(s) {
+let r0 = s.r0, step = s.pc;
+s.pc = -1;
+
+
+while (true) {
+if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
+switch (step) {
+  case 0:
+
+    s.tmp_0 = statusbars_getSceneData__P2157574_mk(s);
+    s.tmp_0.arg0 = globals.ZERO_HANDLERS_KEY___2156589;
+    s.pc = 1; return s.tmp_0;
+  case 1:
+    r0 = s.retval;
+    return leave(s, r0)
+  default: oops()
+} } }
+statusbars_getZeroHandlers__P2156770.info = {"start":22035,"length":114,"line":652,"column":4,"endLine":654,"endColumn":5,"fileName":"status-bar.ts","functionName":"getZeroHandlers","argumentNames":[]}
+
+function statusbars_getZeroHandlers__P2156770_mk(s) {
+    checkStack(s.depth);
+    return {
+        parent: s, fn: statusbars_getZeroHandlers__P2156770, depth: s.depth + 1,
+        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
+  tmp_0: undefined,
+} }
+
+
+
+
+
+function statusbars_StatusBar_current__P2156605(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7797,18 +8039,18 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["target"];
     return leaveAccessor(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_current__P1929640.info = {"start":4276,"length":57,"line":130,"column":8,"endLine":132,"endColumn":9,"fileName":"status-bar.ts","functionName":"current","argumentNames":["this"]}
-statusbars_StatusBar_current__P1929640.isGetter = true;
+statusbars_StatusBar_current__P2156605.info = {"start":5026,"length":57,"line":161,"column":8,"endLine":163,"endColumn":9,"fileName":"status-bar.ts","functionName":"current","argumentNames":["this"]}
+statusbars_StatusBar_current__P2156605.isGetter = true;
 
-function statusbars_StatusBar_current__P1929640_mk(s) {
+function statusbars_StatusBar_current__P2156605_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_current__P1929640, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_current__P2156605, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
@@ -7817,7 +8059,7 @@ function statusbars_StatusBar_current__P1929640_mk(s) {
 
 
 
-function statusbars_setColor__P1930360(s) {
+function statusbars_setColor__P2157358(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7833,11 +8075,11 @@ switch (step) {
       s.arg2 = (s.lambdaArgs[2]);
       s.lambdaArgs = null;
     }
-    r0 = pxsim_pxtcore_mkAction(2, inline__P1930366);
+    r0 = pxsim_pxtcore_mkAction(2, inline__P2157364);
     s.tmp_0 = r0;
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 0, s.arg1);
     r0 = pxsim_pxtrt_stclo(s.tmp_0, 1, s.arg2);
-    s.tmp_1 = statusbars_applyChange__P1930266_mk(s);
+    s.tmp_1 = statusbars_applyChange__P2157264_mk(s);
     s.tmp_1.arg0 = s.arg0;
     s.tmp_1.arg1 = s.tmp_0;
     s.pc = 1; return s.tmp_1;
@@ -7847,12 +8089,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_setColor__P1930360.info = {"start":15534,"length":207,"line":461,"column":4,"endLine":466,"endColumn":5,"fileName":"status-bar.ts","functionName":"setColor","argumentNames":["status","fillColor","bkgdColor"]}
+statusbars_setColor__P2157358.info = {"start":16562,"length":207,"line":499,"column":4,"endLine":504,"endColumn":5,"fileName":"status-bar.ts","functionName":"setColor","argumentNames":["status","fillColor","bkgdColor"]}
 
-function statusbars_setColor__P1930360_mk(s) {
+function statusbars_setColor__P2157358_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_setColor__P1930360, depth: s.depth + 1,
+        parent: s, fn: statusbars_setColor__P2157358, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -7865,7 +8107,7 @@ function statusbars_setColor__P1930360_mk(s) {
 
 
 
-function inline__P1930366(s) {
+function inline__P2157364(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7885,12 +8127,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1930366.info = {"start":15643,"length":90,"line":462,"column":28,"endLine":465,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
+inline__P2157364.info = {"start":16671,"length":90,"line":500,"column":28,"endLine":503,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["sb"]}
 
-function inline__P1930366_mk(s) {
+function inline__P2157364_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1930366, depth: s.depth + 1,
+        parent: s, fn: inline__P2157364, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   arg0: undefined,
 } }
@@ -7899,7 +8141,7 @@ function inline__P1930366_mk(s) {
 
 
 
-function statusbars_createSprite__P1930225(s) {
+function statusbars_createSprite__P2157218(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -7909,58 +8151,61 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.sb___1930229 = undefined;
-    s.output___1930235 = undefined;
+    s.sb___2157223 = undefined;
+    s.output___2157230 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.arg1 = (s.lambdaArgs[1]);
       s.arg2 = (s.lambdaArgs[2]);
+      s.arg3 = (s.lambdaArgs[3]);
       s.lambdaArgs = null;
     }
-    r0 = pxsim_pxtcore_mkClassInstance(statusbars_StatusBar__C1929634_VT);
+    r0 = pxsim_pxtcore_mkClassInstance(statusbars_StatusBar__C2156599_VT);
     s.tmp_0 = r0;
-    s.tmp_1 = statusbars_StatusBar_constructor__P1929650_mk(s);
+    s.tmp_1 = statusbars_StatusBar_constructor__P2156615_mk(s);
     s.tmp_1.arg0 = s.tmp_0;
     s.tmp_1.arg1 = s.arg0;
     s.tmp_1.arg2 = s.arg1;
     s.tmp_1.arg3 = 7;
     s.tmp_1.arg4 = 2;
     s.tmp_1.arg5 = s.arg2;
+    s.tmp_1.arg6 = s.arg3;
     s.pc = 1; return s.tmp_1;
   case 1:
     r0 = s.retval;
-    s.sb___1930229 = (s.tmp_0);
+    s.sb___2157223 = (s.tmp_0);
     s.tmp_0 = sprites_create__P1900490_mk(s);
-    r0 = s.sb___1930229.fields["_image"];
+    r0 = s.sb___2157223.fields["_image"];
     s.tmp_0.arg0 = r0;
-    s.tmp_0.arg1 = globals.StatusBar___1929630;
+    s.tmp_0.arg1 = globals.StatusBar___2156554;
     s.pc = 2; return s.tmp_0;
   case 2:
     r0 = s.retval;
-    s.output___1930235 = (r0);
+    s.output___2157230 = (r0);
+    r0 = (s.sb___2157223).fields["sprite"] = (s.output___2157230);
     s.tmp_0 = Sprite_setFlag__P1900534_mk(s);
-    s.tmp_0.arg0 = s.output___1930235;
+    s.tmp_0.arg0 = s.output___2157230;
     s.tmp_0.arg1 = 512;
     s.tmp_0.arg2 = true;
     s.pc = 3; return s.tmp_0;
   case 3:
     r0 = s.retval;
     s.tmp_0 = Sprite_setFlag__P1900534_mk(s);
-    s.tmp_0.arg0 = s.output___1930235;
+    s.tmp_0.arg0 = s.output___2157230;
     s.tmp_0.arg1 = 1;
     s.tmp_0.arg2 = true;
     s.pc = 4; return s.tmp_0;
   case 4:
     r0 = s.retval;
     s.tmp_1 = Sprite_data__P1900509_mk(s);
-    s.tmp_1.arg0 = s.output___1930235;
+    s.tmp_1.arg0 = s.output___2157230;
     s.pc = 5; return s.tmp_1;
   case 5:
     r0 = s.retval;
     s.tmp_0 = r0;
-    r0 = pxsim_pxtrt.mapSetGeneric(s.tmp_0, globals.STATUS_BAR_DATA_KEY___1929632, s.sb___1930229);
+    r0 = pxsim_pxtrt.mapSetGeneric(s.tmp_0, globals.STATUS_BAR_DATA_KEY___2156579, s.sb___2157223);
     s.tmp_0 = if_z_2_mk(s);
-    s.tmp_0.arg0 = s.output___1930235;
+    s.tmp_0.arg0 = s.output___2157230;
     s.tmp_0.arg1 = 95;
     if (!s.tmp_0.arg0.vtable.iface) {
       s.retval = pxsim_pxtrt.mapSetByString(s.tmp_0.arg0, "z", s.tmp_0.arg1);
@@ -7972,36 +8217,37 @@ switch (step) {
     }
   case 6:
     r0 = s.retval;
-    s.tmp_0 = statusbars_init__P1930258_mk(s);
-    s.tmp_0.arg0 = s.output___1930235;
+    s.tmp_0 = statusbars_init__P2157256_mk(s);
+    s.tmp_0.arg0 = s.output___2157230;
     s.pc = 7; return s.tmp_0;
   case 7:
     r0 = s.retval;
-    r0 = s.output___1930235;
+    r0 = s.output___2157230;
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_createSprite__P1930225.info = {"start":11166,"length":483,"line":326,"column":4,"endLine":342,"endColumn":5,"fileName":"status-bar.ts","functionName":"createSprite","argumentNames":["width","height","max"]}
+statusbars_createSprite__P2157218.info = {"start":12135,"length":540,"line":361,"column":4,"endLine":380,"endColumn":5,"fileName":"status-bar.ts","functionName":"createSprite","argumentNames":["width","height","max","kind"]}
 
-function statusbars_createSprite__P1930225_mk(s) {
+function statusbars_createSprite__P2157218_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_createSprite__P1930225, depth: s.depth + 1,
+        parent: s, fn: statusbars_createSprite__P2157218, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
-  sb___1930229: undefined,
-  output___1930235: undefined,
+  sb___2157223: undefined,
+  output___2157230: undefined,
   arg0: undefined,
   arg1: undefined,
   arg2: undefined,
+  arg3: undefined,
 } }
 
 
 
 
 
-function statusbars_init__P1930258(s) {
+function statusbars_init__P2157256(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -8011,17 +8257,17 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.managedSprites___1930430 = undefined;
+    s.managedSprites___2157468 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.lambdaArgs = null;
     }
-    s.tmp_0 = statusbars_getManagedSprites__P1930432_mk(s);
+    s.tmp_0 = statusbars_getManagedSprites__P2157440_mk(s);
     s.pc = 3; return s.tmp_0;
   case 3:
     r0 = s.retval;
-    s.managedSprites___1930430 = (r0);
-    r0 = pxsim_numops_toBoolDecr(s.managedSprites___1930430);
+    s.managedSprites___2157468 = (r0);
+    r0 = pxsim_numops_toBoolDecr(s.managedSprites___2157468);
     s.tmp_1 = r0;
     r0 = pxsim_Boolean__bang(s.tmp_1);
     s.tmp_0 = r0;
@@ -8029,7 +8275,7 @@ switch (step) {
     if (!r0) { step = 1; continue; }
     r0 = pxsim_Array__mk();
     s.tmp_2 = r0;
-    s.managedSprites___1930430 = (r0);
+    s.managedSprites___2157468 = (r0);
     s.tmp_5 = game_currentScene__P1900682_mk(s);
     s.pc = 4; return s.tmp_5;
   case 4:
@@ -8037,7 +8283,7 @@ switch (step) {
     s.tmp_4 = r0;
     r0 = s.tmp_4.fields["_data"];
     s.tmp_3 = r0;
-    r0 = pxsim_pxtrt.mapSetGeneric(s.tmp_3, globals.STATUS_BAR_DATA_KEY___1929632, s.tmp_2);
+    r0 = pxsim_pxtrt.mapSetGeneric(s.tmp_3, globals.MANAGED_SPRITES_KEY___2156583, s.tmp_2);
     s.tmp_0 = control_EventContext_registerFrameHandler__P1900033_mk(s);
     s.tmp_1 = game_eventContext__P1900994_mk(s);
     s.pc = 6; return s.tmp_1;
@@ -8045,23 +8291,23 @@ switch (step) {
     r0 = s.retval;
     s.tmp_0.arg0 = r0;
     s.tmp_0.arg1 = 25;
-    s.tmp_0.arg2 = inline__P1930446;
+    s.tmp_0.arg2 = inline__P2157483;
     s.pc = 5; return s.tmp_0;
   case 5:
     r0 = s.retval;
   case 1:
   case 2:
-    r0 = pxsim_Array__push(s.managedSprites___1930430, s.arg0);
+    r0 = pxsim_Array__push(s.managedSprites___2157468, s.arg0);
     r0 = undefined;
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_init__P1930258.info = {"start":17885,"length":1403,"line":531,"column":4,"endLine":562,"endColumn":5,"fileName":"status-bar.ts","functionName":"init","argumentNames":["s"]}
+statusbars_init__P2157256.info = {"start":19819,"length":1519,"line":591,"column":4,"endLine":624,"endColumn":5,"fileName":"status-bar.ts","functionName":"init","argumentNames":["s"]}
 
-function statusbars_init__P1930258_mk(s) {
+function statusbars_init__P2157256_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_init__P1930258, depth: s.depth + 1,
+        parent: s, fn: statusbars_init__P2157256, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -8069,7 +8315,7 @@ function statusbars_init__P1930258_mk(s) {
   tmp_3: undefined,
   tmp_4: undefined,
   tmp_5: undefined,
-  managedSprites___1930430: undefined,
+  managedSprites___2157468: undefined,
   arg0: undefined,
 } }
 
@@ -8077,7 +8323,7 @@ function statusbars_init__P1930258_mk(s) {
 
 
 
-function inline__P1930446(s) {
+function inline__P2157483(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -8087,53 +8333,54 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.managed___1930447 = undefined;
-    s.i___1930450 = undefined;
-    s.spr___1930457 = undefined;
-    s.sb___1930469 = undefined;
-    s.spriteToFollow___1930478 = undefined;
-    s.toFollowIsRelativeToCamera___1930480 = undefined;
-    s.tmp_0 = statusbars_getManagedSprites__P1930432_mk(s);
+    s.managed___2157484 = undefined;
+    s.i___2157487 = undefined;
+    s.spr___2157494 = undefined;
+    s.sb___2157498 = undefined;
+    s.spriteToFollow___2157517 = undefined;
+    s.toFollowIsRelativeToCamera___2157519 = undefined;
+    s.tmp_0 = statusbars_getManagedSprites__P2157440_mk(s);
     s.pc = 12; return s.tmp_0;
   case 12:
     r0 = s.retval;
-    s.managed___1930447 = (r0);
-    r0 = pxsim_Array__length(s.managed___1930447);
+    s.managed___2157484 = (r0);
+    r0 = pxsim_Array__length(s.managed___2157484);
     s.tmp_0 = r0;
     r0 = (s.tmp_0 - 1);
-    s.i___1930450 = (r0);
+    s.i___2157487 = (r0);
   case 1:
-    r0 = (s.i___1930450 >= 0);
+    r0 = (s.i___2157487 >= 0);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 11; continue; }
-    r0 = pxsim_Array__getAt(s.managed___1930447, s.i___1930450);
-    s.spr___1930457 = (r0);
-    r0 = s.spr___1930457.fields["flags"];
+    r0 = pxsim_Array__getAt(s.managed___2157484, s.i___2157487);
+    s.spr___2157494 = (r0);
+    s.tmp_0 = statusbars_getStatusBar__P2157452_mk(s);
+    s.tmp_0.arg0 = s.spr___2157494;
+    s.pc = 13; return s.tmp_0;
+  case 13:
+    r0 = s.retval;
+    s.sb___2157498 = (r0);
+    r0 = s.spr___2157494.fields["flags"];
     s.tmp_1 = r0;
     r0 = (s.tmp_1 & 2);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 2; continue; }
-    r0 = pxsim_Array_.removeAt(s.managed___1930447, s.i___1930450);
+    r0 = (s.sb___2157498).fields["sprite"] = (undefined);
+    r0 = pxsim_Array_.removeAt(s.managed___2157484, s.i___2157487);
     { step = 10; continue; }
   case 2:
   case 3:
-    s.tmp_0 = statusbars_getStatusBar__P1930473_mk(s);
-    s.tmp_0.arg0 = s.spr___1930457;
-    s.pc = 13; return s.tmp_0;
-  case 13:
-    r0 = s.retval;
-    s.sb___1930469 = (r0);
-    r0 = pxsim_numops_toBoolDecr(s.sb___1930469);
+    r0 = pxsim_numops_toBoolDecr(s.sb___2157498);
     if (!r0) { step = 8; continue; }
-    s.tmp_0 = statusbars_StatusBar_updateState__P1929648_mk(s);
-    s.tmp_0.arg0 = s.sb___1930469;
+    s.tmp_0 = statusbars_StatusBar_updateState__P2156613_mk(s);
+    s.tmp_0.arg0 = s.sb___2157498;
     s.pc = 14; return s.tmp_0;
   case 14:
     r0 = s.retval;
     s.tmp_0 = if_spriteToFollow_1_mk(s);
-    s.tmp_0.arg0 = s.sb___1930469;
+    s.tmp_0.arg0 = s.sb___2157498;
     if (!s.tmp_0.arg0.vtable.iface) {
       s.retval = pxsim_pxtrt.mapGetByString(s.tmp_0.arg0, "spriteToFollow");
     } else {
@@ -8144,10 +8391,10 @@ switch (step) {
     }
   case 15:
     r0 = s.retval;
-    s.spriteToFollow___1930478 = (r0);
-    r0 = pxsim_numops_toBoolDecr(s.spriteToFollow___1930478);
+    s.spriteToFollow___2157517 = (r0);
+    r0 = pxsim_numops_toBoolDecr(s.spriteToFollow___2157517);
     if (!r0) { step = 6; continue; }
-    r0 = s.spriteToFollow___1930478.fields["flags"];
+    r0 = s.spriteToFollow___2157517.fields["flags"];
     s.tmp_4 = r0;
     r0 = (s.tmp_4 & 512);
     s.tmp_3 = r0;
@@ -8158,8 +8405,8 @@ switch (step) {
     r0 = pxsim_numops_toBoolDecr(s.tmp_1);
     s.tmp_0 = r0;
     r0 = pxsim_Boolean__bang(s.tmp_0);
-    s.toFollowIsRelativeToCamera___1930480 = (r0);
-    r0 = s.spr___1930457.fields["flags"];
+    s.toFollowIsRelativeToCamera___2157519 = (r0);
+    r0 = s.spr___2157494.fields["flags"];
     s.tmp_6 = r0;
     r0 = (s.tmp_6 & 512);
     s.tmp_5 = r0;
@@ -8171,23 +8418,23 @@ switch (step) {
     s.tmp_2 = r0;
     r0 = pxsim_Boolean__bang(s.tmp_2);
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 != s.toFollowIsRelativeToCamera___1930480);
+    r0 = (s.tmp_1 != s.toFollowIsRelativeToCamera___2157519);
     s.tmp_0 = r0;
     r0 = pxsim_numops_toBoolDecr(s.tmp_0);
     if (!r0) { step = 4; continue; }
     s.tmp_7 = Sprite_setFlag__P1900534_mk(s);
-    s.tmp_7.arg0 = s.spr___1930457;
+    s.tmp_7.arg0 = s.spr___2157494;
     s.tmp_7.arg1 = 512;
-    s.tmp_7.arg2 = s.toFollowIsRelativeToCamera___1930480;
+    s.tmp_7.arg2 = s.toFollowIsRelativeToCamera___2157519;
     s.pc = 16; return s.tmp_7;
   case 16:
     r0 = s.retval;
   case 4:
   case 5:
-    s.tmp_0 = statusbars_StatusBar_positionNextTo__P1929635_mk(s);
-    s.tmp_0.arg0 = s.sb___1930469;
-    s.tmp_0.arg1 = s.spr___1930457;
-    s.tmp_0.arg2 = s.spriteToFollow___1930478;
+    s.tmp_0 = statusbars_StatusBar_positionNextTo__P2156600_mk(s);
+    s.tmp_0.arg0 = s.sb___2157498;
+    s.tmp_0.arg1 = s.spr___2157494;
+    s.tmp_0.arg2 = s.spriteToFollow___2157517;
     s.pc = 17; return s.tmp_0;
   case 17:
     r0 = s.retval;
@@ -8196,20 +8443,20 @@ switch (step) {
   case 8:
   case 9:
   case 10:
-    r0 = (s.i___1930450 - 1);
-    s.i___1930450 = (r0);
+    r0 = (s.i___2157487 - 1);
+    s.i___2157487 = (r0);
     { step = 1; continue; }
   case 11:
     r0 = undefined;
     return leave(s, r0)
   default: oops()
 } } }
-inline__P1930446.info = {"start":18166,"length":1064,"line":535,"column":80,"endLine":558,"endColumn":13,"fileName":"status-bar.ts","functionName":"inline","argumentNames":[]}
+inline__P2157483.info = {"start":20100,"length":1180,"line":595,"column":80,"endLine":620,"endColumn":13,"fileName":"status-bar.ts","functionName":"inline","argumentNames":[]}
 
-function inline__P1930446_mk(s) {
+function inline__P2157483_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: inline__P1930446, depth: s.depth + 1,
+        parent: s, fn: inline__P2157483, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -8219,19 +8466,19 @@ function inline__P1930446_mk(s) {
   tmp_5: undefined,
   tmp_6: undefined,
   tmp_7: undefined,
-  managed___1930447: undefined,
-  i___1930450: undefined,
-  spr___1930457: undefined,
-  sb___1930469: undefined,
-  spriteToFollow___1930478: undefined,
-  toFollowIsRelativeToCamera___1930480: undefined,
+  managed___2157484: undefined,
+  i___2157487: undefined,
+  spr___2157494: undefined,
+  sb___2157498: undefined,
+  spriteToFollow___2157517: undefined,
+  toFollowIsRelativeToCamera___2157519: undefined,
 } }
 
 
 
 
 
-function statusbars_StatusBar_positionNextTo__P1929635(s) {
+function statusbars_StatusBar_positionNextTo__P2156600(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -8241,9 +8488,9 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    s.positionAtEnd___1929702 = undefined;
-    s.padding___1929711 = undefined;
-    s.alignment___1929715 = undefined;
+    s.positionAtEnd___2156668 = undefined;
+    s.padding___2156677 = undefined;
+    s.alignment___2156681 = undefined;
     if (s.lambdaArgs) {
       s.arg0 = (s.lambdaArgs[0]);
       s.arg1 = (s.lambdaArgs[1]);
@@ -8251,7 +8498,7 @@ switch (step) {
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = s.arg0.fields["flags"];
     s.tmp_4 = r0;
     r0 = (s.tmp_4 & 8);
@@ -8263,11 +8510,11 @@ switch (step) {
     r0 = pxsim_numops_toBoolDecr(s.tmp_1);
     s.tmp_0 = r0;
     r0 = pxsim_Boolean__bang(s.tmp_0);
-    s.positionAtEnd___1929702 = (r0);
+    s.positionAtEnd___2156668 = (r0);
     r0 = s.arg0.fields["followPadding"];
-    s.padding___1929711 = (r0);
+    s.padding___2156677 = (r0);
     r0 = s.arg0.fields["followAlignment"];
-    s.alignment___1929715 = (r0);
+    s.alignment___2156681 = (r0);
     r0 = s.arg0.fields["barHeight"];
     s.tmp_1 = r0;
     r0 = s.arg0.fields["barWidth"];
@@ -8284,12 +8531,12 @@ switch (step) {
   case 8:
     r0 = s.retval;
     s.tmp_4 = r0;
-    r0 = (s.tmp_4 + s.alignment___1929715);
+    r0 = (s.tmp_4 + s.alignment___2156681);
     s.tmp_3.arg1 = r0;
     s.pc = 7; return s.tmp_3;
   case 7:
     r0 = s.retval;
-    r0 = pxsim_numops_toBoolDecr(s.positionAtEnd___1929702);
+    r0 = pxsim_numops_toBoolDecr(s.positionAtEnd___2156668);
     if (!r0) { step = 1; continue; }
     s.tmp_0 = Sprite_left__P1900518_mk(s);
     s.tmp_0.arg0 = s.arg1;
@@ -8299,7 +8546,7 @@ switch (step) {
   case 10:
     r0 = s.retval;
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 + s.padding___1929711);
+    r0 = (s.tmp_1 + s.padding___2156677);
     s.tmp_0.arg1 = r0;
     s.pc = 9; return s.tmp_0;
   case 9:
@@ -8314,7 +8561,7 @@ switch (step) {
   case 12:
     r0 = s.retval;
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 - s.padding___1929711);
+    r0 = (s.tmp_1 - s.padding___2156677);
     s.tmp_0.arg1 = r0;
     s.pc = 11; return s.tmp_0;
   case 11:
@@ -8330,12 +8577,12 @@ switch (step) {
   case 14:
     r0 = s.retval;
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 + s.alignment___1929715);
+    r0 = (s.tmp_1 + s.alignment___2156681);
     s.tmp_0.arg1 = r0;
     s.pc = 13; return s.tmp_0;
   case 13:
     r0 = s.retval;
-    r0 = pxsim_numops_toBoolDecr(s.positionAtEnd___1929702);
+    r0 = pxsim_numops_toBoolDecr(s.positionAtEnd___2156668);
     if (!r0) { step = 4; continue; }
     s.tmp_0 = Sprite_top__P1900522_mk(s);
     s.tmp_0.arg0 = s.arg1;
@@ -8345,7 +8592,7 @@ switch (step) {
   case 16:
     r0 = s.retval;
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 + s.padding___1929711);
+    r0 = (s.tmp_1 + s.padding___2156677);
     s.tmp_0.arg1 = r0;
     s.pc = 15; return s.tmp_0;
   case 15:
@@ -8360,7 +8607,7 @@ switch (step) {
   case 18:
     r0 = s.retval;
     s.tmp_1 = r0;
-    r0 = (s.tmp_1 - s.padding___1929711);
+    r0 = (s.tmp_1 - s.padding___2156677);
     s.tmp_0.arg1 = r0;
     s.pc = 17; return s.tmp_0;
   case 17:
@@ -8371,12 +8618,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_positionNextTo__P1929635.info = {"start":3125,"length":804,"line":90,"column":8,"endLine":110,"endColumn":9,"fileName":"status-bar.ts","functionName":"positionNextTo","argumentNames":["this","status","target"]}
+statusbars_StatusBar_positionNextTo__P2156600.info = {"start":3875,"length":804,"line":121,"column":8,"endLine":141,"endColumn":9,"fileName":"status-bar.ts","functionName":"positionNextTo","argumentNames":["this","status","target"]}
 
-function statusbars_StatusBar_positionNextTo__P1929635_mk(s) {
+function statusbars_StatusBar_positionNextTo__P2156600_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_positionNextTo__P1929635, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_positionNextTo__P2156600, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -8384,9 +8631,9 @@ function statusbars_StatusBar_positionNextTo__P1929635_mk(s) {
   tmp_3: undefined,
   tmp_4: undefined,
   tmp_5: undefined,
-  positionAtEnd___1929702: undefined,
-  padding___1929711: undefined,
-  alignment___1929715: undefined,
+  positionAtEnd___2156668: undefined,
+  padding___2156677: undefined,
+  alignment___2156681: undefined,
   arg0: undefined,
   arg1: undefined,
   arg2: undefined,
@@ -9788,7 +10035,7 @@ function control_PollEvent_constructor__P1899965_mk(s) {
 
 
 
-function scene_Scene_data__P1900903(s) {
+function statusbars_getManagedSprites__P2157440(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -9798,69 +10045,29 @@ if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
 switch (step) {
   case 0:
 
-    if (s.lambdaArgs) {
-      s.arg0 = (s.lambdaArgs[0]);
-      s.lambdaArgs = null;
-    }
-    r0 = s.arg0;
-    if (!checkSubtype(r0, scene_Scene__C1900901_VT)) failedCast(r0);
-    r0 = s.arg0.fields["_data"];
-    return leaveAccessor(s, r0)
-  default: oops()
-} } }
-scene_Scene_data__P1900903.info = {"start":6208,"length":53,"line":169,"column":8,"endLine":171,"endColumn":9,"fileName":"pxt_modules/game/scene.ts","functionName":"data","argumentNames":["this"]}
-scene_Scene_data__P1900903.isGetter = true;
-
-function scene_Scene_data__P1900903_mk(s) {
-    checkStack(s.depth);
-    return {
-        parent: s, fn: scene_Scene_data__P1900903, depth: s.depth + 1,
-        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
-  arg0: undefined,
-} }
-
-
-
-
-
-function statusbars_getManagedSprites__P1930432(s) {
-let r0 = s.r0, step = s.pc;
-s.pc = -1;
-
-
-while (true) {
-if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
-switch (step) {
-  case 0:
-
-    s.tmp_2 = game_currentScene__P1900682_mk(s);
-    s.pc = 1; return s.tmp_2;
+    s.tmp_0 = statusbars_getSceneData__P2157574_mk(s);
+    s.tmp_0.arg0 = globals.MANAGED_SPRITES_KEY___2156583;
+    s.pc = 1; return s.tmp_0;
   case 1:
     r0 = s.retval;
-    s.tmp_1 = r0;
-    r0 = s.tmp_1.fields["_data"];
-    s.tmp_0 = r0;
-    r0 = pxsim_pxtrt.mapGetGeneric(s.tmp_0, globals.STATUS_BAR_DATA_KEY___1929632);
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_getManagedSprites__P1930432.info = {"start":19787,"length":110,"line":582,"column":4,"endLine":584,"endColumn":5,"fileName":"status-bar.ts","functionName":"getManagedSprites","argumentNames":[]}
+statusbars_getManagedSprites__P2157440.info = {"start":21931,"length":98,"line":648,"column":4,"endLine":650,"endColumn":5,"fileName":"status-bar.ts","functionName":"getManagedSprites","argumentNames":[]}
 
-function statusbars_getManagedSprites__P1930432_mk(s) {
+function statusbars_getManagedSprites__P2157440_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_getManagedSprites__P1930432, depth: s.depth + 1,
+        parent: s, fn: statusbars_getManagedSprites__P2157440, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
-  tmp_1: undefined,
-  tmp_2: undefined,
 } }
 
 
 
 
 
-function statusbars_StatusBar_constructor__P1929650(s) {
+function statusbars_StatusBar_constructor__P2156615(s) {
 let r0 = s.r0, step = s.pc;
 s.pc = -1;
 
@@ -9877,15 +10084,17 @@ switch (step) {
       s.arg3 = (s.lambdaArgs[3]);
       s.arg4 = (s.lambdaArgs[4]);
       s.arg5 = (s.lambdaArgs[5]);
+      s.arg6 = (s.lambdaArgs[6]);
       s.lambdaArgs = null;
     }
     r0 = s.arg0;
-    if (!checkSubtype(r0, statusbars_StatusBar__C1929634_VT)) failedCast(r0);
+    if (!checkSubtype(r0, statusbars_StatusBar__C2156599_VT)) failedCast(r0);
     r0 = (s.arg0).fields["barWidth"] = (s.arg1);
     r0 = (s.arg0).fields["barHeight"] = (s.arg2);
     r0 = (s.arg0).fields["onColor"] = (s.arg3);
     r0 = (s.arg0).fields["offColor"] = (s.arg4);
     r0 = (s.arg0).fields["_max"] = (s.arg5);
+    r0 = (s.arg0).fields["kind"] = (s.arg6);
     s.tmp_0 = r0 = s.arg0;
     s.tmp_3 = game_currentScene__P1900682_mk(s);
     s.pc = 1; return s.tmp_3;
@@ -9905,7 +10114,7 @@ switch (step) {
     r0 = (s.arg0).fields["hasHitZero"] = (false);
     r0 = (s.arg0).fields["displayValue"] = (s.arg5);
     r0 = (s.arg0).fields["target"] = (s.arg5);
-    s.tmp_0 = statusbars_StatusBar_rebuildImage__P1929647_mk(s);
+    s.tmp_0 = statusbars_StatusBar_rebuildImage__P2156612_mk(s);
     s.tmp_0.arg0 = s.arg0;
     s.pc = 2; return s.tmp_0;
   case 2:
@@ -9914,12 +10123,12 @@ switch (step) {
     return leave(s, r0)
   default: oops()
 } } }
-statusbars_StatusBar_constructor__P1929650.info = {"start":2469,"length":646,"line":69,"column":8,"endLine":88,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["this","barWidth","barHeight","onColor","offColor","_max"]}
+statusbars_StatusBar_constructor__P2156615.info = {"start":3186,"length":679,"line":99,"column":8,"endLine":119,"endColumn":9,"fileName":"status-bar.ts","functionName":"inline","argumentNames":["this","barWidth","barHeight","onColor","offColor","_max","kind"]}
 
-function statusbars_StatusBar_constructor__P1929650_mk(s) {
+function statusbars_StatusBar_constructor__P2156615_mk(s) {
     checkStack(s.depth);
     return {
-        parent: s, fn: statusbars_StatusBar_constructor__P1929650, depth: s.depth + 1,
+        parent: s, fn: statusbars_StatusBar_constructor__P2156615, depth: s.depth + 1,
         pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
   tmp_0: undefined,
   tmp_1: undefined,
@@ -9931,6 +10140,45 @@ function statusbars_StatusBar_constructor__P1929650_mk(s) {
   arg3: undefined,
   arg4: undefined,
   arg5: undefined,
+  arg6: undefined,
+} }
+
+
+
+
+
+function StatusBarKind_create__P2156560(s) {
+let r0 = s.r0, step = s.pc;
+s.pc = -1;
+
+
+while (true) {
+if (yieldSteps-- < 0 && maybeYield(s, step, r0)) return null;
+switch (step) {
+  case 0:
+
+    r0 = (globals.nextKind___2156559 === undefined);
+    s.tmp_0 = r0;
+    r0 = pxsim_numops_toBoolDecr(s.tmp_0);
+    if (!r0) { step = 1; continue; }
+    globals.nextKind___2156559 = (1);
+  case 1:
+  case 2:
+    s.tmp_0 = r0 = globals.nextKind___2156559;
+    r0 = (s.tmp_0 + 1);
+    globals.nextKind___2156559 = (r0);
+    r0 = s.tmp_0;
+    return leave(s, r0)
+  default: oops()
+} } }
+StatusBarKind_create__P2156560.info = {"start":1213,"length":109,"line":33,"column":4,"endLine":36,"endColumn":5,"fileName":"status-bar.ts","functionName":"create","argumentNames":[]}
+
+function StatusBarKind_create__P2156560_mk(s) {
+    checkStack(s.depth);
+    return {
+        parent: s, fn: StatusBarKind_create__P2156560, depth: s.depth + 1,
+        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
+  tmp_0: undefined,
 } }
 
 
@@ -39367,35 +39615,6 @@ function if_up_2_mk(s) {
 } }
 
 
-function if_postProcessingHandler_2_mk(s) {
-    checkStack(s.depth);
-    return {
-        parent: s, fn: null, depth: s.depth + 1,
-        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
-  tmp_0: undefined,
-  tmp_1: undefined,
-  tmp_2: undefined,
-  tmp_3: undefined,
-  tmp_4: undefined,
-  arg0: undefined,
-  arg1: undefined,
-} }
-
-
-function if_onZeroHandler_1_mk(s) {
-    checkStack(s.depth);
-    return {
-        parent: s, fn: null, depth: s.depth + 1,
-        pc: 0, retval: undefined, r0: undefined, overwrittenPC: false, lambdaArgs: null,
-  tmp_0: undefined,
-  tmp_1: undefined,
-  tmp_2: undefined,
-  tmp_3: undefined,
-  tmp_4: undefined,
-  arg0: undefined,
-} }
-
-
 function if_target_1_mk(s) {
     checkStack(s.depth);
     return {
@@ -39794,7 +40013,7 @@ const controller_ControlledSprite__C1900441_VT = mkVTable({
     "set/vy": null,
   },
 });
-const statusbars_StatusBar__C1929634_VT = mkVTable({
+const statusbars_StatusBar__C2156599_VT = mkVTable({
   name: "StatusBar",
   numFields: 22,
   classNo: 28,
@@ -39803,6 +40022,8 @@ const statusbars_StatusBar__C1929634_VT = mkVTable({
   methods: {
   },
   iface: {
+    "sprite": null,
+    "set/sprite": null,
     "borderWidth": null,
     "set/borderWidth": null,
     "borderColor": null,
@@ -39829,10 +40050,6 @@ const statusbars_StatusBar__C1929634_VT = mkVTable({
     "set/target": null,
     "hasHitZero": null,
     "set/hasHitZero": null,
-    "onZeroHandler": null,
-    "set/onZeroHandler": null,
-    "postProcessingHandler": null,
-    "set/postProcessingHandler": null,
     "barWidth": null,
     "set/barWidth": null,
     "barHeight": null,
@@ -39843,21 +40060,23 @@ const statusbars_StatusBar__C1929634_VT = mkVTable({
     "set/offColor": null,
     "_max": null,
     "set/_max": null,
+    "kind": null,
+    "set/kind": null,
     "lastUpdate": null,
     "set/lastUpdate": null,
     "throttleAmount": null,
     "set/throttleAmount": null,
-    "positionNextTo": statusbars_StatusBar_positionNextTo__P1929635,
-    "label": statusbars_StatusBar_label__P1929636,
-    "set/label": statusbars_StatusBar_label__P1929637,
-    "max": statusbars_StatusBar_max__P1929638,
-    "current": statusbars_StatusBar_current__P1929640,
-    "set/current": statusbars_StatusBar_current__P1929641,
-    "image": statusbars_StatusBar_image__P1929643,
-    "isVerticalBar": statusbars_StatusBar_isVerticalBar__P1929645,
-    "rebuildImage": statusbars_StatusBar_rebuildImage__P1929647,
-    "updateState": statusbars_StatusBar_updateState__P1929648,
-    "updateDisplay": statusbars_StatusBar_updateDisplay__P1929649,
+    "positionNextTo": statusbars_StatusBar_positionNextTo__P2156600,
+    "label": statusbars_StatusBar_label__P2156601,
+    "set/label": statusbars_StatusBar_label__P2156602,
+    "max": statusbars_StatusBar_max__P2156603,
+    "current": statusbars_StatusBar_current__P2156605,
+    "set/current": statusbars_StatusBar_current__P2156606,
+    "image": statusbars_StatusBar_image__P2156608,
+    "isVerticalBar": statusbars_StatusBar_isVerticalBar__P2156610,
+    "rebuildImage": statusbars_StatusBar_rebuildImage__P2156612,
+    "updateState": statusbars_StatusBar_updateState__P2156613,
+    "updateDisplay": statusbars_StatusBar_updateDisplay__P2156614,
   },
 });
 const game_Hitbox__C1900481_VT = mkVTable({
@@ -39885,32 +40104,11 @@ const game_Hitbox__C1900481_VT = mkVTable({
     "bottom": game_Hitbox_bottom__P1900485,
   },
 });
-const PhysicsEngine__C1900601_VT = mkVTable({
-  name: "PhysicsEngine",
-  numFields: 0,
-  classNo: 30,
-  lastSubtypeNo: 31,
-  maxBgInstances: null,
-  methods: {
-    "addSprite": PhysicsEngine_addSprite__P1900602,
-    "removeSprite": PhysicsEngine_removeSprite__P1900603,
-    "moveSprite": PhysicsEngine_moveSprite__P1900604,
-    "draw": PhysicsEngine_draw__P1900605,
-    "move": PhysicsEngine_move__P1900606,
-  },
-  iface: {
-    "addSprite": PhysicsEngine_addSprite__P1900602,
-    "removeSprite": PhysicsEngine_removeSprite__P1900603,
-    "moveSprite": PhysicsEngine_moveSprite__P1900604,
-    "draw": PhysicsEngine_draw__P1900605,
-    "move": PhysicsEngine_move__P1900606,
-  },
-});
 const scene_Scene__C1900901_VT = mkVTable({
   name: "Scene",
   numFields: 23,
-  classNo: 32,
-  lastSubtypeNo: 32,
+  classNo: 30,
+  lastSubtypeNo: 30,
   maxBgInstances: null,
   methods: {
   },
@@ -39966,6 +40164,27 @@ const scene_Scene__C1900901_VT = mkVTable({
     "millis": scene_Scene_millis__P1900904,
     "addSprite": scene_Scene_addSprite__P1900905,
     "render": scene_Scene_render__P1900907,
+  },
+});
+const PhysicsEngine__C1900601_VT = mkVTable({
+  name: "PhysicsEngine",
+  numFields: 0,
+  classNo: 31,
+  lastSubtypeNo: 32,
+  maxBgInstances: null,
+  methods: {
+    "addSprite": PhysicsEngine_addSprite__P1900602,
+    "removeSprite": PhysicsEngine_removeSprite__P1900603,
+    "moveSprite": PhysicsEngine_moveSprite__P1900604,
+    "draw": PhysicsEngine_draw__P1900605,
+    "move": PhysicsEngine_move__P1900606,
+  },
+  iface: {
+    "addSprite": PhysicsEngine_addSprite__P1900602,
+    "removeSprite": PhysicsEngine_removeSprite__P1900603,
+    "moveSprite": PhysicsEngine_moveSprite__P1900604,
+    "draw": PhysicsEngine_draw__P1900605,
+    "move": PhysicsEngine_move__P1900606,
   },
 });
 const sprites_SpriteSet__C1900565_VT = mkVTable({
@@ -40330,8 +40549,8 @@ const particles_Particle__C1901417_VT = mkVTable({
 const ArcadePhysicsEngine__C1900629_VT = mkVTable({
   name: "ArcadePhysicsEngine",
   numFields: 6,
-  classNo: 31,
-  lastSubtypeNo: 31,
+  classNo: 32,
+  lastSubtypeNo: 32,
   maxBgInstances: null,
   methods: {
     "addSprite": ArcadePhysicsEngine_addSprite__P1900638,
@@ -40728,7 +40947,7 @@ const tiles_Location__C1900775_VT = mkVTable({
   },
 });
 
-const breakpoints = setupDebugger(1, ["StatusBar___1929630","status___1904316","player___1904332","sb2___1904337","curr___1904356","STATUS_BAR_DATA_KEY___1929632"])
+const breakpoints = setupDebugger(1, ["StatusBar___2156554","Health___2156568","Energy___2156571","Magic___2156574","EnemyHealth___2156577","MANAGED_SPRITES_KEY___2156583","STATUS_BAR_DATA_KEY___2156579","ZERO_HANDLERS_KEY___2156589","POST_PROCESS_HANDLERS_KEY___2156595","status___1939253","player___1939270","sb2___1939275","curr___1939295","nextKind___2156559"])
 
-return _main___P1930649
+return _main___P2157731
 })
