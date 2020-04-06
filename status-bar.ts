@@ -65,7 +65,7 @@ namespace StatusBarKind {
 //% weight=79
 //% icon="\uf240"
 //% blockGap=8
-//% groups='["Create", "Value", "Max", "Effects", "Display", "Events"]'
+//% groups='["Create", "Value", "Max", "Effects", "Display", "Events", "Other"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
@@ -565,6 +565,28 @@ namespace statusbars {
             game.currentScene().data[POST_PROCESS_HANDLERS_KEY] = displayUpdateHandlers = [];
         }
         displayUpdateHandlers[kind] = handler;
+    }
+
+    //% block="array of status bars of $kind"
+    //% kind.shadow="statusbars_kind"
+    //% blockId="statusbars_arrayOfKind"
+    //% blockSetVariable="status bar list"
+    export function allOfKind(kind: number): Sprite[] {
+        const managedSprites = getManagedSprites();
+        if (!managedSprites)
+            return [];
+        return managedSprites.filter(status => {
+            const sb = getStatusBar(status);
+            return sb && sb.kind === kind;
+        });
+    }
+
+    //% block="sprite that $status=variables_get(status bar) is attached to"
+    //% blockId="statusbars_attachSpriteGetter"
+    //% group="Other"
+    //% weight=49
+    export function statusBarAttachedTo(status: Sprite) {
+        return applyChange(status, sb => sb.spriteToFollow)
     }
 
     function init(s: Sprite) {
