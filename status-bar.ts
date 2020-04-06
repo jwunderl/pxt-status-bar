@@ -340,35 +340,6 @@ namespace statusbars {
     }
 
     /**
-     * 
-     * @param status status bar to apply change to
-     * @param fillColor color to fill bar with, eg: 0x7
-     * @param bkgdColor bar background color, eg: 0x2
-     */
-    //% block="set $status=variables_get(statusbar) fill $fillColor background $bkgdColor"
-    //% blockId="statusbars_setColor"
-    //% fillColor.shadow="colorindexpicker"
-    //% bkgdColor.shadow="colorindexpicker"
-    //% group="Display"
-    //% weight=70
-    export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
-        applyChange(status, sb => {
-            sb.onColor = fillColor;
-            sb.offColor = bkgdColor;
-        });
-    }
-
-    //% block="set $status=variables_get(statusbar) $flag $on=toggleOnOff"
-    //% blockId="statusbars_setFlag"
-    //% group="Effects"
-    //% weight=75
-    export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
-        applyChange(status, sb => {
-            sb.setFlag(flag, on);
-        });
-    }
-
-    /**
      * @param status status bar to get value of
      */
     //% block="status $status=variables_get(statusbar) value"
@@ -446,6 +417,52 @@ namespace statusbars {
         });
     }
 
+    //% block="set $status=variables_get(statusbar) $flag $on=toggleOnOff"
+    //% blockId="statusbars_setFlag"
+    //% group="Effects"
+    //% weight=75
+    export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
+        applyChange(status, sb => {
+            sb.setFlag(flag, on);
+        });
+    }
+
+    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
+    //% blockId="statusbars_attachToSprite"
+    //% expandableArgumentMode="toggle"
+    //% inlineInputMode="inline"
+    //% group="Effects"
+    //% weight=74
+    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
+        applyChange(status, sb => {
+            // reset this to the default value;
+            // this will be changed with the follow logic to match toFollow,
+            // but if this is being reassigned it should handle that gracefully
+            status.setFlag(SpriteFlag.RelativeToCamera, true);
+            sb.spriteToFollow = toFollow;
+            sb.followPadding = padding;
+            sb.followAlignment = alignment;
+        });
+    }
+
+    /**
+     * @param status status bar to apply change to
+     * @param fillColor color to fill bar with, eg: 0x7
+     * @param bkgdColor bar background color, eg: 0x2
+     */
+    //% block="set $status=variables_get(statusbar) fill $fillColor background $bkgdColor"
+    //% blockId="statusbars_setColor"
+    //% fillColor.shadow="colorindexpicker"
+    //% bkgdColor.shadow="colorindexpicker"
+    //% group="Display"
+    //% weight=70
+    export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
+        applyChange(status, sb => {
+            sb.onColor = fillColor;
+            sb.offColor = bkgdColor;
+        });
+    }
+
     /**
      * @param status status bar to add label to
      * @param label label to add to status bar, eg: HP
@@ -478,24 +495,6 @@ namespace statusbars {
         applyChange(status, sb => {
             sb.borderColor = color;
             sb.borderWidth = borderWidth;
-        });
-    }
-
-    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
-    //% blockId="statusbars_attachToSprite"
-    //% expandableArgumentMode="toggle"
-    //% inlineInputMode="inline"
-    //% group="Effects"
-    //% weight=74
-    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
-        applyChange(status, sb => {
-            // reset this to the default value;
-            // this will be changed with the follow logic to match toFollow,
-            // but if this is being reassigned it should handle that gracefully
-            status.setFlag(SpriteFlag.RelativeToCamera, true);
-            sb.spriteToFollow = toFollow;
-            sb.followPadding = padding;
-            sb.followAlignment = alignment;
         });
     }
 
