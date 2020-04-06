@@ -4,7 +4,7 @@ statusbars.setColor(status, 0x7, 0x5)
 // statusbars.setFlag(status, StatusBarFlag.SmoothTransition, false);
 // statusbars.setFlag(status, StatusBarFlag.LabelAtEnd, true);
 
-statusbars.setCurrent(status, 40);
+statusbars.setValue(status, 40);
 
 statusbars.setLabel(status, "HP", 0x7);
 
@@ -41,7 +41,7 @@ statusbars.setLabel(sb2, "HP", 0x7);
 let curr = 40;
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     curr -= 5;
-    statusbars.setCurrent(sb2, curr)
+    statusbars.setValue(sb2, curr)
 })
 
 scene.setBackgroundColor(0x1)

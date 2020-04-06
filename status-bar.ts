@@ -346,7 +346,7 @@ namespace statusbars {
     //% blockId="statusbars_setColor"
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
-    //% weight=90
+    //% weight=70
     export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
         applyChange(status, sb => {
             sb.onColor = fillColor;
@@ -356,6 +356,7 @@ namespace statusbars {
 
     //% block="set $status=variables_get(statusbar) $flag $on=toggleOnOff"
     //% blockId="statusbars_setFlag"
+    //% weight=75
     export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
         applyChange(status, sb => {
             sb.setFlag(flag, on);
@@ -363,23 +364,86 @@ namespace statusbars {
     }
 
     /**
+     * @param status status bar to get value of
+     */
+    //% block="status $status=variables_get(statusbar) value"
+    //% blockId="statusbars_getValue"
+    //% weight=85 blockGap=8
+    export function value(status: Sprite) {
+        return applyChange(status, sb => sb.current) || 0;
+    }
+
+    /**
+     * @param status status bar to set value of
+     * @param value value to set status to, eg: 50
+     */
+    //% block="set $status=variables_get(statusbar) value to $value"
+    //% blockId="statusbars_setValue"
+    //% weight=84 blockGap=8
+    export function setValue(status: Sprite, value: number) {
+        applyChange(status, sb => {
+            sb.current = value;
+        });
+    }
+
+    /**
+     * @param status status bar to change value of
+     * @param value value to change status by, eg: 10
+     */
+    //% block="change $status=variables_get(statusbar) value by $value"
+    //% blockId="statusbars_changeValueBy"
+    //% weight=83
+    export function changeValueBy(status: Sprite, value: number) {
+        applyChange(status, sb => {
+            sb.current += value;
+        });
+    }
+
+    /**
+     * @param status status bar to get max of
+     */
+    //% block="status $status=variables_get(statusbar) max"
+    //% blockId="statusbars_getMax"
+    //% weight=80 blockGap=8
+    export function max(status: Sprite) {
+        return applyChange(status, sb => sb.max) || 0;
+    }
+
+    /**
+     * @param status status bar to change max of
      * @param max max value for this status, eg: 100
      */
     //% block="set $status=variables_get(statusbar) max $max"
+    //% blockId="statusbars_setMax"
+    //% weight=79 blockGap=8
     export function setMax(status: Sprite, max: number) {
         applyChange(status, sb => {
             sb.max = max;
         });
     }
 
-    //% block
-    export function setCurrent(status: Sprite, current: number) {
+    /**
+     * @param status status bar to change max of
+     * @param vaule value to change max by, eg: 10
+     */
+    //% block="change $status=variables_get(statusbar) max by $value"
+    //% blockId="statusbars_changeMaxBy"
+    //% weight=78
+    export function changeMaxBy(status: Sprite, value: number) {
         applyChange(status, sb => {
-            sb.current = current;
+            sb.max += value;
         });
     }
 
-    //% block
+    /**
+     * @param status status bar to add label to
+     * @param label label to add to status bar, eg: HP
+     * @param color color of label, eg: 0x1
+     */
+    //% block="set $status=variables_get(statusbar) label $label||$color"
+    //% blockId="statusbar_setLabel"
+    //% color.shadow="colorindexpicker"
+    //% weight=69
     export function setLabel(status: Sprite, label: string, color?: number) {
         applyChange(status, sb => {
             if (color)
@@ -394,7 +458,9 @@ namespace statusbars {
      * @param color color of border, eg: 0xd
      */
     //% block="set $status=variables_get(statusbar) border width $borderWidth $color"
+    //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
+    //% weight=68
     export function setBarBorder(status: Sprite, borderWidth: number, color: number) {
         applyChange(status, sb => {
             sb.borderColor = color;
@@ -402,32 +468,11 @@ namespace statusbars {
         });
     }
 
-    // passes back any return from action for getters / etc
-    function applyChange<T>(status: Sprite, action: (sb: StatusBar) => T): T {
-        const sb = getStatusBar(status);
-
-        if (sb) {
-            const output = action(sb);
-            sb.updateDisplay();
-            status.setImage(sb.image);
-            return output;
-        }
-
-        return undefined;
-    }
-
-    function getStatusBar(status: Sprite) {
-        return status.data[STATUS_BAR_DATA_KEY] as StatusBar;
-    }
-
-    function getManagedSprites() {
-        return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
-    }
-
     //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
+    //% weight=74
     export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
@@ -471,6 +516,28 @@ namespace statusbars {
         }
         
        managedSprites.push(s);
+    }
+
+    // passes back any return from action for getters / etc
+    function applyChange<T>(status: Sprite, action: (sb: StatusBar) => T): T {
+        const sb = getStatusBar(status);
+
+        if (sb) {
+            const output = action(sb);
+            sb.updateDisplay();
+            status.setImage(sb.image);
+            return output;
+        }
+
+        return undefined;
+    }
+
+    function getStatusBar(status: Sprite) {
+        return status.data[STATUS_BAR_DATA_KEY] as StatusBar;
+    }
+
+    function getManagedSprites() {
+        return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
     namespace util {
