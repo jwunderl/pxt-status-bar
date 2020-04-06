@@ -1,13 +1,13 @@
-const status = ui.statusbar.createSprite(50, 3, 0x7, 0x5, 50)
-// ui.statusbar.setFlag(status, StatusBarFlag.InvertBarDirection, true);
-// ui.statusbar.setFlag(status, StatusBarFlag.SmoothTransition, false);
-// ui.statusbar.setFlag(status, StatusBarFlag.LabelAtEnd, true);
+const status = statusbars.createSprite(50, 3, 0x7, 0x5, 50)
+// statusbars.setFlag(status, StatusBarFlag.InvertBarDirection, true);
+// statusbars.setFlag(status, StatusBarFlag.SmoothTransition, false);
+// statusbars.setFlag(status, StatusBarFlag.LabelAtEnd, true);
 
-ui.statusbar.setCurrent(status, 40);
+statusbars.setCurrent(status, 40);
 
-ui.statusbar.setLabel(status, "HP", 0x7);
+statusbars.setLabel(status, "HP", 0x7);
 
-ui.statusbar.setBarBorder(status, 1, 0xb);
+statusbars.setBarBorder(status, 1, 0xb);
 status.top = 5;
 status.left = 5;
 
@@ -31,16 +31,16 @@ const player = sprites.create(img`
     . . . . . f f . . f f . . . . .
 `)
 
-const sb2 = ui.statusbar.createSprite(4, 20, 0x7, 0x2, 40);
-ui.statusbar.setBarBorder(sb2, 1, 0xb);
-ui.statusbar.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
+const sb2 = statusbars.createSprite(4, 20, 0x7, 0x2, 40);
+statusbars.setBarBorder(sb2, 1, 0xb);
+statusbars.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
 controller.moveSprite(player)
-ui.statusbar.setLabel(sb2, "HP", 0x7);
+statusbars.setLabel(sb2, "HP", 0x7);
 
 let curr = 40;
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     curr -= 5;
-    ui.statusbar.setCurrent(sb2, curr)
+    statusbars.setCurrent(sb2, curr)
 })
 
 scene.setBackgroundColor(0x1)

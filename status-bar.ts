@@ -25,7 +25,7 @@ namespace SpriteKind {
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
-namespace ui.statusbar {
+namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
 
     class StatusBar {
