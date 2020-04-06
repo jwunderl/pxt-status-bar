@@ -408,7 +408,7 @@ namespace statusbars {
 
     /**
      * @param status status bar to change max of
-     * @param vaule value to change max by, eg: 10
+     * @param value value to change max by, eg: 10
      */
     //% block="change $status=variables_get(status bar) max by $value"
     //% blockId="statusbars_changeMaxBy"
