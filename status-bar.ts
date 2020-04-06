@@ -170,7 +170,7 @@ namespace statusbars {
             if (v <= 0 && !this.hasHitZero) {
                 this.hasHitZero = true;
                 const handler = (getZeroHandlers() || [])[this.kind];
-                if (handler)
+                if (this.sprite && handler)
                     handler(this.sprite);
             } else if (v > 0 && this.hasHitZero) {
                 // reset if this was below zero and has been refilled
@@ -342,7 +342,7 @@ namespace statusbars {
             }
 
             const handler = (getPostProcessHandlers() || [])[this.kind];
-            if (handler)
+            if (this.sprite && handler)
                 handler(this.sprite, this.image);
         }
     }
@@ -575,11 +575,13 @@ namespace statusbars {
                 const managed = getManagedSprites();
                 for (let i = managed.length - 1; i >= 0; --i) {
                     const spr = managed[i];
+                    const sb = getStatusBar(spr);
                     if (spr.flags & sprites.Flag.Destroyed) {
+                        // give the garbage collector a helping hand
+                        sb.sprite = undefined;
                         managed.removeAt(i);
                         continue;
                     }
-                    const sb = getStatusBar(spr);
                     if (sb) {
                         sb.updateState();
 
