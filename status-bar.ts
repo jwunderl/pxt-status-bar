@@ -52,6 +52,7 @@ namespace StatusBarKind {
 
 // TODO: option to show both target and display value, option to freeze at display value;
 // allow for dark souls / fighting style game animations
+// ^^ .drainColor && .freeze, needs to be exposed if wanted
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
@@ -65,7 +66,7 @@ namespace StatusBarKind {
 //% weight=79
 //% icon="\uf240"
 //% blockGap=8
-//% groups='["Create", "Value", "Max", "Effects", "Display", "Events", "Other"]'
+//% groups='["Create", "Value", "Effects", "Display", "Max", "Events", "Other"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
@@ -102,6 +103,8 @@ namespace statusbars {
             protected barHeight: number,
             public onColor: number,
             public offColor: number,
+            // TODO: use this; it's the 'draining from prev to curr' color
+            public drainColor: number,
             protected _max: number,
             public kind: number
         ) {
@@ -139,6 +142,10 @@ namespace statusbars {
                     status.bottom = target.top - padding;
                 }
             }
+        }
+
+        freeze() {
+            this.target = this.displayValue;
         }
 
         get label() {
@@ -365,7 +372,7 @@ namespace statusbars {
         max: number,
         kind: number
     ) {
-        const sb = new StatusBar(width, height, 0x7, 0x2, max, kind);
+        const sb = new StatusBar(width, height, 0x7, 0x2, 0x3, max, kind);
         const output = sprites.create(sb.image, SpriteKind.StatusBar);
 
         sb.sprite = output;
@@ -419,49 +426,10 @@ namespace statusbars {
         });
     }
 
-    /**
-     * @param status status bar to get max of
-     */
-    //% block="status $status=variables_get(status bar) max"
-    //% blockId="statusbars_getMax"
-    //% group="Max"
-    //% weight=80
-    export function max(status: Sprite) {
-        return applyChange(status, sb => sb.max) || 0;
-    }
-
-    /**
-     * @param status status bar to change max of
-     * @param max max value for this status, eg: 100
-     */
-    //% block="set $status=variables_get(status bar) max $max"
-    //% blockId="statusbars_setMax"
-    //% group="Max"
-    //% weight=79
-    export function setMax(status: Sprite, max: number) {
-        applyChange(status, sb => {
-            sb.max = max;
-        });
-    }
-
-    /**
-     * @param status status bar to change max of
-     * @param value value to change max by, eg: -10
-     */
-    //% block="change $status=variables_get(status bar) max by $value"
-    //% blockId="statusbars_changeMaxBy"
-    //% group="Max"
-    //% weight=78
-    export function changeMaxBy(status: Sprite, value: number) {
-        applyChange(status, sb => {
-            sb.max += value;
-        });
-    }
-
     //% block="set $status=variables_get(status bar) $flag $on=toggleOnOff"
     //% blockId="statusbars_setFlag"
     //% group="Effects"
-    //% weight=75
+    //% weight=80
     export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
         applyChange(status, sb => {
             sb.setFlag(flag, on);
@@ -473,7 +441,7 @@ namespace statusbars {
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
     //% group="Effects"
-    //% weight=74
+    //% weight=79
     export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
@@ -496,7 +464,7 @@ namespace statusbars {
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
     //% group="Display"
-    //% weight=70
+    //% weight=75
     export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
         applyChange(status, sb => {
             sb.onColor = fillColor;
@@ -513,7 +481,7 @@ namespace statusbars {
     //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
     //% group="Display"
-    //% weight=69
+    //% weight=74
     export function setBarBorder(status: Sprite, borderWidth: number, color: number) {
         applyChange(status, sb => {
             sb.borderColor = color;
@@ -530,12 +498,51 @@ namespace statusbars {
     //% blockId="statusbar_setLabel"
     //% color.shadow="colorindexpicker"
     //% group="Display"
-    //% weight=68
+    //% weight=73
     export function setLabel(status: Sprite, label: string, color?: number) {
         applyChange(status, sb => {
             if (color)
                 sb.labelColor = color;
             sb.label = label;
+        });
+    }
+
+    /**
+     * @param status status bar to get max of
+     */
+    //% block="status $status=variables_get(status bar) max"
+    //% blockId="statusbars_getMax"
+    //% group="Max"
+    //% weight=65
+    export function max(status: Sprite) {
+        return applyChange(status, sb => sb.max) || 0;
+    }
+
+    /**
+     * @param status status bar to change max of
+     * @param max max value for this status, eg: 100
+     */
+    //% block="set $status=variables_get(status bar) max $max"
+    //% blockId="statusbars_setMax"
+    //% group="Max"
+    //% weight=64
+    export function setMax(status: Sprite, max: number) {
+        applyChange(status, sb => {
+            sb.max = max;
+        });
+    }
+
+    /**
+     * @param status status bar to change max of
+     * @param value value to change max by, eg: -10
+     */
+    //% block="change $status=variables_get(status bar) max by $value"
+    //% blockId="statusbars_changeMaxBy"
+    //% group="Max"
+    //% weight=63
+    export function changeMaxBy(status: Sprite, value: number) {
+        applyChange(status, sb => {
+            sb.max += value;
         });
     }
 
