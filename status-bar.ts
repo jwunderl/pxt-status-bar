@@ -8,6 +8,7 @@ enum StatusBarFlag {
 }
 
 namespace SpriteKind {
+    //% isKind
     export const StatusBar = SpriteKind.create();
 }
 
