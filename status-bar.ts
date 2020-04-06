@@ -31,7 +31,7 @@ namespace SpriteKind {
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
-//% color=#22212f weight=79 icon="\uf240"
+//% color=#38364d weight=79 icon="\uf240"
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
 
@@ -309,6 +309,11 @@ namespace statusbars {
         }
     }
 
+    /**
+     * @param width width of status bar, eg: 20
+     * @param height height of status bar, eg: 4
+     * @param max max value for this status, eg: 100
+     */
     //% block="create status bar width $width height $height max value $max"
     //% blockId="statusbars_create"
     //% blockSetVariable="statusbar"
@@ -333,9 +338,9 @@ namespace statusbars {
 
     /**
      * 
-     * @param status: status bar to apply change to
-     * @param fillColor: color to fill bar with; e.g. 7
-     * @param bkgdColor: bar background color; e.g. 2
+     * @param status status bar to apply change to
+     * @param fillColor color to fill bar with, eg: 0x7
+     * @param bkgdColor bar background color, eg: 0x2
      */
     //% block="set $status=variables_get(statusbar) fill $fillColor background $bkgdColor"
     //% blockId="statusbars_setColor"
@@ -346,6 +351,92 @@ namespace statusbars {
         applyChange(status, sb => {
             sb.onColor = fillColor;
             sb.offColor = bkgdColor;
+        });
+    }
+
+    //% block="set $status=variables_get(statusbar) $flag $on=toggleOnOff"
+    //% blockId="statusbars_setFlag"
+    export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
+        applyChange(status, sb => {
+            sb.setFlag(flag, on);
+        });
+    }
+
+    /**
+     * @param max max value for this status, eg: 100
+     */
+    //% block="set $status=variables_get(statusbar) max $max"
+    export function setMax(status: Sprite, max: number) {
+        applyChange(status, sb => {
+            sb.max = max;
+        });
+    }
+
+    //% block
+    export function setCurrent(status: Sprite, current: number) {
+        applyChange(status, sb => {
+            sb.current = current;
+        });
+    }
+
+    //% block
+    export function setLabel(status: Sprite, label: string, color?: number) {
+        applyChange(status, sb => {
+            if (color)
+                sb.labelColor = color;
+            sb.label = label;
+        });
+    }
+
+    /**
+     * @param status status bar to add border to
+     * @param borderWidth width of border in pixels, eg: 1
+     * @param color color of border, eg: 0xd
+     */
+    //% block="set $status=variables_get(statusbar) border width $borderWidth $color"
+    //% color.shadow="colorindexpicker"
+    export function setBarBorder(status: Sprite, borderWidth: number, color: number) {
+        applyChange(status, sb => {
+            sb.borderColor = color;
+            sb.borderWidth = borderWidth;
+        });
+    }
+
+    // passes back any return from action for getters / etc
+    function applyChange<T>(status: Sprite, action: (sb: StatusBar) => T): T {
+        const sb = getStatusBar(status);
+
+        if (sb) {
+            const output = action(sb);
+            sb.updateDisplay();
+            status.setImage(sb.image);
+            return output;
+        }
+
+        return undefined;
+    }
+
+    function getStatusBar(status: Sprite) {
+        return status.data[STATUS_BAR_DATA_KEY] as StatusBar;
+    }
+
+    function getManagedSprites() {
+        return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
+    }
+
+    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
+    //% blockId="statusbars_attachToSprite"
+    //% expandableArgumentMode="toggle"
+    //% inlineInputMode="inline"
+    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
+        applyChange(status, sb => {
+            // reset this to the default value;
+            // this will be changed with the follow logic to match toFollow,
+            // but if this is being reassigned it should handle that gracefully
+            status.setFlag(SpriteFlag.RelativeToCamera, true);
+            sb.spriteToFollow = toFollow;
+            sb.followPadding = padding;
+            sb.followAlignment = alignment;
         });
     }
 
@@ -379,84 +470,7 @@ namespace statusbars {
             });
         }
         
-        managedSprites.push(s);
-    }
-
-    //% block="set $sprite=variables_get(status) $flag $on=toggleOnOff"
-    //% blockId="statusbars_setFlag"
-    export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
-        applyChange(sprite, sb => {
-            sb.setFlag(flag, on);
-        });
-    }
-
-    //% block
-    export function setMax(sprite: Sprite, max: number) {
-        applyChange(sprite, sb => {
-            sb.max = max;
-        });
-    }
-
-    //% block
-    export function setCurrent(sprite: Sprite, current: number) {
-        applyChange(sprite, sb => {
-            sb.current = current;
-        });
-    }
-
-    //% block
-    export function setLabel(sprite: Sprite, label: string, color?: number) {
-        applyChange(sprite, sb => {
-            if (color)
-                sb.labelColor = color;
-            sb.label = label;
-        });
-    }
-
-    //% block
-    export function setBarBorder(sprite: Sprite, borderWidth: number, color: number) {
-        applyChange(sprite, sb => {
-            sb.borderColor = color;
-            sb.borderWidth = borderWidth;
-        });
-    }
-
-    // passes back any return from action for getters / etc
-    function applyChange<T>(sprite: Sprite, action: (sb: StatusBar) => T): T {
-        const sb = getStatusBar(sprite);
-
-        if (sb) {
-            const output = action(sb);
-            sb.updateDisplay();
-            sprite.setImage(sb.image);
-            return output;
-        }
-
-        return undefined;
-    }
-
-    function getStatusBar(sprite: Sprite) {
-        return sprite.data[STATUS_BAR_DATA_KEY] as StatusBar;
-    }
-
-    function getManagedSprites() {
-        return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
-    }
-
-    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
-    //% blockId="statusbars_attachToSprite"
-    //% expandableArgumentMode="toggle"
-    //% inlineInputMode="inline"
-    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
-        applyChange(status, sb => {
-            // reset this to the default value;
-            // this will be changed with the follow logic to match toFollow,
-            // but if this is being reassigned it should handle that gracefully
-            status.setFlag(SpriteFlag.RelativeToCamera, true);
-            sb.spriteToFollow = toFollow;
-            sb.followPadding = padding;
-            sb.followAlignment = alignment;
-        });
+       managedSprites.push(s);
     }
 
     namespace util {
