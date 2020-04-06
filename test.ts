@@ -1,5 +1,6 @@
-const status = statusbars.createSprite(50, 3, 0x7, 0x5, 50)
-// statusbars.setFlag(status, StatusBarFlag.InvertBarDirection, true);
+const status = statusbars.createSprite(50, 3, 50)
+statusbars.setColor(status, 0x7, 0x5)
+// statusbars.setFlag(status, StatusBarFlag.InvertFillDirection, true);
 // statusbars.setFlag(status, StatusBarFlag.SmoothTransition, false);
 // statusbars.setFlag(status, StatusBarFlag.LabelAtEnd, true);
 
@@ -31,7 +32,7 @@ const player = sprites.create(img`
     . . . . . f f . . f f . . . . .
 `)
 
-const sb2 = statusbars.createSprite(4, 20, 0x7, 0x2, 40);
+const sb2 = statusbars.createSprite(4, 20, 40);
 statusbars.setBarBorder(sb2, 1, 0xb);
 statusbars.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
 controller.moveSprite(player)

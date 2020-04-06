@@ -1,10 +1,16 @@
 enum StatusBarFlag {
+    //% blockHidden=true
     None = 0,
+    //% block="smooth transition"
     SmoothTransition = 1 << 0, // if set, update bar over time; otherwise update bar immediately
+    //% block="label at end"
     LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
+    //% block="constrain value"
     ConstrainAssignedValue = 1 << 2, // if set, constrain values stored in status bar between 0 and max
+    //% block="position at end"
     PositionAtEnd = 1 << 3, // if set and bar is attached to a sprite, position on right or bottom (instead of top or left)
-    InvertBarDirection = 1 << 4, // if set, start 'on' from opposite side (top or right)
+    //% block="invert fill direction"
+    InvertFillDirection = 1 << 4, // if set, start 'on' from opposite side (top or right)
 }
 
 namespace SpriteKind {
@@ -25,7 +31,7 @@ namespace SpriteKind {
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
-//% color=#22212f weight=79 icon="\uf240" blockGap=8
+//% color=#22212f weight=79 icon="\uf240"
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
 
@@ -65,7 +71,7 @@ namespace statusbars {
         ) {
             this.borderWidth = 0;
             this.borderColor = undefined;
-            this.flags = StatusBarFlag.SmoothTransition;
+            this.flags = StatusBarFlag.SmoothTransition | StatusBarFlag.ConstrainAssignedValue;
             this._label = undefined;
             this.labelColor = 0x1;
             this.font = image.font5;
@@ -290,7 +296,7 @@ namespace statusbars {
             );
 
             if (percent > 0) {
-                const invertDir = (this.flags & StatusBarFlag.InvertBarDirection);
+                const invertDir = (this.flags & StatusBarFlag.InvertFillDirection);
                 const w = barIsVertical ? fillWidth : Math.round(fillWidth * percent);
                 const h = barIsVertical ? Math.round(fillHeight * percent) : fillHeight;
                 const x = barLeft + this.borderWidth + ((barIsVertical || !invertDir) ? 0 : fillWidth - w);
@@ -303,15 +309,14 @@ namespace statusbars {
         }
     }
 
-    //% block
+    //% block="create status bar width $width height $heightmax value $max"
+    //% blockSetVariable="statusbar"
     export function createSprite(
         width: number,
         height: number,
-        onColor: number,
-        offColor: number,
         max: number
     ) {
-        const sb = new StatusBar(width, height, onColor, offColor, max);
+        const sb = new StatusBar(width, height, 0x7, 0x2, max);
         const output = sprites.create(sb.image, SpriteKind.StatusBar);
 
         output.setFlag(SpriteFlag.RelativeToCamera, true);
@@ -322,6 +327,22 @@ namespace statusbars {
         init(output);
 
         return output;
+    }
+
+    /**
+     * 
+     * @param status: status bar to apply change to
+     * @param fillColor: color to fill bar with; e.g. 7
+     * @param bkgdColor: bar background color; e.g. 2
+     */
+    //% block="set $status=variables_get(statusbar) fill $fillColor background $bkgdColor"
+    //% fillColor.shadow="colorindexpicker"
+    //% bkgdColor.shadow="colorindexpicker"
+    export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
+        applyChange(status, sb => {
+            sb.onColor = fillColor;
+            sb.offColor = bkgdColor;
+        });
     }
 
     function init(s: Sprite) {
@@ -357,7 +378,7 @@ namespace statusbars {
         managedSprites.push(s);
     }
 
-    //% block
+    //% block="set $sprite=variables_get(status) $flag $on=toggleOnOff"
     export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
         applyChange(sprite, sb => {
             sb.setFlag(flag, on);
