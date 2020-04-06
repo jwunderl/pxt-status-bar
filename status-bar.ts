@@ -21,7 +21,8 @@ namespace SpriteKind {
 // TODO: option to show both target and display value, option to freeze at display value;
 // allow for dark souls / fighting style game animations
 
-// TODO: [on {status} zero] event handler; implemented just need to expose it
+// TODO: [on {status} zero] event handler and on display updated: maybe drop blocks for them?
+// the semantics are pretty weird, as the draggable param will just be the passed on at creation time
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
@@ -32,6 +33,7 @@ namespace SpriteKind {
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
 //% color=#38364d weight=79 icon="\uf240"
+//% groups='["Create", "Value", "Max", "Effects", "Display", "Events"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
 
@@ -58,7 +60,7 @@ namespace statusbars {
         protected target: number;
 
         hasHitZero: boolean;
-        onStatusZeroHandler: () => void;
+        onZeroHandler: () => void;
 
         postProcessingHandler: (im: Image) => void;
 
@@ -133,8 +135,8 @@ namespace statusbars {
 
             if (v <= 0 && !this.hasHitZero) {
                 this.hasHitZero = true;
-                if (this.onStatusZeroHandler)
-                    this.onStatusZeroHandler();
+                if (this.onZeroHandler)
+                    this.onZeroHandler();
             } else if (v > 0 && this.hasHitZero) {
                 // reset if this was below zero and has been refilled
                 this.hasHitZero = false;
@@ -317,6 +319,7 @@ namespace statusbars {
     //% block="create status bar width $width height $height max value $max"
     //% blockId="statusbars_create"
     //% blockSetVariable="statusbar"
+    //% group="Create"
     //% weight=100
     export function createSprite(
         width: number,
@@ -346,6 +349,7 @@ namespace statusbars {
     //% blockId="statusbars_setColor"
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
+    //% group="Display"
     //% weight=70
     export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
         applyChange(status, sb => {
@@ -356,6 +360,7 @@ namespace statusbars {
 
     //% block="set $status=variables_get(statusbar) $flag $on=toggleOnOff"
     //% blockId="statusbars_setFlag"
+    //% group="Effects"
     //% weight=75
     export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
         applyChange(status, sb => {
@@ -368,6 +373,7 @@ namespace statusbars {
      */
     //% block="status $status=variables_get(statusbar) value"
     //% blockId="statusbars_getValue"
+    //% group="Value"
     //% weight=85 blockGap=8
     export function value(status: Sprite) {
         return applyChange(status, sb => sb.current) || 0;
@@ -379,6 +385,7 @@ namespace statusbars {
      */
     //% block="set $status=variables_get(statusbar) value to $value"
     //% blockId="statusbars_setValue"
+    //% group="Value"
     //% weight=84 blockGap=8
     export function setValue(status: Sprite, value: number) {
         applyChange(status, sb => {
@@ -392,6 +399,7 @@ namespace statusbars {
      */
     //% block="change $status=variables_get(statusbar) value by $value"
     //% blockId="statusbars_changeValueBy"
+    //% group="Value"
     //% weight=83
     export function changeValueBy(status: Sprite, value: number) {
         applyChange(status, sb => {
@@ -404,6 +412,7 @@ namespace statusbars {
      */
     //% block="status $status=variables_get(statusbar) max"
     //% blockId="statusbars_getMax"
+    //% group="Max"
     //% weight=80 blockGap=8
     export function max(status: Sprite) {
         return applyChange(status, sb => sb.max) || 0;
@@ -415,6 +424,7 @@ namespace statusbars {
      */
     //% block="set $status=variables_get(statusbar) max $max"
     //% blockId="statusbars_setMax"
+    //% group="Max"
     //% weight=79 blockGap=8
     export function setMax(status: Sprite, max: number) {
         applyChange(status, sb => {
@@ -428,6 +438,7 @@ namespace statusbars {
      */
     //% block="change $status=variables_get(statusbar) max by $value"
     //% blockId="statusbars_changeMaxBy"
+    //% group="Max"
     //% weight=78
     export function changeMaxBy(status: Sprite, value: number) {
         applyChange(status, sb => {
@@ -443,6 +454,7 @@ namespace statusbars {
     //% block="set $status=variables_get(statusbar) label $label||$color"
     //% blockId="statusbar_setLabel"
     //% color.shadow="colorindexpicker"
+    //% group="Display"
     //% weight=69
     export function setLabel(status: Sprite, label: string, color?: number) {
         applyChange(status, sb => {
@@ -460,6 +472,7 @@ namespace statusbars {
     //% block="set $status=variables_get(statusbar) border width $borderWidth $color"
     //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
+    //% group="Display"
     //% weight=68
     export function setBarBorder(status: Sprite, borderWidth: number, color: number) {
         applyChange(status, sb => {
@@ -472,6 +485,7 @@ namespace statusbars {
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
+    //% group="Effects"
     //% weight=74
     export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
@@ -482,6 +496,34 @@ namespace statusbars {
             sb.spriteToFollow = toFollow;
             sb.followPadding = padding;
             sb.followAlignment = alignment;
+        });
+    }
+
+    //% block="on $statusbar=variables_get(statusbar) zero $status"
+    //% blockId="statusbars_onZero"
+    //% handlerStatement=1
+    //% draggableParameters="reporter"
+    //% group="Events"
+    //% weight=60
+    export function onZero(statusbar: Sprite, handler: (status: Sprite) => void) {
+        applyChange(statusbar, sb => {
+            sb.onZeroHandler = () => {
+                handler(statusbar);
+            }
+        });
+    }
+
+    //% block="on $statusbar=variables_get(statusbar) display updated $status $image"
+    //% blockId="statusbars_postprocessDisplay"
+    //% handlerStatement=1
+    //% draggableParameters="reporter"
+    //% group="Events"
+    //% weight=59
+    export function onDisplayUpdated(statusbar: Sprite, handler: (status: Sprite, image: Image) => void) {
+        applyChange(statusbar, sb => {
+            sb.postProcessingHandler = (im: Image) => {
+                handler(statusbar, im);
+            }
         });
     }
 
