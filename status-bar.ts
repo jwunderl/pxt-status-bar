@@ -443,9 +443,10 @@ namespace statusbars {
         return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
-    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite) || padding $padding alignment $alignment"
+    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
+    //% inlineInputMode="inline"
     export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
