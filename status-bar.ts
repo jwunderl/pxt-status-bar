@@ -18,11 +18,40 @@ namespace SpriteKind {
     export const StatusBar = SpriteKind.create();
 }
 
+namespace StatusBarKind {
+    /**
+     * Gets the "kind" of a status bar
+     */
+    //% shim=KIND_GET
+    //% blockId="statusbars_kind" block="$kind"
+    //% kindNamespace=StatusBarKind kindMemberName=kind kindPromptHint="e.g. Hungry, Thirst, ..."
+    //% blockHidden=true
+    export function _statusbarKind(kind: number): number {
+        return kind;
+    }
+
+    let nextKind: number
+    export function create() {
+        if (nextKind === undefined) nextKind = 1;
+        return nextKind++;
+    }
+
+    //% isKind
+    export const Health = create();
+
+    //% isKind
+    export const Energy = create();
+
+    //% isKind
+    export const Magic = create();
+
+    //% isKind
+    export const EnemyHealth = create();
+
+}
+
 // TODO: option to show both target and display value, option to freeze at display value;
 // allow for dark souls / fighting style game animations
-
-// TODO: [on {status} zero] event handler and on display updated: maybe drop blocks for them?
-// the semantics are pretty weird, as the draggable param will just be the passed on at creation time
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
@@ -39,8 +68,13 @@ namespace SpriteKind {
 //% groups='["Create", "Value", "Max", "Effects", "Display", "Events"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
+    const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
+    const ZERO_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_ZERO";
+    const POST_PROCESS_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_DISPLAY_UPDATE";
 
     class StatusBar {
+        // the sprite this is attached to
+        sprite: Sprite;
         borderWidth: number;
         // if not set, use offColor
         borderColor: number;
@@ -49,7 +83,6 @@ namespace statusbars {
         protected flags: number;
         protected _label: string;
         protected _image: Image;
-
         spriteToFollow: Sprite;
         // how far away from touching the sprite to be
         followPadding: number;
@@ -63,16 +96,14 @@ namespace statusbars {
         protected target: number;
 
         hasHitZero: boolean;
-        onZeroHandler: () => void;
-
-        postProcessingHandler: (im: Image) => void;
 
         constructor(
             protected barWidth: number,
             protected barHeight: number,
             public onColor: number,
             public offColor: number,
-            protected _max: number
+            protected _max: number,
+            public kind: number
         ) {
             this.borderWidth = 0;
             this.borderColor = undefined;
@@ -138,8 +169,9 @@ namespace statusbars {
 
             if (v <= 0 && !this.hasHitZero) {
                 this.hasHitZero = true;
-                if (this.onZeroHandler)
-                    this.onZeroHandler();
+                const handler = (getZeroHandlers() || [])[this.kind];
+                if (handler)
+                    handler(this.sprite);
             } else if (v > 0 && this.hasHitZero) {
                 // reset if this was below zero and has been refilled
                 this.hasHitZero = false;
@@ -309,8 +341,9 @@ namespace statusbars {
                 this.image.fillRect(x, y, w, h, this.onColor);
             }
 
-            if (this.postProcessingHandler)
-                this.postProcessingHandler(this.image);
+            const handler = (getPostProcessHandlers() || [])[this.kind];
+            if (handler)
+                handler(this.sprite, this.image);
         }
     }
 
@@ -319,18 +352,23 @@ namespace statusbars {
      * @param height height of status bar, eg: 4
      * @param max max value for this status, eg: 100
      */
-    //% block="create status bar width $width height $height max value $max"
+    //% block="create status bar width $width height $height max value $max kind $kind"
+    //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
     //% blockSetVariable="status bar"
+    //% inlineInputMode="inline"
     //% group="Create"
     //% weight=100
     export function createSprite(
         width: number,
         height: number,
-        max: number
+        max: number,
+        kind: number
     ) {
-        const sb = new StatusBar(width, height, 0x7, 0x2, max);
+        const sb = new StatusBar(width, height, 0x7, 0x2, max, kind);
         const output = sprites.create(sb.image, SpriteKind.StatusBar);
+
+        sb.sprite = output;
 
         output.setFlag(SpriteFlag.RelativeToCamera, true);
         output.setFlag(SpriteFlag.Ghost, true);
@@ -369,7 +407,7 @@ namespace statusbars {
 
     /**
      * @param status status bar to change value of
-     * @param value value to change status by, eg: 10
+     * @param value value to change status by, eg: -10
      */
     //% block="change $status=variables_get(status bar) value by $value"
     //% blockId="statusbars_changeValueBy"
@@ -408,7 +446,7 @@ namespace statusbars {
 
     /**
      * @param status status bar to change max of
-     * @param value value to change max by, eg: 10
+     * @param value value to change max by, eg: -10
      */
     //% block="change $status=variables_get(status bar) max by $value"
     //% blockId="statusbars_changeMaxBy"
@@ -501,38 +539,38 @@ namespace statusbars {
         });
     }
 
-    //% block="on $statusbar=variables_get(status bar) zero $status"
+    //% block="on status bar kind $kind zero $status"
     //% blockId="statusbars_onZero"
-    //% handlerStatement=1
+    //% kind.shadow="statusbars_kind"
     //% draggableParameters="reporter"
     //% group="Events"
     //% weight=60
-    export function onZero(statusbar: Sprite, handler: (status: Sprite) => void) {
-        applyChange(statusbar, sb => {
-            sb.onZeroHandler = () => {
-                handler(statusbar);
-            }
-        });
+    export function onZero(kind: number, handler: (status: Sprite) => void) {
+        let zeroHandlers = getZeroHandlers();
+        if (!zeroHandlers) {
+            game.currentScene().data[ZERO_HANDLERS_KEY] = zeroHandlers = [];
+        }
+        zeroHandlers[kind] = handler;
     }
 
-    //% block="on $statusbar=variables_get(status bar) display updated $status $image"
+    //% block="on status bar kind $kind display updated $status $image"
+    //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_postprocessDisplay"
-    //% handlerStatement=1
     //% draggableParameters="reporter"
     //% group="Events"
     //% weight=59
-    export function onDisplayUpdated(statusbar: Sprite, handler: (status: Sprite, image: Image) => void) {
-        applyChange(statusbar, sb => {
-            sb.postProcessingHandler = (im: Image) => {
-                handler(statusbar, im);
-            }
-        });
+    export function onDisplayUpdated(kind: number, handler: (status: Sprite, image: Image) => void) {
+        let displayUpdateHandlers = getPostProcessHandlers();
+        if (!displayUpdateHandlers) {
+            game.currentScene().data[POST_PROCESS_HANDLERS_KEY] = displayUpdateHandlers = [];
+        }
+        displayUpdateHandlers[kind] = handler;
     }
 
     function init(s: Sprite) {
         let managedSprites = getManagedSprites();
         if (!managedSprites) {
-            game.currentScene().data[STATUS_BAR_DATA_KEY] = managedSprites = [] as Sprite[];
+            game.currentScene().data[MANAGED_SPRITES_KEY] = managedSprites = [] as Sprite[];
             game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY + 5, () => {
                 const managed = getManagedSprites();
                 for (let i = managed.length - 1; i >= 0; --i) {
@@ -580,8 +618,20 @@ namespace statusbars {
         return status.data[STATUS_BAR_DATA_KEY] as StatusBar;
     }
 
+    function getSceneData(key: string) {
+        return game.currentScene().data[key];
+    }
+
     function getManagedSprites() {
-        return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
+        return getSceneData(MANAGED_SPRITES_KEY) as Sprite[];
+    }
+
+    function getZeroHandlers() {
+        return getSceneData(ZERO_HANDLERS_KEY) as ((status: Sprite) => void)[];
+    }
+
+    function getPostProcessHandlers() {
+        return getSceneData(POST_PROCESS_HANDLERS_KEY) as ((status: Sprite, image: Image) => void)[];
     }
 
     namespace util {
@@ -590,4 +640,3 @@ namespace statusbars {
         }
     }
 }
-
