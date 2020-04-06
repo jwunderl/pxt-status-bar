@@ -321,7 +321,7 @@ namespace statusbars {
      */
     //% block="create status bar width $width height $height max value $max"
     //% blockId="statusbars_create"
-    //% blockSetVariable="statusbar"
+    //% blockSetVariable="status bar"
     //% group="Create"
     //% weight=100
     export function createSprite(
@@ -345,7 +345,7 @@ namespace statusbars {
     /**
      * @param status status bar to get value of
      */
-    //% block="status $status=variables_get(statusbar) value"
+    //% block="status $status=variables_get(status bar) value"
     //% blockId="statusbars_getValue"
     //% group="Value"
     //% weight=85
@@ -357,7 +357,7 @@ namespace statusbars {
      * @param status status bar to set value of
      * @param value value to set status to, eg: 50
      */
-    //% block="set $status=variables_get(statusbar) value to $value"
+    //% block="set $status=variables_get(status bar) value to $value"
     //% blockId="statusbars_setValue"
     //% group="Value"
     //% weight=84
@@ -371,7 +371,7 @@ namespace statusbars {
      * @param status status bar to change value of
      * @param value value to change status by, eg: 10
      */
-    //% block="change $status=variables_get(statusbar) value by $value"
+    //% block="change $status=variables_get(status bar) value by $value"
     //% blockId="statusbars_changeValueBy"
     //% group="Value"
     //% weight=83
@@ -384,7 +384,7 @@ namespace statusbars {
     /**
      * @param status status bar to get max of
      */
-    //% block="status $status=variables_get(statusbar) max"
+    //% block="status $status=variables_get(status bar) max"
     //% blockId="statusbars_getMax"
     //% group="Max"
     //% weight=80
@@ -396,7 +396,7 @@ namespace statusbars {
      * @param status status bar to change max of
      * @param max max value for this status, eg: 100
      */
-    //% block="set $status=variables_get(statusbar) max $max"
+    //% block="set $status=variables_get(status bar) max $max"
     //% blockId="statusbars_setMax"
     //% group="Max"
     //% weight=79
@@ -410,7 +410,7 @@ namespace statusbars {
      * @param status status bar to change max of
      * @param vaule value to change max by, eg: 10
      */
-    //% block="change $status=variables_get(statusbar) max by $value"
+    //% block="change $status=variables_get(status bar) max by $value"
     //% blockId="statusbars_changeMaxBy"
     //% group="Max"
     //% weight=78
@@ -420,7 +420,7 @@ namespace statusbars {
         });
     }
 
-    //% block="set $status=variables_get(statusbar) $flag $on=toggleOnOff"
+    //% block="set $status=variables_get(status bar) $flag $on=toggleOnOff"
     //% blockId="statusbars_setFlag"
     //% group="Effects"
     //% weight=75
@@ -430,7 +430,7 @@ namespace statusbars {
         });
     }
 
-    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
+    //% block="attach $status=variables_get(status bar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
@@ -453,7 +453,7 @@ namespace statusbars {
      * @param fillColor color to fill bar with, eg: 0x7
      * @param bkgdColor bar background color, eg: 0x2
      */
-    //% block="set $status=variables_get(statusbar) fill $fillColor background $bkgdColor"
+    //% block="set $status=variables_get(status bar) fill $fillColor background $bkgdColor"
     //% blockId="statusbars_setColor"
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
@@ -471,7 +471,7 @@ namespace statusbars {
      * @param borderWidth width of border in pixels, eg: 1
      * @param color color of border, eg: 0xd
      */
-    //% block="set $status=variables_get(statusbar) border width $borderWidth $color"
+    //% block="set $status=variables_get(status bar) border width $borderWidth $color"
     //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
     //% group="Display"
@@ -488,7 +488,7 @@ namespace statusbars {
      * @param label label to add to status bar, eg: HP
      * @param color color of label, eg: 0x1
      */
-    //% block="set $status=variables_get(statusbar) label $label||$color"
+    //% block="set $status=variables_get(status bar) label $label||$color"
     //% blockId="statusbar_setLabel"
     //% color.shadow="colorindexpicker"
     //% group="Display"
@@ -501,7 +501,7 @@ namespace statusbars {
         });
     }
 
-    //% block="on $statusbar=variables_get(statusbar) zero $status"
+    //% block="on $statusbar=variables_get(status bar) zero $status"
     //% blockId="statusbars_onZero"
     //% handlerStatement=1
     //% draggableParameters="reporter"
@@ -515,7 +515,7 @@ namespace statusbars {
         });
     }
 
-    //% block="on $statusbar=variables_get(statusbar) display updated $status $image"
+    //% block="on $statusbar=variables_get(status bar) display updated $status $image"
     //% blockId="statusbars_postprocessDisplay"
     //% handlerStatement=1
     //% draggableParameters="reporter"
