@@ -309,8 +309,10 @@ namespace statusbars {
         }
     }
 
-    //% block="create status bar width $width height $heightmax value $max"
+    //% block="create status bar width $width height $height max value $max"
+    //% blockId="statusbars_create"
     //% blockSetVariable="statusbar"
+    //% weight=100
     export function createSprite(
         width: number,
         height: number,
@@ -336,8 +338,10 @@ namespace statusbars {
      * @param bkgdColor: bar background color; e.g. 2
      */
     //% block="set $status=variables_get(statusbar) fill $fillColor background $bkgdColor"
+    //% blockId="statusbars_setColor"
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
+    //% weight=90
     export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
         applyChange(status, sb => {
             sb.onColor = fillColor;
@@ -379,6 +383,7 @@ namespace statusbars {
     }
 
     //% block="set $sprite=variables_get(status) $flag $on=toggleOnOff"
+    //% blockId="statusbars_setFlag"
     export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
         applyChange(sprite, sb => {
             sb.setFlag(flag, on);
@@ -438,7 +443,9 @@ namespace statusbars {
         return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
-    //% block
+    //% block="attach $status=variables_get(statusbar) to $toFollow=variables_get(mySprite) || padding $padding alignment $alignment"
+    //% blockId="statusbars_attachToSprite"
+    //% expandableArgumentMode="toggle"
     export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
