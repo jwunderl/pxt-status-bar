@@ -25,6 +25,7 @@ namespace SpriteKind {
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
+//% color=#22212f weight=79 icon="\uf240" blockGap=8
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
 
@@ -302,6 +303,7 @@ namespace statusbars {
         }
     }
 
+    //% block
     export function createSprite(
         width: number,
         height: number,
@@ -355,24 +357,28 @@ namespace statusbars {
         managedSprites.push(s);
     }
 
+    //% block
     export function setFlag(sprite: Sprite, flag: StatusBarFlag, on: boolean) {
         applyChange(sprite, sb => {
             sb.setFlag(flag, on);
         });
     }
 
+    //% block
     export function setMax(sprite: Sprite, max: number) {
         applyChange(sprite, sb => {
             sb.max = max;
         });
     }
 
+    //% block
     export function setCurrent(sprite: Sprite, current: number) {
         applyChange(sprite, sb => {
             sb.current = current;
         });
     }
 
+    //% block
     export function setLabel(sprite: Sprite, label: string, color?: number) {
         applyChange(sprite, sb => {
             if (color)
@@ -381,6 +387,7 @@ namespace statusbars {
         });
     }
 
+    //% block
     export function setBarBorder(sprite: Sprite, borderWidth: number, color: number) {
         applyChange(sprite, sb => {
             sb.borderColor = color;
@@ -410,6 +417,7 @@ namespace statusbars {
         return game.currentScene().data[STATUS_BAR_DATA_KEY] as Sprite[];
     }
 
+    //% block
     export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
