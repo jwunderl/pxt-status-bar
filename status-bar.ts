@@ -32,7 +32,10 @@ namespace SpriteKind {
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
-//% color=#38364d weight=79 icon="\uf240"
+//% color=#38364d
+//% weight=79
+//% icon="\uf240"
+//% blockGap=8
 //% groups='["Create", "Value", "Max", "Effects", "Display", "Events"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
@@ -345,7 +348,7 @@ namespace statusbars {
     //% block="status $status=variables_get(statusbar) value"
     //% blockId="statusbars_getValue"
     //% group="Value"
-    //% weight=85 blockGap=8
+    //% weight=85
     export function value(status: Sprite) {
         return applyChange(status, sb => sb.current) || 0;
     }
@@ -357,7 +360,7 @@ namespace statusbars {
     //% block="set $status=variables_get(statusbar) value to $value"
     //% blockId="statusbars_setValue"
     //% group="Value"
-    //% weight=84 blockGap=8
+    //% weight=84
     export function setValue(status: Sprite, value: number) {
         applyChange(status, sb => {
             sb.current = value;
@@ -384,7 +387,7 @@ namespace statusbars {
     //% block="status $status=variables_get(statusbar) max"
     //% blockId="statusbars_getMax"
     //% group="Max"
-    //% weight=80 blockGap=8
+    //% weight=80
     export function max(status: Sprite) {
         return applyChange(status, sb => sb.max) || 0;
     }
@@ -396,7 +399,7 @@ namespace statusbars {
     //% block="set $status=variables_get(statusbar) max $max"
     //% blockId="statusbars_setMax"
     //% group="Max"
-    //% weight=79 blockGap=8
+    //% weight=79
     export function setMax(status: Sprite, max: number) {
         applyChange(status, sb => {
             sb.max = max;
@@ -464,24 +467,6 @@ namespace statusbars {
     }
 
     /**
-     * @param status status bar to add label to
-     * @param label label to add to status bar, eg: HP
-     * @param color color of label, eg: 0x1
-     */
-    //% block="set $status=variables_get(statusbar) label $label||$color"
-    //% blockId="statusbar_setLabel"
-    //% color.shadow="colorindexpicker"
-    //% group="Display"
-    //% weight=69
-    export function setLabel(status: Sprite, label: string, color?: number) {
-        applyChange(status, sb => {
-            if (color)
-                sb.labelColor = color;
-            sb.label = label;
-        });
-    }
-
-    /**
      * @param status status bar to add border to
      * @param borderWidth width of border in pixels, eg: 1
      * @param color color of border, eg: 0xd
@@ -490,11 +475,29 @@ namespace statusbars {
     //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
     //% group="Display"
-    //% weight=68
+    //% weight=69
     export function setBarBorder(status: Sprite, borderWidth: number, color: number) {
         applyChange(status, sb => {
             sb.borderColor = color;
             sb.borderWidth = borderWidth;
+        });
+    }
+
+    /**
+     * @param status status bar to add label to
+     * @param label label to add to status bar, eg: HP
+     * @param color color of label, eg: 0x1
+     */
+    //% block="set $status=variables_get(statusbar) label $label||$color"
+    //% blockId="statusbar_setLabel"
+    //% color.shadow="colorindexpicker"
+    //% group="Display"
+    //% weight=68
+    export function setLabel(status: Sprite, label: string, color?: number) {
+        applyChange(status, sb => {
+            if (color)
+                sb.labelColor = color;
+            sb.label = label;
         });
     }
 
