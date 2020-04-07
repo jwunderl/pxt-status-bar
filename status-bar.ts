@@ -66,7 +66,7 @@ namespace StatusBarKind {
 //% weight=79
 //% icon="\uf240"
 //% blockGap=8
-//% groups='["Create", "Value", "Effects", "Display", "Max", "Events", "Other"]'
+//% groups='["Create", "Value", "Display", "Max", "Events", "Other"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
@@ -363,7 +363,6 @@ namespace statusbars {
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
     //% blockSetVariable="status bar"
-    //% inlineInputMode="inline"
     //% group="Create"
     //% weight=100
     export function createSprite(
@@ -385,6 +384,24 @@ namespace statusbars {
         init(output);
 
         return output;
+    }
+
+    //% block="attach $status=variables_get(status bar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
+    //% blockId="statusbars_attachToSprite"
+    //% expandableArgumentMode="toggle"
+    //% inlineInputMode="inline"
+    //% group="Create"
+    //% weight=99
+    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
+        applyChange(status, sb => {
+            // reset this to the default value;
+            // this will be changed with the follow logic to match toFollow,
+            // but if this is being reassigned it should handle that gracefully
+            status.setFlag(SpriteFlag.RelativeToCamera, true);
+            sb.spriteToFollow = toFollow;
+            sb.followPadding = padding;
+            sb.followAlignment = alignment;
+        });
     }
 
     /**
@@ -423,34 +440,6 @@ namespace statusbars {
     export function changeValueBy(status: Sprite, value: number) {
         applyChange(status, sb => {
             sb.current += value;
-        });
-    }
-
-    //% block="set $status=variables_get(status bar) $flag $on=toggleOnOff"
-    //% blockId="statusbars_setFlag"
-    //% group="Effects"
-    //% weight=80
-    export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
-        applyChange(status, sb => {
-            sb.setFlag(flag, on);
-        });
-    }
-
-    //% block="attach $status=variables_get(status bar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
-    //% blockId="statusbars_attachToSprite"
-    //% expandableArgumentMode="toggle"
-    //% inlineInputMode="inline"
-    //% group="Effects"
-    //% weight=79
-    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
-        applyChange(status, sb => {
-            // reset this to the default value;
-            // this will be changed with the follow logic to match toFollow,
-            // but if this is being reassigned it should handle that gracefully
-            status.setFlag(SpriteFlag.RelativeToCamera, true);
-            sb.spriteToFollow = toFollow;
-            sb.followPadding = padding;
-            sb.followAlignment = alignment;
         });
     }
 
@@ -506,6 +495,17 @@ namespace statusbars {
             sb.label = label;
         });
     }
+
+    //% block="set $status=variables_get(status bar) $flag $on=toggleOnOff"
+    //% blockId="statusbars_setFlag"
+    //% group="Display"
+    //% weight=72
+    export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
+        applyChange(status, sb => {
+            sb.setFlag(flag, on);
+        });
+    }
+
 
     /**
      * @param status status bar to get max of
