@@ -359,7 +359,7 @@ namespace statusbars {
      * @param height height of status bar, eg: 4
      * @param max max value for this status, eg: 100
      */
-    //% block="create status bar width $width height $height max value $max kind $kind"
+    //% block="create status bar sprite width $width height $height max value $max kind $kind"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
     //% blockSetVariable="status bar"
