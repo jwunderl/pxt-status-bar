@@ -47,7 +47,7 @@ namespace StatusBarKind {
     //% isKind
     export const Magic = create();
 
-    //% isKind block="Enemy Health"
+    //% isKind
     export const EnemyHealth = create();
 
 }
