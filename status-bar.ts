@@ -65,7 +65,7 @@ namespace StatusBarKind {
 //% color=#38364d
 //% weight=79
 //% icon="\uf240"
-//% blockGap=8
+//% blockGap=8 block="Status Bars"
 //% groups='["Create", "Value", "Display", "Max", "Events", "Other"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
