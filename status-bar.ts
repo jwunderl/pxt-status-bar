@@ -1,14 +1,18 @@
 enum StatusBarFlag {
     //% blockHidden=true
     None = 0,
+    // if set, update bar over time; otherwise update bar immediately
     //% block="smooth transition"
-    SmoothTransition = 1 << 0, // if set, update bar over time; otherwise update bar immediately
+    SmoothTransition = 1 << 0,
+    // if set, and label exists, draw label at bottom or right side
     //% block="label at end"
-    LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
+    LabelAtEnd = 1 << 1,
+    // if set, constrain values stored in status bar between 0 and max
     //% block="constrain value"
-    ConstrainAssignedValue = 1 << 2, // if set, constrain values stored in status bar between 0 and max
+    ConstrainAssignedValue = 1 << 2,
+    // if set, start 'on' from opposite side (top or right)
     //% block="invert fill direction"
-    InvertFillDirection = 1 << 4, // if set, start 'on' from opposite side (top or right)
+    InvertFillDirection = 1 << 4,
 }
 
 namespace SpriteKind {
@@ -43,7 +47,7 @@ namespace StatusBarKind {
     //% isKind
     export const Magic = create();
 
-    //% isKind
+    //% isKind block="Enemy Health"
     export const EnemyHealth = create();
 
 }
