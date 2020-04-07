@@ -32,7 +32,7 @@ const player = sprites.create(img`
     . . . . . f f . . f f . . . . .
 `)
 
-const sb2 = statusbars.createSprite(4, 20, 40, StatusBarKind.Energy);
+const sb2 = statusbars.createSprite(4, 20, 40, StatusBarKind.Health);
 statusbars.setBarBorder(sb2, 1, 0xb);
 statusbars.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
 controller.moveSprite(player)

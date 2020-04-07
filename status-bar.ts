@@ -371,7 +371,29 @@ namespace statusbars {
         max: number,
         kind: number
     ) {
-        const sb = new StatusBar(width, height, 0x7, 0x2, 0x3, max, kind);
+        let onColor = 0x7;
+        let offColor = 0x2;
+        let drainColor = 0x3;
+
+        if (kind === StatusBarKind.Energy) {
+            onColor = 0x5;
+            offColor = 0xB;
+            drainColor = 0x4;
+        } else if (kind === StatusBarKind.Magic) {
+            onColor = 0x8;
+            offColor = 0xB;
+            drainColor = 0x8;
+        }
+        
+        const sb = new StatusBar(
+            width,
+            height,
+            onColor,
+            offColor,
+            drainColor,
+            max,
+            kind
+        );
         const output = sprites.create(sb.image, SpriteKind.StatusBar);
 
         sb.sprite = output;
@@ -386,13 +408,13 @@ namespace statusbars {
         return output;
     }
 
-    //% block="attach $status=variables_get(status bar) to $toFollow=variables_get(mySprite)||padding $padding alignment $alignment"
+    //% block="attach $status=variables_get(status bar) to $toFollow=variables_get(mySprite)||padding $padding offset $offset"
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
     //% group="Create"
     //% weight=99
-    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, alignment = 0) {
+    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, offset = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
             // this will be changed with the follow logic to match toFollow,
@@ -400,7 +422,7 @@ namespace statusbars {
             status.setFlag(SpriteFlag.RelativeToCamera, true);
             sb.spriteToFollow = toFollow;
             sb.followPadding = padding;
-            sb.followAlignment = alignment;
+            sb.followAlignment = offset;
         });
     }
 
