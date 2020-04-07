@@ -7,8 +7,6 @@ enum StatusBarFlag {
     LabelAtEnd = 1 << 1, // if set, and label exists, draw label at bottom or right side
     //% block="constrain value"
     ConstrainAssignedValue = 1 << 2, // if set, constrain values stored in status bar between 0 and max
-    //% block="position at end"
-    PositionAtEnd = 1 << 3, // if set and bar is attached to a sprite, position on right or bottom (instead of top or left)
     //% block="invert fill direction"
     InvertFillDirection = 1 << 4, // if set, start 'on' from opposite side (top or right)
 }
@@ -84,11 +82,13 @@ namespace statusbars {
         protected flags: number;
         protected _label: string;
         protected _image: Image;
+
         spriteToFollow: Sprite;
         // how far away from touching the sprite to be
         followPadding: number;
-        // alignment beside sprite; -5 will offset bar 5 to the left or above (depending on horizontal / vertical bar)
-        followAlignment: number;
+        // offset beside sprite; -5 will offset bar 5 to the left or above (depending on horizontal / vertical bar)
+        followOffset: number;
+        explicitlySetDirection: CollisionDirection;
 
         protected font: image.Font;
 
@@ -123,20 +123,22 @@ namespace statusbars {
         }
 
         positionNextTo(status: Sprite, target: Sprite) {
-            const positionAtEnd = !!(this.flags & StatusBarFlag.PositionAtEnd);
             const padding = this.followPadding;
-            const alignment = this.followAlignment;
+            const alignment = this.followOffset;
+            const position = this.explicitlySetDirection != null ?
+                    this.explicitlySetDirection
+                    : (this.isVerticalBar() ? CollisionDirection.Left : CollisionDirection.Top);
 
-            if (this.isVerticalBar()) {
+            if (position === CollisionDirection.Left || position === CollisionDirection.Right) {
                 status.y = target.y + alignment;
-                if (positionAtEnd) {
+                if (position === CollisionDirection.Right) {
                     status.left = target.right + padding;
                 } else {
                     status.right = target.left - padding;
                 }
             } else {
                 status.x = target.x + alignment;
-                if (positionAtEnd) {
+                if (position === CollisionDirection.Bottom) {
                     status.top = target.bottom + padding;
                 } else {
                     status.bottom = target.top - padding;
@@ -422,7 +424,7 @@ namespace statusbars {
             status.setFlag(SpriteFlag.RelativeToCamera, true);
             sb.spriteToFollow = toFollow;
             sb.followPadding = padding;
-            sb.followAlignment = offset;
+            sb.followOffset = offset;
         });
     }
 
@@ -528,6 +530,15 @@ namespace statusbars {
         });
     }
 
+    //% block="set $status=variables_get(status bar) position to $dir of sprite"
+    //% blockId="statusbars_positionNextToSprite"
+    //% group="Display"
+    //% weight=71
+    export function positionNextToSprite(status: Sprite, dir: CollisionDirection) {
+        applyChange(status, sb => {
+            sb.explicitlySetDirection = dir;
+        });
+    }
 
     /**
      * @param status status bar to get max of
