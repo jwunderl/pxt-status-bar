@@ -70,24 +70,6 @@ class StatusBarSprite extends Sprite {
         super(_statusBar.image);
     }
 
-    //% block="attach $this(statusbar) to $toFollow=variables_get(mySprite)||padding $padding offset $offset"
-    //% blockId="statusbars_attachToSprite"
-    //% expandableArgumentMode="toggle"
-    //% inlineInputMode="inline"
-    //% group="Create"
-    //% weight=99
-    attachToSprite(toFollow: Sprite, padding = 0, offset = 0) {
-        this.applyChange(sb => {
-            // reset this to the default value;
-            // this will be changed with the follow logic to match toFollow,
-            // but if this is being reassigned it should handle that gracefully
-            this.setFlag(SpriteFlag.RelativeToCamera, true);
-            sb.spriteToFollow = toFollow;
-            sb.followPadding = padding;
-            sb.followOffset = offset;
-        });
-    }
-
     //% group="Value" blockSetVariable="statusbar"
     //% blockCombine block="value" callInDebugger
     get value(): number {
@@ -110,6 +92,32 @@ class StatusBarSprite extends Sprite {
         this.applyChange(sb => {
             sb.max = v;
         });
+    }
+
+    //% block="attach $this(statusbar) to $toFollow=variables_get(mySprite)||padding $padding offset $offset"
+    //% blockId="statusbars_attachToSprite"
+    //% expandableArgumentMode="toggle"
+    //% inlineInputMode="inline"
+    //% group="Attach"
+    //% weight=85
+    attachToSprite(toFollow: Sprite, padding = 0, offset = 0) {
+        this.applyChange(sb => {
+            // reset this to the default value;
+            // this will be changed with the follow logic to match toFollow,
+            // but if this is being reassigned it should handle that gracefully
+            this.setFlag(SpriteFlag.RelativeToCamera, true);
+            sb.spriteToFollow = toFollow;
+            sb.followPadding = padding;
+            sb.followOffset = offset;
+        });
+    }
+
+    //% block="sprite that $this(statusbar) is attached to"
+    //% blockId="statusbars_attachSpriteGetter"
+    //% group="Attach"
+    //% weight=83
+    spriteAttachedTo() {
+        return this.applyChange(sb => sb.spriteToFollow);
     }
 
     /**
@@ -181,26 +189,21 @@ class StatusBarSprite extends Sprite {
         });
     }
 
-    //% block="set $this(statusbar) position to $dir of sprite"
+    //% block="set $this(statusbar) position to $dir"
     //% blockId="statusbars_positionNextToSprite"
     //% group="Display"
     //% weight=71
-    positionNextToSprite(status: StatusBarSprite, dir: CollisionDirection) {
+    positionDirection(status: StatusBarSprite, dir: CollisionDirection) {
         this.applyChange(sb => {
             sb.explicitlySetDirection = dir;
+            if (!sb.spriteToFollow) {
+                
+            }
         });
     }
 
     freeze() {
         this.applyChange(sb => sb.freeze());
-    }
-    
-    //% block="sprite that $this(statusbar) is attached to"
-    //% blockId="statusbars_attachSpriteGetter"
-    //% group="Other"
-    //% weight=49
-    spriteAttachedTo() {
-        return this.applyChange(sb => sb.spriteToFollow);
     }
     
     private applyChange<T>(action: (sb: statusbars.StatusBar) => T): T {
@@ -221,7 +224,7 @@ class StatusBarSprite extends Sprite {
 //% weight=79
 //% icon="\uf240"
 //% blockGap=8 block="Status Bars"
-//% groups='["Create", "Value", "Display", "Events", "Other"]'
+//% groups='["Create", "Value", "Attach", "Display", "Events", "Other"]'
 namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
@@ -589,6 +592,17 @@ namespace statusbars {
         return output;
     }
 
+    //% block="status bar attached to $sprite=variables_get(mySprite)"
+    //% blockId="statusbars_spriteStatusBarIsAttachedTo"
+    //% group="Attach"
+    //% weight=84
+    export function getStatusBarAttachedTo(sprite: Sprite) {
+        const managedSprites = getManagedSprites();
+        if (!managedSprites || !sprite)
+            return undefined;
+        return managedSprites.find(s => applyChange(s, sb => sb.spriteToFollow === sprite));
+    }
+
     //% block="on status bar kind $kind zero $status"
     //% blockId="statusbars_onZero"
     //% kind.shadow="statusbars_kind"
@@ -621,6 +635,8 @@ namespace statusbars {
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_arrayOfKind"
     //% blockSetVariable="status bar list"
+    //% group="Other"
+    //% weight=45
     export function allOfKind(kind: number): Sprite[] {
         const managedSprites = getManagedSprites();
         if (!managedSprites)
@@ -629,15 +645,6 @@ namespace statusbars {
             const sb = status._statusBar;
             return sb && sb.kind === kind;
         });
-    }
-
-    //% block="status bar attached to $sprite=variables_get(mySprite)"
-    //% blockId="statusbars_spriteStatusBarIsAttachedTo"
-    export function getStatusBarAttachedTo(sprite: Sprite) {
-        const managedSprites = getManagedSprites();
-        if (!managedSprites || !sprite)
-            return undefined;
-        return managedSprites.find(s => applyChange(s, sb => sb.spriteToFollow === sprite));
     }
 
     function init(s: StatusBarSprite) {
