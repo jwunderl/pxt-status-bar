@@ -530,9 +530,8 @@ namespace statusbars {
     /**
      * @param width width of status bar, eg: 20
      * @param height height of status bar, eg: 4
-     * @param max max value for this status, eg: 100
      */
-    //% block="create status bar sprite width $width height $height max value $max kind $kind"
+    //% block="create status bar sprite width $width height $height kind $kind"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
     //% blockSetVariable="statusbar"
@@ -541,7 +540,6 @@ namespace statusbars {
     export function create(
         width: number,
         height: number,
-        max: number,
         kind: number
     ): StatusBarSprite {
         let onColor = 0x7;
@@ -564,7 +562,7 @@ namespace statusbars {
             onColor,
             offColor,
             drainColor,
-            max,
+            100,
             kind
         );
 

@@ -19,8 +19,9 @@ namespace myTiles {
         . . . . . . . . . . . . . . . .
     `
 }
+
 function test1() {
-    const status = statusbars.create(50, 3, 50, StatusBarKind.Health)
+    const status = statusbars.create(50, 3, StatusBarKind.Health)
     status.setColor(0x7, 0x5)
     // statusbars.setFlag(status, StatusBarFlag.InvertFillDirection, true);
     // statusbars.setFlag(status, StatusBarFlag.SmoothTransition, false);
@@ -32,7 +33,6 @@ function test1() {
     status.setBarBorder(1, 0xb);
     status.top = 5;
     status.left = 5;
-
 
     const player = sprites.create(img`
         . . . . . . f f f f . . . . . .
@@ -53,7 +53,7 @@ function test1() {
         . . . . . f f . . f f . . . . .
     `)
 
-    const sb2 = statusbars.create(4, 20, 40, StatusBarKind.Health);
+    const sb2 = statusbars.create(4, 20, StatusBarKind.Health);
     sb2.setBarBorder(1, 0xb);
     sb2.attachToSprite(player, -4, - (image.font5.charHeight / 2))
     controller.moveSprite(player)
@@ -72,20 +72,20 @@ function testIcon() {
     let health: StatusBarSprite = null
     let enemySb: StatusBarSprite = null
     tiles.setTilemap(tiles.createTilemap(
-                hex`0a0008000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`,
-                img`
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    . . . . . . . . . . 
-    `,
-                [myTiles.tile0,sprites.castle.tileGrass3],
-                TileScale.Sixteen
-            ))
+        hex`0a0008000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`,
+        img`
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+. . . . . . . . . . 
+`,
+        [myTiles.tile0,sprites.castle.tileGrass3],
+        TileScale.Sixteen
+    ))
     let player_character = sprites.create(img`
     . . . . . . . f f . . . . . . . . . . . 
     . . . . f f f f 2 f f . . . . . . . . . 
@@ -123,27 +123,12 @@ function testIcon() {
     . . . . f f f f f f f f f . . 
     . . . . . f f f f f f f . . . 
     `, SpriteKind.Enemy)
-    enemySb = statusbars.create(
-    20,
-    4,
-    50,
-    StatusBarKind.EnemyHealth
-    )
+    enemySb = statusbars.create(20, 4, StatusBarKind.EnemyHealth)
     enemySb.setBarBorder(1, 12)
     enemySb.attachToSprite(enemy, 3)
     enemySb.value = 11
-    health = statusbars.create(
-    5,
-    40,
-    100,
-    StatusBarKind.Health
-    )
-    let magic = statusbars.create(
-    40,
-    5,
-    100,
-    StatusBarKind.Magic
-    )
+    health = statusbars.create(5, 40, StatusBarKind.Health)
+    let magic = statusbars.create(40, 5, StatusBarKind.Magic)
     health.setBarBorder(1, 12)
     magic.setBarBorder(1, 11)
     health.x = player_character.left - 7
