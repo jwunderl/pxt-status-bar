@@ -138,6 +138,10 @@ function testIcon() {
     magic.bottom = health.bottom;
     magic.left = health.right + 1;
     magic.value = 30;
+
+    controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+        health.value -= 10;
+    })
 }
 
 testIcon()

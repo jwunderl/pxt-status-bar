@@ -12,7 +12,10 @@ enum StatusBarFlag {
     ConstrainAssignedValue = 1 << 2,
     // if set, start 'on' from opposite side (top or right)
     //% block="invert fill direction"
-    InvertFillDirection = 1 << 4,
+    InvertFillDirection = 1 << 3,
+    // if set, do not immediately show target when transitioning
+    //% block="hide transition preview"
+    HideTargetPreview = 1 << 4,
 }
 
 namespace SpriteKind {
@@ -50,10 +53,6 @@ namespace StatusBarKind {
     //% isKind
     export const EnemyHealth = create();
 }
-
-// TODO: option to show both target and display value, option to freeze at display value;
-// allow for dark souls / fighting style game animations
-// ^^ .drainColor && .freeze, needs to be exposed if wanted
 
 // TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
 
@@ -116,17 +115,23 @@ class StatusBarSprite extends Sprite {
      * @param status status bar to apply change to
      * @param fillColor color to fill bar with, eg: 0x7
      * @param bkgdColor bar background color, eg: 0x2
+     * @param drainColor color to show while value is being changed; eg: 0x3
      */
-    //% block="set $this(statusbar) fill $fillColor background $bkgdColor"
+    //% block="set $this(statusbar) fill $fillColor background $bkgdColor||drain color $drainColor"
     //% blockId="statusbars_setColor"
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
+    //% drainColor.shadow="colorindexpicker"
     //% group="Display"
     //% weight=75
-    setColor(fillColor: number, bkgdColor: number) {
+    setColor(fillColor: number, bkgdColor: number, drainColor?: number) {
         this.applyChange(sb => {
             sb.onColor = fillColor;
             sb.offColor = bkgdColor;
+
+            if (drainColor != null) {
+                sb.drainColor = drainColor;
+            }
         });
     }
 
@@ -185,6 +190,9 @@ class StatusBarSprite extends Sprite {
         });
     }
 
+    freeze() {
+        this.applyChange(sb => sb.freeze());
+    }
     
     //% block="sprite that $status=(statusbar) is attached to"
     //% blockId="statusbars_attachSpriteGetter"
@@ -416,13 +424,6 @@ namespace statusbars {
 
         updateDisplay() {
             this.image.fill(0x0);
-
-            const percent = Math.constrain(
-                this.displayValue / this._max,
-                0,
-                1.0
-            );
-
             const fillWidth = this.barWidth - 2 * this.borderWidth;
             const fillHeight = this.barHeight - 2 * this.borderWidth;
             const barIsVertical = this.isVerticalBar();
@@ -489,13 +490,34 @@ namespace statusbars {
                 this.offColor
             );
 
-            if (percent > 0) {
+            if (this.displayValue > 0) {
+                const showTarget = !(this.flags & StatusBarFlag.HideTargetPreview);
                 const invertDir = (this.flags & StatusBarFlag.InvertFillDirection);
-                const w = barIsVertical ? fillWidth : Math.round(fillWidth * percent);
-                const h = barIsVertical ? Math.round(fillHeight * percent) : fillHeight;
-                const x = barLeft + this.borderWidth + ((barIsVertical || !invertDir) ? 0 : fillWidth - w);
-                const y = barTop + this.borderWidth + ((barIsVertical && !invertDir ? fillHeight - h : 0));
-                this.image.fillRect(x, y, w, h, this.onColor);
+
+                if (showTarget) {
+                    const drainPercent = Math.constrain(
+                        (this.displayValue) / this._max,
+                        0,
+                        1.0
+                    );
+                    const dw = barIsVertical ? fillWidth : Math.round(fillWidth * drainPercent);
+                    const dh = barIsVertical ? Math.round(fillHeight * drainPercent) : fillHeight;
+                    const dx = barLeft + this.borderWidth + ((barIsVertical || !invertDir) ? 0 : fillWidth - dw);
+                    const dy = barTop + this.borderWidth + ((barIsVertical && !invertDir ? fillHeight - dh : 0));
+                    this.image.fillRect(dx, dy, dw, dh, this.drainColor);
+                }
+
+                const percent = Math.constrain(
+                    this.target / this._max,
+                    0,
+                    1.0
+                );
+
+                const tw = barIsVertical ? fillWidth : Math.round(fillWidth * percent);
+                const th = barIsVertical ? Math.round(fillHeight * percent) : fillHeight;
+                const tx = barLeft + this.borderWidth + ((barIsVertical || !invertDir) ? 0 : fillWidth - tw);
+                const ty = barTop + this.borderWidth + ((barIsVertical && !invertDir ? fillHeight - th : 0));
+                this.image.fillRect(tx, ty, tw, th, this.onColor);
             }
 
             const handler = (getPostProcessHandlers() || [])[this.kind];
@@ -512,7 +534,7 @@ namespace statusbars {
     //% block="create status bar sprite width $width height $height max value $max kind $kind"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
-    //% blockSetVariable="status bar"
+    //% blockSetVariable="statusbar"
     //% group="Create"
     //% weight=100
     export function create(
@@ -532,7 +554,7 @@ namespace statusbars {
         } else if (kind === StatusBarKind.Magic) {
             onColor = 0x8;
             offColor = 0xB;
-            drainColor = 0x8;
+            drainColor = 0x9;
         }
         
         const sb = new StatusBar(
