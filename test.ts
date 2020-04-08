@@ -20,6 +20,8 @@ namespace myTiles {
     `
 }
 
+music.setVolume(0)
+
 function test1() {
     const status = statusbars.create(50, 3, StatusBarKind.Health)
     status.setColor(0x7, 0x5)
