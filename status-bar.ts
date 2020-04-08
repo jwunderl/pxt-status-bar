@@ -16,6 +16,9 @@ enum StatusBarFlag {
     // if set, do not immediately show target when transitioning
     //% block="hide transition preview"
     HideTargetPreview = 1 << 4,
+    // if set, do not destroy this status bar when sprite it is attached to is destroyed
+    //% block="no autodestroy on attached destroy"
+    NoAutoDestroy = 1 << 5,
 }
 
 namespace SpriteKind {
@@ -192,7 +195,7 @@ class StatusBarSprite extends Sprite {
         this.applyChange(sb => sb.freeze());
     }
     
-    //% block="sprite that $status=(statusbar) is attached to"
+    //% block="sprite that $this(statusbar) is attached to"
     //% blockId="statusbars_attachSpriteGetter"
     //% group="Other"
     //% weight=49
@@ -233,7 +236,7 @@ namespace statusbars {
         borderColor: number;
         labelColor: number;
 
-        protected flags: number;
+        flags: number;
         protected _label: string;
         protected _image: Image;
 
@@ -639,17 +642,15 @@ namespace statusbars {
                 for (let i = managed.length - 1; i >= 0; --i) {
                     const spr = managed[i];
                     const sb = spr._statusBar;
-                    if (spr.flags & sprites.Flag.Destroyed) {
-                        // give the garbage collector a helping hand
-                        sb.sprite = undefined;
-                        managed.removeAt(i);
-                        continue;
-                    }
                     if (sb) {
                         sb.updateState();
 
                         const { spriteToFollow } = sb;
                         if (spriteToFollow) {
+                            if (spriteToFollow.flags & sprites.Flag.Destroyed
+                                    && !(sb.flags & StatusBarFlag.NoAutoDestroy)) {
+                                spr.destroy();
+                            }
                             const toFollowIsRelativeToCamera = !!(spriteToFollow.flags & SpriteFlag.RelativeToCamera);
                             if (!!(spr.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
                                 spr.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
@@ -657,6 +658,13 @@ namespace statusbars {
 
                             sb.positionNextTo(spr, spriteToFollow);
                         }
+                    }
+
+                    if (spr.flags & sprites.Flag.Destroyed) {
+                        // give the garbage collector a helping hand
+                        sb.sprite = undefined;
+                        managed.removeAt(i);
+                        continue;
                     }
                 }
             });

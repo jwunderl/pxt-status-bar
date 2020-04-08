@@ -69,78 +69,101 @@ function test1() {
 }
 
 function testIcon() {
+    let health: StatusBarSprite = null
+    let enemySb: StatusBarSprite = null
     tiles.setTilemap(tiles.createTilemap(
-            hex`0a0008000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`,
-            img`
-                . . . . . . . . . .
-                . . . . . . . . . .
-                . . . . . . . . . .
-                . . . . . . . . . .
-                . . . . . . . . . .
-                . . . . . . . . . .
-                . . . . . . . . . .
-                . . . . . . . . . .
-            `,
-            [myTiles.tile0,sprites.castle.tileGrass3],
-            TileScale.Sixteen
-        ))
+                hex`0a0008000101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101010101`,
+                img`
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    . . . . . . . . . . 
+    `,
+                [myTiles.tile0,sprites.castle.tileGrass3],
+                TileScale.Sixteen
+            ))
+    let player_character = sprites.create(img`
+    . . . . . . . f f . . . . . . . . . . . 
+    . . . . f f f f 2 f f . . . . . . . . . 
+    . . f f e e e e f 2 f f . . . . . . . . 
+    . f f e e e e e f 2 2 f f . . . . . . . 
+    . f e e e e f f e e e e f . . . . . . . 
+    . f f f f f e e 2 2 2 2 e f . . . . . . 
+    f f f e 2 2 2 f f f f e 2 f . . . . . . 
+    f f f f f f f f e e e f f f . . . . . . 
+    f e f e 4 4 e b f 4 4 e e f . . . . . . 
+    . f e e 4 d 4 b f d d e f . . . . . . . 
+    . . f e e e 4 d d d e e . c . . . . . . 
+    . . . f 2 2 2 2 e e d d e c c c c c c c 
+    . . . f 4 4 4 e 4 4 d d e c d d d d d . 
+    . . . f f f f f e e e e . c c c c c . . 
+    . . f f f f f f f f . . . c . . . . . . 
+    . . f f f . . f f . . . . . . . . . . . 
+    `, SpriteKind.Player)
+    player_character.x += -15
+    let enemy = sprites.create(img`
+    . . . . f f f f f . . . . . . 
+    . . f f 1 1 1 1 b f f . . . . 
+    . f b 1 1 1 1 1 1 1 b f . . . 
+    . f 1 1 1 1 1 1 1 1 1 f . . . 
+    f d 1 1 1 1 1 1 1 f f f f . . 
+    f d 1 1 1 d d 1 c 1 1 1 b f . 
+    f b 1 1 f c d f 1 b 1 b f f . 
+    f 1 1 1 1 1 b f b f b f f . . 
+    f 1 b 1 b d f c f f f f . . . 
+    f b f b f c f c c c f . . . . 
+    f f f f f f f f f f . . . . . 
+    . . . f f f f f f . . . . . . 
+    . . . f f f f f f . . . . . . 
+    . . . f f f f f f f . . f . . 
+    . . . . f f f f f f f f f . . 
+    . . . . . f f f f f f f . . . 
+    `, SpriteKind.Enemy)
+    enemySb = statusbars.create(
+    20,
+    4,
+    50,
+    StatusBarKind.EnemyHealth
+    )
+    enemySb.setBarBorder(1, 12)
+    enemySb.attachToSprite(enemy, 3)
+    enemySb.value = 11
+    health = statusbars.create(
+    5,
+    40,
+    100,
+    StatusBarKind.Health
+    )
+    let magic = statusbars.create(
+    40,
+    5,
+    100,
+    StatusBarKind.Magic
+    )
+    health.setBarBorder(1, 12)
+    magic.setBarBorder(1, 11)
+    health.x = player_character.left - 7
+    health.y += -3
+    health.value = 75
+    magic.bottom = health.bottom
+    magic.left = health.right + 1
+    magic.value = 30
 
-    const player = sprites.create(img`
-        . . . . . . . f f . . . . . . . . . . .
-        . . . . f f f f 2 f f . . . . . . . . .
-        . . f f e e e e f 2 f f . . . . . . . .
-        . f f e e e e e f 2 2 f f . . . . . . .
-        . f e e e e f f e e e e f . . . . . . .
-        . f f f f f e e 2 2 2 2 e f . . . . . .
-        f f f e 2 2 2 f f f f e 2 f . . . . . .
-        f f f f f f f f e e e f f f . . . . . .
-        f e f e 4 4 e b f 4 4 e e f . . . . . .
-        . f e e 4 d 4 b f d d e f . . . . . . .
-        . . f e e e 4 d d d e e . c . . . . . .
-        . . . f 2 2 2 2 e e d d e c c c c c c c
-        . . . f 4 4 4 e 4 4 d d e c d d d d d .
-        . . . f f f f f e e e e . c c c c c . .
-        . . f f f f f f f f . . . c . . . . . .
-        . . f f f . . f f . . . . . . . . . . .
-    `)
-    player.x -= 16;
-
-    const enemy = sprites.create(img`
-        . . . . f f f f f . . . . . .
-        . . f f 1 1 1 1 b f f . . . .
-        . f b 1 1 1 1 1 1 1 b f . . .
-        . f 1 1 1 1 1 1 1 1 1 f . . .
-        f d 1 1 1 1 1 1 1 f f f f . .
-        f d 1 1 1 d d 1 c 1 1 1 b f .
-        f b 1 1 f c d f 1 b 1 b f f .
-        f 1 1 1 1 1 b f b f b f f . .
-        f 1 b 1 b d f c f f f f . . .
-        f b f b f c f c c c f . . . .
-        f f f f f f f f f f . . . . .
-        . . . f f f f f f . . . . . .
-        . . . f f f f f f . . . . . .
-        . . . f f f f f f f . . f . .
-        . . . . f f f f f f f f f . .
-        . . . . . f f f f f f f . . .
-    `);
-    const enemySb = statusbars.create(20, 4, 40, StatusBarKind.EnemyHealth);
-    enemySb.setBarBorder(1, 0xc);
-    enemySb.attachToSprite(enemy, 3);
-    enemySb.value = 10;
-
-    const health = statusbars.create(5, 40, 100, StatusBarKind.Health);
-    const magic = statusbars.create(40, 5, 100, StatusBarKind.Magic);
-    health.setBarBorder(1, 0xc);
-    magic.setBarBorder(1, 0xb);
-    health.x = player.left - 7;
-    health.y -= 3;
-    health.value = 75;
-    magic.bottom = health.bottom;
-    magic.left = health.right + 1;
-    magic.value = 30;
-
-    controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-        health.value -= 10;
+    statusbars.onZero(StatusBarKind.EnemyHealth, function (status) {
+        status.spriteAttachedTo().destroy()
+    })
+    controller.B.onEvent(ControllerButtonEvent.Pressed, () => {
+        health.value += -10
+    })
+    controller.A.onEvent(ControllerButtonEvent.Pressed, () => {
+        enemySb.value += Math.randomRange(-10, 5)
+    })
+    statusbars.onZero(StatusBarKind.Health, (status) => {
+        game.over(false)
     })
 }
 
