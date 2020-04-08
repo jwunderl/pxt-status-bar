@@ -189,17 +189,80 @@ class StatusBarSprite extends Sprite {
         });
     }
 
+    /**
+     * @param width width of status bar, eg: 20
+     * @param height height of status bar, eg: 4
+     */
+    //% block="set $this(statusbar) width $width height $height"
+    //% blockId="statusbars_setBarSize"
+    //% group=Display
+    //% weight=71
+    setBarSize(width: number, height: number) {
+        this.applyChange(sb => {
+            sb.barWidth = width;
+            sb.barHeight = height;
+        });
+    }
+
     //% block="set $this(statusbar) position to $dir"
     //% blockId="statusbars_positionNextToSprite"
     //% group="Display"
-    //% weight=71
-    positionDirection(status: StatusBarSprite, dir: CollisionDirection) {
+    //% weight=70
+    positionDirection(dir: CollisionDirection) {
         this.applyChange(sb => {
             sb.explicitlySetDirection = dir;
             if (!sb.spriteToFollow) {
-                
+                // if no position, set to side of the screen
+                if (dir === CollisionDirection.Top || dir === CollisionDirection.Bottom) {
+                    this.x = (screen.width >> 1) + sb.followOffset;
+                    if (dir === CollisionDirection.Top) {
+                        this.top = sb.followPadding;
+                    } else {
+                        this.bottom = screen.height - sb.followPadding;
+                    }
+                } else {
+                    this.y = (screen.height >> 1) + sb.followOffset;
+                    if (dir === CollisionDirection.Left) {
+                        this.left = sb.followPadding;
+                    } else {
+                        this.right = screen.width - sb.followPadding;
+                    }
+                }
             }
         });
+    }
+
+    //% block="set $this(statusbar) padding $padding offset $offset"
+    //% blockId="setPaddingOffset"
+    //% group="Display"
+    //% weight=69
+    setOffsetPadding(offset: number, padding: number) {
+        this.applyChange(sb => {
+            if (!sb.spriteToFollow && sb.explicitlySetDirection) {
+                // TODO: File this bug; need to cast as number as otherwise it states that CollisionDirection cannot be left
+                switch (sb.explicitlySetDirection as number) {
+                    case CollisionDirection.Top:
+                        this.x += offset - sb.followOffset;
+                        this.y += padding + sb.followPadding;
+                        break;
+                    case CollisionDirection.Bottom:
+                        this.x += offset - sb.followOffset;
+                        this.y -= padding + sb.followPadding;
+                        break;
+                    case CollisionDirection.Left:
+                        this.x += padding + sb.followPadding;
+                        this.y += offset - sb.followOffset;
+                        break
+                    case CollisionDirection.Right:
+                        this.x -= padding + sb.followPadding;
+                        this.y += offset - sb.followOffset;
+                        break
+                }
+            }
+            sb.followOffset = offset;
+            sb.followPadding = padding;
+
+        })
     }
 
     freeze() {
@@ -259,8 +322,8 @@ namespace statusbars {
         hasHitZero: boolean;
 
         constructor(
-            protected barWidth: number,
-            protected barHeight: number,
+            protected _barWidth: number,
+            protected _barHeight: number,
             public onColor: number,
             public offColor: number,
             // TODO: use this; it's the 'draining from prev to curr' color
@@ -275,10 +338,31 @@ namespace statusbars {
             this.labelColor = 0x1;
             this.font = image.font5;
 
+            this.followPadding = 0;
+            this.followOffset = 0;
+
             this.hasHitZero = false;
 
             this.displayValue = _max;
             this.target = _max;
+            this.rebuildImage();
+        }
+
+        get barWidth() {
+            return this._barWidth;
+        }
+
+        set barWidth(v: number) {
+            this._barWidth = v;
+            this.rebuildImage();
+        }
+
+        get barHeight() {
+            return this._barHeight;
+        }
+
+        set barHeight(v: number) {
+            this._barHeight = v;
             this.rebuildImage();
         }
 
@@ -368,7 +452,7 @@ namespace statusbars {
         }
 
         protected isVerticalBar() {
-            return this.barHeight > this.barWidth;
+            return this._barHeight > this._barWidth;
         }
 
         protected isSmoothTransition() {
@@ -376,8 +460,8 @@ namespace statusbars {
         }
 
         protected rebuildImage() {
-            let width = this.barWidth;
-            let height = this.barHeight;
+            let width = this._barWidth;
+            let height = this._barHeight;
 
             if (this.label) {
                 const labelWidth = this.font.charWidth * this.label.length;
@@ -411,7 +495,7 @@ namespace statusbars {
             if (Math.abs(this.lastUpdate - currTime) < this.throttleAmount)
                 return;
 
-            const change = this.max / (Math.max(this.barWidth, this.barHeight) - this.borderWidth * 2);
+            const change = this.max / (Math.max(this._barWidth, this._barHeight) - this.borderWidth * 2);
 
             if (this.target > this.displayValue) {
                 this.displayValue = Math.min(displayValue + change, this.target);
@@ -428,8 +512,8 @@ namespace statusbars {
 
         updateDisplay() {
             this.image.fill(0x0);
-            const fillWidth = this.barWidth - 2 * this.borderWidth;
-            const fillHeight = this.barHeight - 2 * this.borderWidth;
+            const fillWidth = this._barWidth - 2 * this.borderWidth;
+            const fillHeight = this._barHeight - 2 * this.borderWidth;
             const barIsVertical = this.isVerticalBar();
             const borderColor = util.isNullOrUndefined(this.borderColor) ?
                     this.offColor : this.borderColor;
@@ -446,26 +530,26 @@ namespace statusbars {
                 let textY = 0;
                 if (barIsVertical) {
                     if (labelEnd) {
-                        textY = this.barHeight + 1;
+                        textY = this._barHeight + 1;
                     } else {
                         barTop += textHeight + 1;
                     }
-                    if (this.barWidth > textWidth) {
-                        textX = (this.barWidth - textWidth) >> 1;
-                    } else if (this.barWidth < textWidth) {
+                    if (this._barWidth > textWidth) {
+                        textX = (this._barWidth - textWidth) >> 1;
+                    } else if (this._barWidth < textWidth) {
                         // minus 1 due to 1px padding on right side of fonts
-                        barLeft = (textWidth - this.barWidth - 1) >> 1;
+                        barLeft = (textWidth - this._barWidth - 1) >> 1;
                     }
                 } else {
                     if (labelEnd) {
-                        textX = this.barWidth + 1;
+                        textX = this._barWidth + 1;
                     } else {
                         barLeft += textWidth;
                     }
-                    if (this.barHeight > textHeight) {
-                        textY = (this.barHeight - textHeight) >> 1;
-                    } else if (this.barHeight < textHeight) {
-                        barTop = (textHeight - this.barHeight) >> 1;
+                    if (this._barHeight > textHeight) {
+                        textY = (this._barHeight - textHeight) >> 1;
+                    } else if (this._barHeight < textHeight) {
+                        barTop = (textHeight - this._barHeight) >> 1;
                     }
                 }
 
@@ -481,8 +565,8 @@ namespace statusbars {
             this.image.fillRect(
                 barLeft,
                 barTop,
-                this.barWidth,
-                this.barHeight,
+                this._barWidth,
+                this._barHeight,
                 borderColor
             );
 
