@@ -49,7 +49,6 @@ namespace StatusBarKind {
 
     //% isKind
     export const EnemyHealth = create();
-
 }
 
 // TODO: option to show both target and display value, option to freeze at display value;
@@ -64,6 +63,12 @@ namespace StatusBarKind {
 
 // TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
+class StatusBarSprite extends Sprite {
+    constructor(public _statusBar: statusbars.StatusBar) {
+        super(_statusBar.image);
+    }
+}
+
 //% color=#38364d
 //% weight=79
 //% icon="\uf240"
@@ -75,7 +80,7 @@ namespace statusbars {
     const ZERO_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_ZERO";
     const POST_PROCESS_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_DISPLAY_UPDATE";
 
-    class StatusBar {
+    export class StatusBar {
         // the sprite this is attached to
         sprite: Sprite;
         borderWidth: number;
@@ -376,7 +381,7 @@ namespace statusbars {
         height: number,
         max: number,
         kind: number
-    ) {
+    ): StatusBarSprite {
         let onColor = 0x7;
         let offColor = 0x2;
         let drainColor = 0x3;
@@ -400,7 +405,17 @@ namespace statusbars {
             max,
             kind
         );
-        const output = sprites.create(sb.image, SpriteKind.StatusBar);
+
+        const output = new StatusBarSprite(sb);
+        // below is normally done in `sprites.create`
+        output.setKind(SpriteKind.StatusBar);
+        const cs = game.currentScene();
+        cs.physicsEngine.addSprite(output);
+
+        // run on created handlers
+        cs.createdHandlers
+            .filter(h => h.kind == kind)
+            .forEach(h => h.handler(output));
 
         sb.sprite = output;
 
@@ -420,7 +435,7 @@ namespace statusbars {
     //% inlineInputMode="inline"
     //% group="Create"
     //% weight=99
-    export function attachStatusBarToSprite(status: Sprite, toFollow: Sprite, padding = 0, offset = 0) {
+    export function attachStatusBarToSprite(status: StatusBarSprite, toFollow: Sprite, padding = 0, offset = 0) {
         applyChange(status, sb => {
             // reset this to the default value;
             // this will be changed with the follow logic to match toFollow,
@@ -439,7 +454,7 @@ namespace statusbars {
     //% blockId="statusbars_getValue"
     //% group="Value"
     //% weight=85
-    export function value(status: Sprite) {
+    export function value(status: StatusBarSprite) {
         return applyChange(status, sb => sb.current) || 0;
     }
 
@@ -451,7 +466,7 @@ namespace statusbars {
     //% blockId="statusbars_setValue"
     //% group="Value"
     //% weight=84
-    export function setValue(status: Sprite, value: number) {
+    export function setValue(status: StatusBarSprite, value: number) {
         applyChange(status, sb => {
             sb.current = value;
         });
@@ -465,7 +480,7 @@ namespace statusbars {
     //% blockId="statusbars_changeValueBy"
     //% group="Value"
     //% weight=83
-    export function changeValueBy(status: Sprite, value: number) {
+    export function changeValueBy(status: StatusBarSprite, value: number) {
         applyChange(status, sb => {
             sb.current += value;
         });
@@ -482,7 +497,7 @@ namespace statusbars {
     //% bkgdColor.shadow="colorindexpicker"
     //% group="Display"
     //% weight=75
-    export function setColor(status: Sprite, fillColor: number, bkgdColor: number) {
+    export function setColor(status: StatusBarSprite, fillColor: number, bkgdColor: number) {
         applyChange(status, sb => {
             sb.onColor = fillColor;
             sb.offColor = bkgdColor;
@@ -499,7 +514,7 @@ namespace statusbars {
     //% color.shadow="colorindexpicker"
     //% group="Display"
     //% weight=74
-    export function setBarBorder(status: Sprite, borderWidth: number, color: number) {
+    export function setBarBorder(status: StatusBarSprite, borderWidth: number, color: number) {
         applyChange(status, sb => {
             sb.borderColor = color;
             sb.borderWidth = borderWidth;
@@ -516,7 +531,7 @@ namespace statusbars {
     //% color.shadow="colorindexpicker"
     //% group="Display"
     //% weight=73
-    export function setLabel(status: Sprite, label: string, color?: number) {
+    export function setLabel(status: StatusBarSprite, label: string, color?: number) {
         applyChange(status, sb => {
             if (color)
                 sb.labelColor = color;
@@ -528,7 +543,7 @@ namespace statusbars {
     //% blockId="statusbars_setFlag"
     //% group="Display"
     //% weight=72
-    export function setFlag(status: Sprite, flag: StatusBarFlag, on: boolean) {
+    export function setFlag(status: StatusBarSprite, flag: StatusBarFlag, on: boolean) {
         applyChange(status, sb => {
             sb.setFlag(flag, on);
         });
@@ -538,7 +553,7 @@ namespace statusbars {
     //% blockId="statusbars_positionNextToSprite"
     //% group="Display"
     //% weight=71
-    export function positionNextToSprite(status: Sprite, dir: CollisionDirection) {
+    export function positionNextToSprite(status: StatusBarSprite, dir: CollisionDirection) {
         applyChange(status, sb => {
             sb.explicitlySetDirection = dir;
         });
@@ -551,7 +566,7 @@ namespace statusbars {
     //% blockId="statusbars_getMax"
     //% group="Max"
     //% weight=65
-    export function max(status: Sprite) {
+    export function max(status: StatusBarSprite) {
         return applyChange(status, sb => sb.max) || 0;
     }
 
@@ -563,7 +578,7 @@ namespace statusbars {
     //% blockId="statusbars_setMax"
     //% group="Max"
     //% weight=64
-    export function setMax(status: Sprite, max: number) {
+    export function setMax(status: StatusBarSprite, max: number) {
         applyChange(status, sb => {
             sb.max = max;
         });
@@ -577,7 +592,7 @@ namespace statusbars {
     //% blockId="statusbars_changeMaxBy"
     //% group="Max"
     //% weight=63
-    export function changeMaxBy(status: Sprite, value: number) {
+    export function changeMaxBy(status: StatusBarSprite, value: number) {
         applyChange(status, sb => {
             sb.max += value;
         });
@@ -589,7 +604,7 @@ namespace statusbars {
     //% draggableParameters="reporter"
     //% group="Events"
     //% weight=60
-    export function onZero(kind: number, handler: (status: Sprite) => void) {
+    export function onZero(kind: number, handler: (status: StatusBarSprite) => void) {
         let zeroHandlers = getZeroHandlers();
         if (!zeroHandlers) {
             game.currentScene().data[ZERO_HANDLERS_KEY] = zeroHandlers = [];
@@ -603,7 +618,7 @@ namespace statusbars {
     //% draggableParameters="reporter"
     //% group="Events"
     //% weight=59
-    export function onDisplayUpdated(kind: number, handler: (status: Sprite, image: Image) => void) {
+    export function onDisplayUpdated(kind: number, handler: (status: StatusBarSprite, image: Image) => void) {
         let displayUpdateHandlers = getPostProcessHandlers();
         if (!displayUpdateHandlers) {
             game.currentScene().data[POST_PROCESS_HANDLERS_KEY] = displayUpdateHandlers = [];
@@ -620,7 +635,7 @@ namespace statusbars {
         if (!managedSprites)
             return [];
         return managedSprites.filter(status => {
-            const sb = getStatusBar(status);
+            const sb = status._statusBar;
             return sb && sb.kind === kind;
         });
     }
@@ -629,19 +644,19 @@ namespace statusbars {
     //% blockId="statusbars_attachSpriteGetter"
     //% group="Other"
     //% weight=49
-    export function statusBarAttachedTo(status: Sprite) {
+    export function statusBarAttachedTo(status: StatusBarSprite) {
         return applyChange(status, sb => sb.spriteToFollow)
     }
 
-    function init(s: Sprite) {
+    function init(s: StatusBarSprite) {
         let managedSprites = getManagedSprites();
         if (!managedSprites) {
-            game.currentScene().data[MANAGED_SPRITES_KEY] = managedSprites = [] as Sprite[];
+            game.currentScene().data[MANAGED_SPRITES_KEY] = managedSprites = [] as StatusBarSprite[];
             game.eventContext().registerFrameHandler(scene.UPDATE_PRIORITY + 5, () => {
                 const managed = getManagedSprites();
                 for (let i = managed.length - 1; i >= 0; --i) {
                     const spr = managed[i];
-                    const sb = getStatusBar(spr);
+                    const sb = spr._statusBar;
                     if (spr.flags & sprites.Flag.Destroyed) {
                         // give the garbage collector a helping hand
                         sb.sprite = undefined;
@@ -669,8 +684,8 @@ namespace statusbars {
     }
 
     // passes back any return from action for getters / etc
-    function applyChange<T>(status: Sprite, action: (sb: StatusBar) => T): T {
-        const sb = getStatusBar(status);
+    function applyChange<T>(status: StatusBarSprite, action: (sb: StatusBar) => T): T {
+        const sb = status._statusBar;
 
         if (sb) {
             const output = action(sb);
@@ -682,16 +697,12 @@ namespace statusbars {
         return undefined;
     }
 
-    function getStatusBar(status: Sprite) {
-        return status.data[STATUS_BAR_DATA_KEY] as StatusBar;
-    }
-
     function getSceneData(key: string) {
         return game.currentScene().data[key];
     }
 
     function getManagedSprites() {
-        return getSceneData(MANAGED_SPRITES_KEY) as Sprite[];
+        return getSceneData(MANAGED_SPRITES_KEY) as StatusBarSprite[];
     }
 
     function getZeroHandlers() {
