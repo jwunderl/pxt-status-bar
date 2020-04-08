@@ -54,13 +54,11 @@ namespace StatusBarKind {
     export const EnemyHealth = create();
 }
 
-// TODO: allow timing fn for transition between prev and curr value, instead of just 50ms
+// TODO: allow timing fn for transition between prev and curr value, instead of just 100ms
 
 // TODO: angled bars?  /::::::::::/ instead of |::::::::::|
 
 // TODO: 'rounded border' / border-radius option? just 1px or 2px
-
-// TODO: error handling around max / etc (e.g. max sure -max is handled gracefully ish)
 
 //% blockNamespace="statusbars"
 //% blockGap=8
