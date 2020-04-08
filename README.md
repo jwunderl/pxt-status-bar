@@ -1,3 +1,8 @@
+---
+title: PXT Status Bar
+description: General purpose status bars --beta
+---
+
 > Open this page at [https://jwunderl.github.io/pxt-status-bar/](https://jwunderl.github.io/pxt-status-bar/)
 
 ## Use this extension
