@@ -631,6 +631,15 @@ namespace statusbars {
         });
     }
 
+    //% block="status bar attached to $sprite=variables_get(mySprite)"
+    //% blockId="statusbars_spriteStatusBarIsAttachedTo"
+    export function getStatusBarAttachedTo(sprite: Sprite) {
+        const managedSprites = getManagedSprites();
+        if (!managedSprites || !sprite)
+            return undefined;
+        return managedSprites.find(s => applyChange(s, sb => sb.spriteToFollow === sprite));
+    }
+
     function init(s: StatusBarSprite) {
         let managedSprites = getManagedSprites();
         if (!managedSprites) {
