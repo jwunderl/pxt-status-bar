@@ -21,16 +21,15 @@ namespace myTiles {
 }
 function test1() {
     const status = statusbars.create(50, 3, 50, StatusBarKind.Health)
-    statusbars.setColor(status, 0x7, 0x5)
+    status.setColor(0x7, 0x5)
     // statusbars.setFlag(status, StatusBarFlag.InvertFillDirection, true);
     // statusbars.setFlag(status, StatusBarFlag.SmoothTransition, false);
     // statusbars.setFlag(status, StatusBarFlag.LabelAtEnd, true);
 
-    statusbars.setValue(status, 40);
+    status.value = 40;
+    status.setLabel("HP", 0x7)
 
-    statusbars.setLabel(status, "HP", 0x7);
-
-    statusbars.setBarBorder(status, 1, 0xb);
+    status.setBarBorder(1, 0xb);
     status.top = 5;
     status.left = 5;
 
@@ -55,15 +54,15 @@ function test1() {
     `)
 
     const sb2 = statusbars.create(4, 20, 40, StatusBarKind.Health);
-    statusbars.setBarBorder(sb2, 1, 0xb);
-    statusbars.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
+    sb2.setBarBorder(1, 0xb);
+    sb2.attachToSprite(player, -4, - (image.font5.charHeight / 2))
     controller.moveSprite(player)
-    statusbars.setLabel(sb2, "HP", 0x7);
+    sb2.setLabel("HP", 0x7);
 
     let curr = 40;
     controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         curr -= 5;
-        statusbars.setValue(sb2, curr)
+        sb2.value = curr;
     })
 
     scene.setBackgroundColor(0x1)
@@ -125,20 +124,20 @@ function testIcon() {
         . . . . . f f f f f f f . . .
     `);
     const enemySb = statusbars.create(20, 4, 40, StatusBarKind.EnemyHealth);
-    statusbars.setBarBorder(enemySb, 1, 0xc);
-    statusbars.attachStatusBarToSprite(enemySb, enemy, 3);
-    statusbars.setValue(enemySb, 10)
+    enemySb.setBarBorder(1, 0xc);
+    enemySb.attachToSprite(enemy, 3);
+    enemySb.value = 10;
 
     const health = statusbars.create(5, 40, 100, StatusBarKind.Health);
     const magic = statusbars.create(40, 5, 100, StatusBarKind.Magic);
-    statusbars.setBarBorder(health, 1, 0xc);
-    statusbars.setBarBorder(magic, 1, 0xb);
+    health.setBarBorder(1, 0xc);
+    magic.setBarBorder(1, 0xb);
     health.x = player.left - 7;
     health.y -= 3;
-    statusbars.setValue(health, 75)
+    health.value = 75;
     magic.bottom = health.bottom;
     magic.left = health.right + 1;
-    statusbars.setValue(magic, 30)
+    magic.value = 30;
 }
 
 testIcon()
