@@ -20,7 +20,7 @@ namespace myTiles {
     `
 }
 function test1() {
-    const status = statusbars.createSprite(50, 3, 50, StatusBarKind.Health)
+    const status = statusbars.create(50, 3, 50, StatusBarKind.Health)
     statusbars.setColor(status, 0x7, 0x5)
     // statusbars.setFlag(status, StatusBarFlag.InvertFillDirection, true);
     // statusbars.setFlag(status, StatusBarFlag.SmoothTransition, false);
@@ -54,7 +54,7 @@ function test1() {
         . . . . . f f . . f f . . . . .
     `)
 
-    const sb2 = statusbars.createSprite(4, 20, 40, StatusBarKind.Health);
+    const sb2 = statusbars.create(4, 20, 40, StatusBarKind.Health);
     statusbars.setBarBorder(sb2, 1, 0xb);
     statusbars.attachStatusBarToSprite(sb2, player, -4, - (image.font5.charHeight / 2))
     controller.moveSprite(player)
@@ -124,13 +124,13 @@ function testIcon() {
         . . . . f f f f f f f f f . .
         . . . . . f f f f f f f . . .
     `);
-    const enemySb = statusbars.createSprite(20, 4, 40, StatusBarKind.EnemyHealth);
+    const enemySb = statusbars.create(20, 4, 40, StatusBarKind.EnemyHealth);
     statusbars.setBarBorder(enemySb, 1, 0xc);
     statusbars.attachStatusBarToSprite(enemySb, enemy, 3);
     statusbars.setValue(enemySb, 10)
 
-    const health = statusbars.createSprite(5, 40, 100, StatusBarKind.Health);
-    const magic = statusbars.createSprite(40, 5, 100, StatusBarKind.Magic);
+    const health = statusbars.create(5, 40, 100, StatusBarKind.Health);
+    const magic = statusbars.create(40, 5, 100, StatusBarKind.Magic);
     statusbars.setBarBorder(health, 1, 0xc);
     statusbars.setBarBorder(magic, 1, 0xb);
     health.x = player.left - 7;

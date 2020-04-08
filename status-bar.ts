@@ -376,7 +376,7 @@ namespace statusbars {
     //% blockSetVariable="status bar"
     //% group="Create"
     //% weight=100
-    export function createSprite(
+    export function create(
         width: number,
         height: number,
         max: number,
