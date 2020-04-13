@@ -676,15 +676,16 @@ namespace statusbars {
         return output;
     }
 
-    //% block="status bar attached to $sprite=variables_get(mySprite)"
+    //% block="status bar kind $kind attached to $sprite=variables_get(mySprite)"
     //% blockId="statusbars_spriteStatusBarIsAttachedTo"
+    //% kind.shadow="statusbars_kind"
     //% group="Attach"
     //% weight=84
-    export function getStatusBarAttachedTo(sprite: Sprite) {
+    export function getStatusBarAttachedTo(kind: number, sprite: Sprite) {
         const managedSprites = getManagedSprites();
         if (!managedSprites || !sprite)
             return undefined;
-        return managedSprites.find(s => applyChange(s, sb => sb.spriteToFollow === sprite));
+        return managedSprites.find(s => applyChange(s, sb => sb.spriteToFollow === sprite && sb.kind === kind));
     }
 
     //% block="on status bar kind $kind zero $status"
