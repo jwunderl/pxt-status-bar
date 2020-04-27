@@ -14,6 +14,17 @@ This repository can be added as an **extension** in MakeCode.
 * click on **Extensions** under the gearwheel menu
 * search for **https://github.com/jwunderl/pxt-status-bar** and import
 
+## Block Docs
+
+### statusbars.create
+
+This creates a status bar
+
+```sig
+let statusbar = statusbars.create(20, 4, StatusBarKind.Health)
+```
+
+
 ## Edit this extension ![Build status badge](https://github.com/jwunderl/pxt-status-bar/workflows/MakeCode/badge.svg)
 
 To edit this repository in MakeCode.
