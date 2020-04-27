@@ -20,7 +20,7 @@ This repository can be added as an **extension** in MakeCode.
 
 This creates a status bar
 
-```sig
+```blocks
 let statusbar = statusbars.create(20, 4, StatusBarKind.Health)
 ```
 
