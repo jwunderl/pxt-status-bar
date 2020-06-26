@@ -722,7 +722,7 @@ namespace statusbars {
     //% blockSetVariable="status bar list"
     //% group="Other"
     //% weight=45
-    export function allOfKind(kind: number): Sprite[] {
+    export function allOfKind(kind: number): StatusBarSprite[] {
         const managedSprites = getManagedSprites();
         if (!managedSprites)
             return [];
