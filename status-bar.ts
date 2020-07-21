@@ -100,15 +100,21 @@ class StatusBarSprite extends Sprite {
     //% inlineInputMode="inline"
     //% group="Attach"
     //% weight=85
-    attachToSprite(toFollow: Sprite, padding = 0, offset = 0) {
+    attachToSprite(toFollow: Sprite, padding?: number, offset?: number) {
         this.applyChange(sb => {
             // reset this to the default value;
             // this will be changed with the follow logic to match toFollow,
             // but if this is being reassigned it should handle that gracefully
             this.setFlag(SpriteFlag.RelativeToCamera, true);
             sb.spriteToFollow = toFollow;
-            sb.followPadding = padding;
-            sb.followOffset = offset;
+            if (sb.followPadding === undefined || padding !== undefined) {
+                sb.followPadding = padding || 0;
+            }
+            if (sb.followOffset === undefined || padding !== undefined) {
+                sb.followOffset = offset || 0;
+            }
+            if (toFollow)
+                sb.positionNextTo(this, toFollow);
         });
     }
 
@@ -211,7 +217,9 @@ class StatusBarSprite extends Sprite {
     positionDirection(dir: CollisionDirection) {
         this.applyChange(sb => {
             sb.explicitlySetDirection = dir;
-            if (!sb.spriteToFollow) {
+            if (sb.spriteToFollow) {
+                sb.positionNextTo(this, sb.spriteToFollow);
+            } else {
                 // if no position, set to side of the screen
                 if (dir === CollisionDirection.Top || dir === CollisionDirection.Bottom) {
                     this.x = (screen.width >> 1) + sb.followOffset;
@@ -261,7 +269,9 @@ class StatusBarSprite extends Sprite {
             }
             sb.followOffset = offset;
             sb.followPadding = padding;
-
+            if (sb.spriteToFollow) {
+                sb.positionNextTo(this, sb.spriteToFollow);
+            }
         })
     }
 
@@ -372,6 +382,14 @@ namespace statusbars {
             const position = this.explicitlySetDirection != null ?
                     this.explicitlySetDirection
                     : (this.isVerticalBar() ? CollisionDirection.Left : CollisionDirection.Top);
+            if (target.flags & sprites.Flag.Destroyed
+                    && !(this.flags & StatusBarFlag.NoAutoDestroy)) {
+                status.destroy();
+            }
+            const toFollowIsRelativeToCamera = !!(target.flags & SpriteFlag.RelativeToCamera);
+            if (!!(status.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
+                status.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
+            }
 
             if (position === CollisionDirection.Left || position === CollisionDirection.Right) {
                 status.y = target.y + alignment;
@@ -746,15 +764,6 @@ namespace statusbars {
 
                         const { spriteToFollow } = sb;
                         if (spriteToFollow) {
-                            if (spriteToFollow.flags & sprites.Flag.Destroyed
-                                    && !(sb.flags & StatusBarFlag.NoAutoDestroy)) {
-                                spr.destroy();
-                            }
-                            const toFollowIsRelativeToCamera = !!(spriteToFollow.flags & SpriteFlag.RelativeToCamera);
-                            if (!!(spr.flags & SpriteFlag.RelativeToCamera) != toFollowIsRelativeToCamera) {
-                                spr.setFlag(SpriteFlag.RelativeToCamera, toFollowIsRelativeToCamera);
-                            }
-
                             sb.positionNextTo(spr, spriteToFollow);
                         }
                     }

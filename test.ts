@@ -154,4 +154,52 @@ function testIcon() {
     })
 }
 
-testIcon()
+function testRelPosition() {
+    let mySprite2 = sprites.create(img`
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . 3 3 . . . . . . . . . . 
+    . . . . 3 . 3 3 . . . . . . . . 
+    . . . . 3 . . . 3 3 . . . . . . 
+    . . . . 3 . . . . 3 . . . . . . 
+    . . . . 3 . . . . 3 . . . . . . 
+    . . . . 3 . . . . . 3 . . . . . 
+    . . . . 3 3 . . . . 3 . . . . . 
+    . . . . . 3 3 . . . 3 . . . . . 
+    . . . . . . . 3 3 . 3 . . . . . 
+    . . . . . . . . . 3 3 . . . . . 
+    . . . . . . . . . . . . . . . . 
+    . . . . . . . . . . . . . . . . 
+    `, SpriteKind.Player)
+    let mySprite = sprites.create(img`
+        . . . . 3 3 3 . . . . . . . . . 
+        . . . . 3 . 3 3 . . . . . . . . 
+        . . . 3 3 . . 3 3 . . . . . . . 
+        . . . 3 . . . . . 3 . . . . . . 
+        . . . 3 . . . . . 3 . . . . . . 
+        . . . 3 . . . . . . 3 3 . . . . 
+        . . 3 . . . . . . . . 3 3 . . . 
+        . . 3 . . . . . . . . . 3 3 . . 
+        . . 3 . . . . . . . . . . 3 . . 
+        . 3 . . . . . . . . . . . . 3 3 
+        . 3 . . . . . . . . . . . . . . 
+        . 3 . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Player)
+    mySprite2.setPosition(16, 15)
+    let statusbar = statusbars.create(20, 4, StatusBarKind.Health)
+    statusbar.attachToSprite(mySprite2)
+    statusbar.setLabel("HP", 1)
+    statusbar.positionDirection(CollisionDirection.Bottom)
+    mySprite.top = statusbar.bottom
+    mySprite.x = statusbar.x
+
+}
+
+// testIcon()
+testRelPosition()
