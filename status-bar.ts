@@ -343,7 +343,7 @@ namespace statusbars {
         ) {
             this.borderWidth = 0;
             this.borderColor = undefined;
-            this.flags = StatusBarFlag.SmoothTransition | StatusBarFlag.ConstrainAssignedValue;
+            this.flags = StatusBarFlag.ConstrainAssignedValue;
             this._label = undefined;
             this.labelColor = 0x1;
             this.font = image.font5;
