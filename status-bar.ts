@@ -302,6 +302,7 @@ namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
     const ZERO_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_ZERO";
+    const STATUS_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_STATUS_REACHED";
     const POST_PROCESS_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_DISPLAY_UPDATE";
 
     export class StatusBar {
@@ -632,6 +633,48 @@ namespace statusbars {
         }
     }
 
+    export enum StatusComparison {
+        // block="="
+        EQ,
+        // block="!="
+        NEQ,
+        // block=">"
+        GT,
+        // block=">="
+        GTE,
+        // block="<"
+        LT,
+        // block="<="
+        LTE,
+    }
+
+    class StatusHandler {
+        constructor(
+            public kind: number,
+            public comparison: StatusComparison,
+            public percent: number,
+            public handler: (sprite: Sprite) => void
+        ) { }
+
+        conditionMet(value: number) {
+            switch (this.comparison) {
+                case StatusComparison.EQ:
+                    return this.percent === value;
+                case StatusComparison.NEQ:
+                    return this.percent !== value;
+                case StatusComparison.GT:
+                    return value > this.percent;
+                case StatusComparison.GTE:
+                    return value >= this.percent;
+                case StatusComparison.LT:
+                    return value < this.percent;
+                case StatusComparison.LTE:
+                    return value <= this.percent;
+            }
+        }
+
+    }
+
     /**
      * @param width width of status bar, eg: 20
      * @param height height of status bar, eg: 4
@@ -720,6 +763,31 @@ namespace statusbars {
         zeroHandlers[kind] = handler;
     }
 
+    //% block="on status bar kind $kind $comparison $percent|\\% $status"
+    //% blockId="statusbars_onStatusReached"
+    //% kind.shadow="statusbars_kind"
+    //% draggableParameters="reporter"
+    //% group="Events"
+    //% weight=58
+    export function onStatusReached(
+        kind: number,
+        comparison: StatusComparison,
+        percent: number,
+        handler: (status: StatusBarSprite) => void
+    ) {
+        let statusHandlers = getStatusHandlers();
+        if (!statusHandlers) {
+            game.currentScene().data[STATUS_HANDLERS_KEY] = statusHandlers = [];
+        }
+        const statusHandler = new StatusHandler(
+            kind,
+            comparison,
+            percent,
+            handler
+        );
+        statusHandlers.push(statusHandler);
+    }
+
     //% block="on status bar kind $kind display updated $status $image"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_postprocessDisplay"
@@ -805,6 +873,10 @@ namespace statusbars {
 
     function getZeroHandlers() {
         return getSceneData(ZERO_HANDLERS_KEY) as ((status: Sprite) => void)[];
+    }
+
+    function getStatusHandlers() {
+        return getSceneData(STATUS_HANDLERS_KEY) as StatusHandler[];
     }
 
     function getPostProcessHandlers() {
