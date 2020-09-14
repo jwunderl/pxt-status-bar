@@ -283,6 +283,7 @@ class StatusBarSprite extends Sprite {
         const sb = this._statusBar;
 
         if (sb) {
+            sb.current
             const output = action(sb);
             sb.updateDisplay();
             this.setImage(sb.image);
@@ -427,7 +428,7 @@ namespace statusbars {
         }
 
         set max(v: number) {
-            this._max = v;
+            this.changeValue(this.current, v);
             this.updateState();
         }
 
@@ -436,23 +437,38 @@ namespace statusbars {
         }
 
         set current(v: number) {
-            const isDifferent = this.target != v;
-            this.target = v;
+            this.changeValue(v, this.max);
 
-            if (v <= 0 && !this.hasHitZero) {
+            if (!(this.flags & StatusBarFlag.SmoothTransition))
+                this.displayValue = v;
+
+            this.updateState();
+        }
+
+        protected changeValue(current: number, max: number) {
+            const statusHandlers = getStatusHandlers();
+            const toRun = statusHandlers && statusHandlers.filter(h =>
+                h.kind === this.kind
+                    && h.conditionMet(100 * current / max)
+                    && !h.conditionMet(100 * this.current / this.max)
+            );
+
+            this.target = current;
+            this._max = max
+
+            if (current <= 0 && !this.hasHitZero) {
                 this.hasHitZero = true;
                 const handler = (getZeroHandlers() || [])[this.kind];
                 if (this.sprite && handler)
                     handler(this.sprite);
-            } else if (v > 0 && this.hasHitZero) {
+            } else if (current > 0 && this.hasHitZero) {
                 // reset if this was below zero and has been refilled
                 this.hasHitZero = false;
             }
-
-            if (!(this.flags & StatusBarFlag.SmoothTransition)) {
-                this.displayValue = v;
+            
+            for (const h of (toRun || [])) {
+                h.handler(this.sprite);
             }
-            this.updateState();
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
@@ -658,10 +674,11 @@ namespace statusbars {
 
         conditionMet(value: number) {
             switch (this.comparison) {
+                // TODO: maybe round / cast to int percent and value for the eq / neq comparison?
                 case StatusComparison.EQ:
-                    return this.percent === value;
+                    return value === this.percent;
                 case StatusComparison.NEQ:
-                    return this.percent !== value;
+                    return value !== this.percent;
                 case StatusComparison.GT:
                     return value > this.percent;
                 case StatusComparison.GTE:
@@ -670,6 +687,8 @@ namespace statusbars {
                     return value < this.percent;
                 case StatusComparison.LTE:
                     return value <= this.percent;
+                default:
+                    return false;
             }
         }
 
