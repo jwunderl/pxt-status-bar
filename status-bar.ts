@@ -283,7 +283,6 @@ class StatusBarSprite extends Sprite {
         const sb = this._statusBar;
 
         if (sb) {
-            sb.current
             const output = action(sb);
             sb.updateDisplay();
             this.setImage(sb.image);
@@ -650,17 +649,17 @@ namespace statusbars {
     }
 
     export enum StatusComparison {
-        // block="="
+        //% block="="
         EQ,
-        // block="!="
+        //% block="!="
         NEQ,
-        // block=">"
+        //% block=">"
         GT,
-        // block=">="
+        //% block=">="
         GTE,
-        // block="<"
+        //% block="<"
         LT,
-        // block="<="
+        //% block="<="
         LTE,
     }
 
