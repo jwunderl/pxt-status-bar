@@ -19,6 +19,9 @@ enum StatusBarFlag {
     // if set, do not destroy this status bar when sprite it is attached to is destroyed
     //% block="no autodestroy on attached destroy"
     NoAutoDestroy = 1 << 5,
+    // if set, do not run `on zero` or `on status changed` events when changing values on this status bar.
+    //% block="ignore events"
+    IgnoreValueEvents = 1 << 6,
 }
 
 namespace SpriteKind {
@@ -448,6 +451,7 @@ namespace statusbars {
             const statusHandlers = getStatusHandlers();
             const toRun = statusHandlers && statusHandlers.filter(h =>
                 h.kind === this.kind
+                    && !(this.flags & StatusBarFlag.IgnoreValueEvents)
                     && h.conditionMet(100 * current / max)
                     && !h.conditionMet(100 * this.current / this.max)
             );
@@ -455,7 +459,7 @@ namespace statusbars {
             this.target = current;
             this._max = max
 
-            if (current <= 0 && !this.hasHitZero) {
+            if (current <= 0 && !this.hasHitZero && !(this.flags & StatusBarFlag.IgnoreValueEvents)) {
                 this.hasHitZero = true;
                 const handler = (getZeroHandlers() || [])[this.kind];
                 if (this.sprite && handler)
