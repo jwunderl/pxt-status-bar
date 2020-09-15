@@ -796,17 +796,19 @@ namespace statusbars {
         zeroHandlers[kind] = handler;
     }
 
-    //% block="on status bar kind $kind $comparison $percent|$comparisonType $status"
+    //% block="on status bar kind $kind $comparison $value|$comparisonType $status"
     //% blockId="statusbars_onStatusReached"
     //% kind.shadow="statusbars_kind"
     //% draggableParameters="reporter"
     //% group="Events"
+    //% comparison.defl=statusbars.StatusComparison.LTE
+    //% value.defl=50
     //% weight=58
     export function onStatusReached(
         kind: number,
         comparison: StatusComparison,
         comparisonType: ComparisonType,
-        percent: number,
+        value: number,
         handler: (status: StatusBarSprite) => void
     ) {
         let statusHandlers = getStatusHandlers();
@@ -817,7 +819,7 @@ namespace statusbars {
             kind,
             comparison,
             comparisonType,
-            percent,
+            value,
             handler
         );
         statusHandlers.push(statusHandler);
