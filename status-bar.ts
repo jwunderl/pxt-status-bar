@@ -452,8 +452,8 @@ namespace statusbars {
             const toRun = statusHandlers && statusHandlers.filter(h =>
                 h.kind === this.kind
                     && !(this.flags & StatusBarFlag.IgnoreValueEvents)
-                    && h.conditionMet(100 * current / max)
-                    && !h.conditionMet(100 * this.current / this.max)
+                    && h.conditionMet(current, max)
+                    && !h.conditionMet(this.current, this.max)
             );
 
             this.target = current;
@@ -655,27 +655,38 @@ namespace statusbars {
     export enum StatusComparison {
         //% block="="
         EQ,
-        //% block="!="
+        //% block="≠"
         NEQ,
-        //% block=">"
-        GT,
-        //% block=">="
-        GTE,
         //% block="<"
         LT,
-        //% block="<="
+        //% block="≤"
         LTE,
+        //% block=">"
+        GT,
+        //% block="≥"
+        GTE,
+    }
+
+    export enum ComparisonType {
+        //% block="%"
+        Percentage,
+        //% block="fixed"
+        Fixed
     }
 
     class StatusHandler {
         constructor(
             public kind: number,
-            public comparison: StatusComparison,
-            public percent: number,
+            protected comparison: StatusComparison,
+            protected comparisonType: ComparisonType,
+            protected percent: number,
             public handler: (sprite: Sprite) => void
         ) { }
 
-        conditionMet(value: number) {
+        conditionMet(current: number, max: number) {
+            const value = this.comparisonType === ComparisonType.Percentage ?
+                (current / max) * 100
+                : current;
             switch (this.comparison) {
                 // TODO: maybe round / cast to int percent and value for the eq / neq comparison?
                 case StatusComparison.EQ:
@@ -785,7 +796,7 @@ namespace statusbars {
         zeroHandlers[kind] = handler;
     }
 
-    //% block="on status bar kind $kind $comparison $percent|\\% $status"
+    //% block="on status bar kind $kind $comparison $percent|$comparisonType $status"
     //% blockId="statusbars_onStatusReached"
     //% kind.shadow="statusbars_kind"
     //% draggableParameters="reporter"
@@ -794,6 +805,7 @@ namespace statusbars {
     export function onStatusReached(
         kind: number,
         comparison: StatusComparison,
+        comparisonType: ComparisonType,
         percent: number,
         handler: (status: StatusBarSprite) => void
     ) {
@@ -804,6 +816,7 @@ namespace statusbars {
         const statusHandler = new StatusHandler(
             kind,
             comparison,
+            comparisonType,
             percent,
             handler
         );
