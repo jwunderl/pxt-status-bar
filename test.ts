@@ -201,5 +201,6 @@ function testRelPosition() {
 
 }
 
-// testIcon()
-testRelPosition()
+testIcon()
+// test1()
+// testRelPosition()

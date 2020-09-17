@@ -19,6 +19,9 @@ enum StatusBarFlag {
     // if set, do not destroy this status bar when sprite it is attached to is destroyed
     //% block="no autodestroy on attached destroy"
     NoAutoDestroy = 1 << 5,
+    // if set, do not run `on zero` or `on status changed` events when changing values on this status bar.
+    //% block="ignore events"
+    IgnoreValueEvents = 1 << 6,
 }
 
 namespace SpriteKind {
@@ -302,6 +305,7 @@ namespace statusbars {
     const STATUS_BAR_DATA_KEY = "STATUS_BAR_DATA_KEY";
     const MANAGED_SPRITES_KEY = STATUS_BAR_DATA_KEY + "_SPRITES";
     const ZERO_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_ZERO";
+    const STATUS_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_STATUS_REACHED";
     const POST_PROCESS_HANDLERS_KEY = STATUS_BAR_DATA_KEY + "_ON_DISPLAY_UPDATE";
 
     export class StatusBar {
@@ -426,7 +430,7 @@ namespace statusbars {
         }
 
         set max(v: number) {
-            this._max = v;
+            this.changeValue(this.current, v);
             this.updateState();
         }
 
@@ -435,23 +439,39 @@ namespace statusbars {
         }
 
         set current(v: number) {
-            const isDifferent = this.target != v;
-            this.target = v;
+            this.changeValue(v, this.max);
 
-            if (v <= 0 && !this.hasHitZero) {
+            if (!(this.flags & StatusBarFlag.SmoothTransition))
+                this.displayValue = v;
+
+            this.updateState();
+        }
+
+        protected changeValue(current: number, max: number) {
+            const statusHandlers = getStatusHandlers();
+            const toRun = statusHandlers && statusHandlers.filter(h =>
+                h.kind === this.kind
+                    && !(this.flags & StatusBarFlag.IgnoreValueEvents)
+                    && h.conditionMet(current, max)
+                    && !h.conditionMet(this.current, this.max)
+            );
+
+            this.target = current;
+            this._max = max
+
+            if (current <= 0 && !this.hasHitZero && !(this.flags & StatusBarFlag.IgnoreValueEvents)) {
                 this.hasHitZero = true;
                 const handler = (getZeroHandlers() || [])[this.kind];
                 if (this.sprite && handler)
                     handler(this.sprite);
-            } else if (v > 0 && this.hasHitZero) {
+            } else if (current > 0 && this.hasHitZero) {
                 // reset if this was below zero and has been refilled
                 this.hasHitZero = false;
             }
-
-            if (!(this.flags & StatusBarFlag.SmoothTransition)) {
-                this.displayValue = v;
+            
+            for (const h of (toRun || [])) {
+                h.handler(this.sprite);
             }
-            this.updateState();
         }
 
         setFlag(flag: StatusBarFlag, on: boolean) {
@@ -632,6 +652,62 @@ namespace statusbars {
         }
     }
 
+    export enum StatusComparison {
+        //% block="="
+        EQ,
+        //% block="≠"
+        NEQ,
+        //% block="<"
+        LT,
+        //% block="≤"
+        LTE,
+        //% block=">"
+        GT,
+        //% block="≥"
+        GTE,
+    }
+
+    export enum ComparisonType {
+        //% block="%"
+        Percentage,
+        //% block="fixed"
+        Fixed
+    }
+
+    class StatusHandler {
+        constructor(
+            public kind: number,
+            protected comparison: StatusComparison,
+            protected comparisonType: ComparisonType,
+            protected percent: number,
+            public handler: (sprite: Sprite) => void
+        ) { }
+
+        conditionMet(current: number, max: number) {
+            const value = this.comparisonType === ComparisonType.Percentage ?
+                (current / max) * 100
+                : current;
+            switch (this.comparison) {
+                // TODO: maybe round / cast to int percent and value for the eq / neq comparison?
+                case StatusComparison.EQ:
+                    return value === this.percent;
+                case StatusComparison.NEQ:
+                    return value !== this.percent;
+                case StatusComparison.GT:
+                    return value > this.percent;
+                case StatusComparison.GTE:
+                    return value >= this.percent;
+                case StatusComparison.LT:
+                    return value < this.percent;
+                case StatusComparison.LTE:
+                    return value <= this.percent;
+                default:
+                    return false;
+            }
+        }
+
+    }
+
     /**
      * @param width width of status bar, eg: 20
      * @param height height of status bar, eg: 4
@@ -720,6 +796,35 @@ namespace statusbars {
         zeroHandlers[kind] = handler;
     }
 
+    //% block="on status bar kind $kind $comparison $value|$comparisonType $status"
+    //% blockId="statusbars_onStatusReached"
+    //% kind.shadow="statusbars_kind"
+    //% draggableParameters="reporter"
+    //% group="Events"
+    //% comparison.defl=statusbars.StatusComparison.LTE
+    //% value.defl=50
+    //% weight=58
+    export function onStatusReached(
+        kind: number,
+        comparison: StatusComparison,
+        comparisonType: ComparisonType,
+        value: number,
+        handler: (status: StatusBarSprite) => void
+    ) {
+        let statusHandlers = getStatusHandlers();
+        if (!statusHandlers) {
+            game.currentScene().data[STATUS_HANDLERS_KEY] = statusHandlers = [];
+        }
+        const statusHandler = new StatusHandler(
+            kind,
+            comparison,
+            comparisonType,
+            value,
+            handler
+        );
+        statusHandlers.push(statusHandler);
+    }
+
     //% block="on status bar kind $kind display updated $status $image"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_postprocessDisplay"
@@ -805,6 +910,10 @@ namespace statusbars {
 
     function getZeroHandlers() {
         return getSceneData(ZERO_HANDLERS_KEY) as ((status: Sprite) => void)[];
+    }
+
+    function getStatusHandlers() {
+        return getSceneData(STATUS_HANDLERS_KEY) as StatusHandler[];
     }
 
     function getPostProcessHandlers() {
