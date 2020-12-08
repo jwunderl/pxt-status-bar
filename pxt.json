@@ -12,7 +12,9 @@
         "docs/max.md",
         "docs/attach-to-sprite.md",
         "docs/sprite-attached-to.md",
-        "docs/set-color.md"
+        "docs/set-color.md",
+        "docs/set-bar-border.md",
+        "docs/set-label.md"
     ],
     "testFiles": [
         "test.ts"
