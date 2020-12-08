@@ -8,7 +8,9 @@
     "files": [
         "README.md",
         "status-bar.ts",
-        "docs/value.md"
+        "docs/value.md",
+        "docs/max.md",
+        "docs/attach-to-sprite.md"
     ],
     "testFiles": [
         "test.ts"
