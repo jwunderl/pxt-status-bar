@@ -15,7 +15,8 @@
         "docs/set-color.md",
         "docs/set-bar-border.md",
         "docs/set-label.md",
-        "docs/set-status-bar-flag.md"
+        "docs/set-status-bar-flag.md",
+        "docs/set-bar-size.md"
     ],
     "testFiles": [
         "test.ts"
