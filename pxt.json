@@ -20,7 +20,8 @@
         "docs/position-direction.md",
         "docs/set-offset-padding.md",
         "docs/create.md",
-        "docs/get-status-bar-attached-to.md"
+        "docs/get-status-bar-attached-to.md",
+        "docs/on-zero.md"
     ],
     "testFiles": [
         "test.ts"
