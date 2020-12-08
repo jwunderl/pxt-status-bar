@@ -14,7 +14,8 @@
         "docs/sprite-attached-to.md",
         "docs/set-color.md",
         "docs/set-bar-border.md",
-        "docs/set-label.md"
+        "docs/set-label.md",
+        "docs/set-status-bar-flag.md"
     ],
     "testFiles": [
         "test.ts"
