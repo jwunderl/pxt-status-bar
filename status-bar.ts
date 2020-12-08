@@ -776,6 +776,10 @@ namespace statusbars {
         output.z = scene.HUD_Z - 5;
 
         init(output);
+        
+        const handler = (getPostProcessHandlers() || [])[kind];
+        if (output && handler)
+            handler(output, output.image);
 
         return output;
     }

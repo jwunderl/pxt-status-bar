@@ -21,7 +21,8 @@
         "docs/set-offset-padding.md",
         "docs/create.md",
         "docs/get-status-bar-attached-to.md",
-        "docs/on-zero.md"
+        "docs/on-zero.md",
+        "docs/on-status-reached.md"
     ],
     "testFiles": [
         "test.ts"

@@ -205,6 +205,14 @@ function testRelPosition() {
 
 }
 
+function testOnUpdated() {
+    statusbars.onDisplayUpdated(StatusBarKind.Health, function (status, image2) {
+        image2.drawRect(0, 0, 3, 3, 11)
+    })
+    let statusbar = statusbars.create(20, 4, StatusBarKind.Health)
+}
+
 testIcon()
 // test1()
 // testRelPosition()
+// testOnUpdated()
