@@ -7,14 +7,15 @@
     },
     "files": [
         "README.md",
-        "status-bar.ts"
+        "status-bar.ts",
+        "docs/value.md"
     ],
     "testFiles": [
         "test.ts"
     ],
     "public": true,
     "targetVersions": {
-        "target": "1.2.6",
+        "target": "1.2.10",
         "targetId": "arcade"
     },
     "supportedTargets": [

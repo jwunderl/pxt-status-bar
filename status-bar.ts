@@ -75,6 +75,7 @@ class StatusBarSprite extends Sprite {
 
     //% group="Value" blockSetVariable="statusbar"
     //% blockCombine block="value" callInDebugger
+    //% help=github:pxt-status-bar/docs/value
     get value(): number {
         return this.applyChange(sb => sb.current) || 0;
     }
@@ -87,6 +88,7 @@ class StatusBarSprite extends Sprite {
 
     //% group="Value" blockSetVariable="statusbar"
     //% blockCombine block="max" callInDebugger
+    //% help=github:pxt-status-bar/docs/max
     get max(): number {
         return this.applyChange(sb => sb.max) || 0;
     }
@@ -101,6 +103,7 @@ class StatusBarSprite extends Sprite {
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
+    //% help=github:pxt-status-bar/docs/attach-to-sprite
     //% group="Attach"
     //% weight=85
     attachToSprite(toFollow: Sprite, padding?: number, offset?: number) {
@@ -123,6 +126,7 @@ class StatusBarSprite extends Sprite {
 
     //% block="sprite that $this(statusbar) is attached to"
     //% blockId="statusbars_attachSpriteGetter"
+    //% help=github:pxt-status-bar/docs/sprite-attached-to
     //% group="Attach"
     //% weight=83
     spriteAttachedTo() {
@@ -140,6 +144,7 @@ class StatusBarSprite extends Sprite {
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
     //% drainColor.shadow="colorindexpicker"
+    //% help=github:pxt-status-bar/docs/set-color
     //% group="Display"
     //% weight=75
     setColor(fillColor: number, bkgdColor: number, drainColor?: number) {
@@ -161,6 +166,7 @@ class StatusBarSprite extends Sprite {
     //% block="set $this(statusbar) border width $borderWidth $color"
     //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
+    //% help=github:pxt-status-bar/docs/set-bar-border
     //% group="Display"
     //% weight=74
     setBarBorder(borderWidth: number, color: number) {
@@ -178,6 +184,7 @@ class StatusBarSprite extends Sprite {
     //% block="set $this(statusbar) label $label||$color"
     //% blockId="statusbar_setLabel"
     //% color.shadow="colorindexpicker"
+    //% help=github:pxt-status-bar/docs/set-label
     //% group="Display"
     //% weight=73
     setLabel(label: string, color?: number) {
@@ -190,6 +197,7 @@ class StatusBarSprite extends Sprite {
 
     //% block="set $this(statusbar) $flag $on=toggleOnOff"
     //% blockId="statusbars_setFlag"
+    //% help=github:pxt-status-bar/docs/set-status-bar-flag
     //% group="Display"
     //% weight=72
     setStatusBarFlag(flag: StatusBarFlag, on: boolean) {
@@ -204,6 +212,7 @@ class StatusBarSprite extends Sprite {
      */
     //% block="set $this(statusbar) width $width height $height"
     //% blockId="statusbars_setBarSize"
+    //% help=github:pxt-status-bar/docs/set-bar-size
     //% group=Display
     //% weight=71
     setBarSize(width: number, height: number) {
@@ -215,6 +224,7 @@ class StatusBarSprite extends Sprite {
 
     //% block="set $this(statusbar) position to $dir"
     //% blockId="statusbars_positionNextToSprite"
+    //% help=github:pxt-status-bar/docs/position-direction
     //% group="Display"
     //% weight=70
     positionDirection(dir: CollisionDirection) {
@@ -245,6 +255,7 @@ class StatusBarSprite extends Sprite {
 
     //% block="set $this(statusbar) padding $padding offset $offset"
     //% blockId="setPaddingOffset"
+    //% help=github:pxt-status-bar/docs/sprite-attached-to
     //% group="Display"
     //% weight=69
     setOffsetPadding(offset: number, padding: number) {
@@ -340,7 +351,6 @@ namespace statusbars {
             protected _barHeight: number,
             public onColor: number,
             public offColor: number,
-            // TODO: use this; it's the 'draining from prev to curr' color
             public drainColor: number,
             protected _max: number,
             public kind: number
@@ -716,6 +726,7 @@ namespace statusbars {
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
     //% blockSetVariable="statusbar"
+    //% help=github:pxt-status-bar/docs/create
     //% group="Create"
     //% weight=100
     export function create(
@@ -773,6 +784,7 @@ namespace statusbars {
     //% block="status bar kind $kind attached to $sprite=variables_get(mySprite)"
     //% blockId="statusbars_spriteStatusBarIsAttachedTo"
     //% kind.shadow="statusbars_kind"
+    //% help=github:pxt-status-bar/docs/get-status-bar-attached-to
     //% group="Attach"
     //% weight=84
     export function getStatusBarAttachedTo(kind: number, sprite: Sprite) {
@@ -786,6 +798,7 @@ namespace statusbars {
     //% blockId="statusbars_onZero"
     //% kind.shadow="statusbars_kind"
     //% draggableParameters="reporter"
+    //% help=github:pxt-status-bar/docs/on-zero
     //% group="Events"
     //% weight=60
     export function onZero(kind: number, handler: (status: StatusBarSprite) => void) {
@@ -802,6 +815,7 @@ namespace statusbars {
     //% draggableParameters="reporter"
     //% group="Events"
     //% comparison.defl=statusbars.StatusComparison.LTE
+    //% help=github:pxt-status-bar/docs/on-status-reached
     //% value.defl=50
     //% weight=58
     export function onStatusReached(
@@ -829,6 +843,7 @@ namespace statusbars {
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_postprocessDisplay"
     //% draggableParameters="reporter"
+    //% help=github:pxt-status-bar/docs/on-display-updated
     //% group="Events"
     //% weight=59
     export function onDisplayUpdated(kind: number, handler: (status: StatusBarSprite, image: Image) => void) {
@@ -843,6 +858,7 @@ namespace statusbars {
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_arrayOfKind"
     //% blockSetVariable="status bar list"
+    //% help=github:pxt-status-bar/docs/all-of-kind
     //% group="Other"
     //% weight=45
     export function allOfKind(kind: number): StatusBarSprite[] {
