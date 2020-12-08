@@ -260,9 +260,8 @@ class StatusBarSprite extends Sprite {
     //% weight=69
     setOffsetPadding(offset: number, padding: number) {
         this.applyChange(sb => {
-            if (!sb.spriteToFollow && sb.explicitlySetDirection) {
-                // TODO: File this bug; need to cast as number as otherwise it states that CollisionDirection cannot be left
-                switch (sb.explicitlySetDirection as number) {
+            if (!sb.spriteToFollow && sb.explicitlySetDirection !== null) {
+                switch (sb.explicitlySetDirection) {
                     case CollisionDirection.Top:
                         this.x += offset - sb.followOffset;
                         this.y += padding + sb.followPadding;

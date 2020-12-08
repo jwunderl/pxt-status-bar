@@ -68,6 +68,10 @@ function test1() {
     })
 
     scene.setBackgroundColor(0x1)
+
+    const sb3 = statusbars.create(5, 30, StatusBarKind.EnemyHealth);
+    sb3.positionDirection(CollisionDirection.Left)
+    sb3.setOffsetPadding(5, 3)
 }
 
 function testIcon() {
