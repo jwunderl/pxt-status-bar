@@ -23,7 +23,8 @@
         "docs/get-status-bar-attached-to.md",
         "docs/on-zero.md",
         "docs/on-status-reached.md",
-        "docs/on-display-updated.md"
+        "docs/on-display-updated.md",
+        "docs/all-of-kind.md"
     ],
     "testFiles": [
         "test.ts"

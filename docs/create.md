@@ -8,6 +8,7 @@ Status bars are actually sprites; you can use most blocks on them that you can u
 
 * Setting their image will not do anything to change the sprite.
 * Status bars have enable / disable a few flags by default; for example, `ghost` and `relative to camera`
+* All status bars have the SpriteKind `StatusBar`
 
 ### ~
 
