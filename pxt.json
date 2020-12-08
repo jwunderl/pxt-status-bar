@@ -17,7 +17,8 @@
         "docs/set-label.md",
         "docs/set-status-bar-flag.md",
         "docs/set-bar-size.md",
-        "docs/position-direction.md"
+        "docs/position-direction.md",
+        "docs/set-offset-padding.md"
     ],
     "testFiles": [
         "test.ts"
