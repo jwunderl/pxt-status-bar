@@ -16,7 +16,8 @@
         "docs/set-bar-border.md",
         "docs/set-label.md",
         "docs/set-status-bar-flag.md",
-        "docs/set-bar-size.md"
+        "docs/set-bar-size.md",
+        "docs/position-direction.md"
     ],
     "testFiles": [
         "test.ts"
