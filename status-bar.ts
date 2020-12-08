@@ -255,7 +255,7 @@ class StatusBarSprite extends Sprite {
 
     //% block="set $this(statusbar) padding $padding offset $offset"
     //% blockId="setPaddingOffset"
-    //% help=github:pxt-status-bar/docs/sprite-attached-to
+    //% help=github:pxt-status-bar/docs/set-offset-padding
     //% group="Display"
     //% weight=69
     setOffsetPadding(offset: number, padding: number) {

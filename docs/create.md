@@ -4,6 +4,8 @@ Creates a new status bar sprite for use in your games!
 
 ### ~hint
 
+#### Status bars are Sprites!
+
 Status bars are actually sprites; you can use most blocks on them that you can use with other sprites, with a few exceptions:
 
 * Setting their image will not do anything to change the sprite.
