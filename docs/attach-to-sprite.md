@@ -41,5 +41,5 @@ statusbar.attachToSprite(mySprite)
 ```
 
 ```package
-pxt-status-bar=github:ganicke/pxt-status-bar
+pxt-status-bar=github:jwunderl/pxt-status-bar
 ```
