@@ -22,5 +22,5 @@ let status_bar_list = statusbars.allOfKind(StatusBarKind.Health)
 ```
 
 ```package
-pxt-status-bar=github:jwunderl/pxt-status-bar
+pxt-status-bar=github:ganike/pxt-status-bar
 ```
