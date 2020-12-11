@@ -1,4 +1,4 @@
-# All of kind
+# all Of Kind
 
 Gets an array of all Status Bars of the given Status Bar Kind.
 

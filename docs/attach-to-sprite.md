@@ -1,10 +1,22 @@
-# Attach to sprite
+# attach To Sprite
+
+```sig
+statusbars.create(0,0,StatusBarKind.Health).attachToSprite(null)
+```
 
 Attaches the status bar to a sprite;
 the status bar will follow the sprite around the screen instead of being set in a fixed position.
 
 When a status bar is attached to a sprite, you can use the `status bar attached to mySprite`
 and `sprite that statusbar is attached to` blocks to get the sprites / status bars that are attached to eachother.
+
+## Parameters
+
+* **toFollow**:
+* **padding**:
+* **offset**
+
+## Example
 
 ```blocks
 let statusbar = statusbars.create(20, 4, StatusBarKind.Health)
@@ -31,5 +43,5 @@ statusbar.attachToSprite(mySprite)
 ```
 
 ```package
-pxt-status-bar=github:jwunderl/pxt-status-bar
+pxt-status-bar=github:ganicke/pxt-status-bar
 ```
