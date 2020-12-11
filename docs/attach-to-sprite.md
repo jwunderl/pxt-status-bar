@@ -12,9 +12,7 @@ and `sprite that statusbar is attached to` blocks to get the sprites / status ba
 
 ## Parameters
 
-* **toFollow**:
-* **padding**:
-* **offset**
+* **toFollow**: the sprite to attach to.
 
 ## Example
 

@@ -1,4 +1,4 @@
-// meta={"simUrl":"https://trg-arcade.userpxt.io/v1.2.10/---simulator","cdnUrl":"https://pxt.azureedge.net","version":"0.3.3","target":"arcade","targetVersion":"1.2.10","repo":"jwunderl/pxt-status-bar"}
+// meta={"simUrl":"https://trg-arcade.userpxt.io/v1.2.10/---simulator","cdnUrl":"https://pxt.azureedge.net","version":"0.3.3","target":"arcade","targetVersion":"1.2.10","repo":"ganicke/pxt-status-bar"}
 // total=1508289 new=12.65% cached=81.88% other=5.47%
 (function (ectx) {
 'use strict';
