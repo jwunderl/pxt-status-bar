@@ -1,8 +1,14 @@
-# Sprite attached to
+# sprite Attached To
 
-Gets the sprite attached to a given status bar.
+Get the sprite attached to a given status bar.
 
-If no sprite has been attached, returns undefined.
+```sig
+statusbars.create(20, 4, StatusBarKind.Health).spriteAttachedTo()
+```
+
+## Returns
+
+* the sprite which the status bar is attached to. If no sprite has been attached, `undefined` is returned.
 
 ```blocks
 let statusbar = statusbars.create(20, 4, StatusBarKind.Health)

@@ -1,6 +1,17 @@
-# On zero
+# on Zero
 
-Set code to run when a status bar of the given kind reaches zero.
+Run code when a status bar of the given kind reaches zero.
+
+```sig
+statusbars.onZero(StatusBarKind.Health, function (status) {})
+```
+
+## Parameters
+
+* **kind**: the kind of status bar to check it's value for `0`.
+* **status**: the status bar that has a value of `0`.
+
+## Example
 
 ```blocks
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {

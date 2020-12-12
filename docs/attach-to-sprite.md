@@ -1,18 +1,22 @@
 # attach To Sprite
 
+Attach a status bar to a sprite.
+
 ```sig
 statusbars.create(0,0,StatusBarKind.Health).attachToSprite(null)
 ```
 
-Attaches the status bar to a sprite;
-the status bar will follow the sprite around the screen instead of being set in a fixed position.
+A status bar is attached to a sprite you specify.
+The status bar will follow the sprite around the screen instead of being set in a fixed position.
 
 When a status bar is attached to a sprite, you can use the `status bar attached to mySprite`
-and `sprite that statusbar is attached to` blocks to get the sprites / status bars that are attached to eachother.
+and `sprite that statusbar is attached to` blocks to get the sprites / status bars that are attached to each other.
 
 ## Parameters
 
 * **toFollow**: the sprite to attach to.
+* **padding**: an optional [number](types/number) of pixels to pad around the status bar.
+* **offset**: an optional [number](types/number) of pixels away from the sprite to place the status bar.
 
 ## Example
 

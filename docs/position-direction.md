@@ -1,12 +1,22 @@
-# Position direction
+# position Direction
 
 Sets the direction in which a status bar is placed.
 
+```sig
+statusbars.create(20, 4, StatusBarKind.Health).positionDirection(CollisionDirection.Left)
+```
+
 If the status bar is attached to a sprite, it will be placed on the given side of the sprite.
 
-If the status bar is not attached to a sprite, it will be placed on that side of the screen.
+If the status bar is not attached to a sprite, it will be placed on the side of the screen the matches the direction chosen.
 
-The exact positioning can be adjusted using `set offset { } padding { }`.
+## Parameters
+
+* **dir**: the direction for the position of the status bar with it's attached sprite.
+
+The exact positioning can be adjusted using ``||statusbars:set offset||`` and ``||statusbars:padding||``.
+
+## Example
 
 ```blocks
 let statusbar = statusbars.create(20, 4, StatusBarKind.Health)

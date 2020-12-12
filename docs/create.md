@@ -2,6 +2,10 @@
 
 Creates a new status bar sprite for use in your games!
 
+```sig
+statusbars.create(0, 0, StatusBarKind.Health)
+```
+
 ### ~hint
 
 #### Status bars are Sprites!
@@ -13,6 +17,18 @@ Status bars are actually sprites; you can use most blocks on them that you can u
 * All status bars have the SpriteKind `StatusBar`
 
 ### ~
+
+## Parameters
+
+* **width**: a [number](types/number) that is the width of the status bar.
+* **height**: a [number](types/number) that is the height of the status bar.
+* **kind**: the kind of status bar to create.
+
+## Returns
+
+* a status bar sprite with the width and height choosen, and the kind selected.
+
+## Example
 
 ```blocks
 let statusbar = statusbars.create(20, 4, StatusBarKind.Health)

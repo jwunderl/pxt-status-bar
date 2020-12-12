@@ -1,8 +1,22 @@
-# On status reached
+# on Status Reached
 
-Set code to run when a status bar of the given kind reaches a given threshold.
+Run code  when a status bar of the given kind reaches a given threshold.
+
+```sig
+statusbars.onStatusReached(StatusBarKind.Health, statusbars.StatusComparison.LTE, statusbars.ComparisonType.Percentage, 50, function (status) {
+})
+```
 
 You can choose whether to set the event to be percentage based (``%``) or fixed points (``fixed``)
+
+## Parameters
+
+* **kind**: the kind of status bar to check status for.
+* **comparison**: the comparison operation to use: <, >, <=, >=, or =.
+* **comparisonType**: the type of comparison, the types are `percentage` or `fixed`.
+* **value**: a [number](types/number) that is the value to compare with.
+
+## Example
 
 ```blocks
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
