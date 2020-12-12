@@ -26,7 +26,7 @@ Status bars are actually sprites; you can use most blocks on them that you can u
 
 ## Returns
 
-* a status bar sprite with the width and height choosen, and the kind selected.
+* a status bar sprite with the width and height chosen, and the kind selected.
 
 ## Example
 
