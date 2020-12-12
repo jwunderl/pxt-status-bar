@@ -1,7 +1,22 @@
-# On display updated
+# on Display Updated
 
-Set code to run when a status bar of the given kind is redrawn.
-This can be used to modify how a status bar is displayed, like showing an image on top of it.
+Run code when a status bar of the given kind is redrawn.
+
+```sig
+statusbars.onDisplayUpdated(StatusBarKind.Health, function (0, null) {
+
+})
+```
+
+This event can be used to modify how a status bar is displayed, like showing an image on top of it.
+
+## Parameters
+
+* **kind**: the kind of status bar.
+* **status**: the status bar with a display update.
+* **image**: the image object for the status bar.
+
+## Example
 
 ```blocks
 statusbars.onDisplayUpdated(StatusBarKind.Health, function (status, image2) {
