@@ -1,6 +1,6 @@
 # all Of Kind
 
-Get an array of all status bars of a certian kind.
+Get an array of all status bars of a certain kind.
 
 ```sig
 statusbars.allOfKind(StatusBarKind.Health)
