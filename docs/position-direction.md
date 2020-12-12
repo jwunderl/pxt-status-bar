@@ -14,7 +14,7 @@ If the status bar is not attached to a sprite, it will be placed on the side of 
 
 * **dir**: the direction for the position of the status bar with it's attached sprite.
 
-The exact positioning can be adjusted using ``||statusbars:set offset||`` and ``||statusbars:padding||``.
+The exact positioning can be adjusted using the ``||statusbars:set padding [0] offset [0]||`` block.
 
 ## Example
 
