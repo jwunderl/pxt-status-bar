@@ -3,24 +3,31 @@ enum StatusBarFlag {
     None = 0,
     // if set, update bar over time; otherwise update bar immediately
     //% block="smooth transition"
+    //% block.loc.ru="плавное изменение"
     SmoothTransition = 1 << 0,
     // if set, and label exists, draw label at bottom or right side
     //% block="label at end"
+    //% block.loc.ru="подпись в конце"
     LabelAtEnd = 1 << 1,
     // if set, constrain values stored in status bar between 0 and max
     //% block="constrain value"
+    //% block.loc.ru="максимальное значение"
     ConstrainAssignedValue = 1 << 2,
     // if set, start 'on' from opposite side (top or right)
     //% block="invert fill direction"
+    //% block.loc.ru="заполнять в обратную сторону"
     InvertFillDirection = 1 << 3,
     // if set, do not immediately show target when transitioning
     //% block="hide transition preview"
+    //% block.loc.ru="скрыть предпросмотр изменения"
     HideTargetPreview = 1 << 4,
     // if set, do not destroy this status bar when sprite it is attached to is destroyed
     //% block="no autodestroy on attached destroy"
+    //% block.loc.ru="не уничтожать вместе с присоединенным спрайтом"
     NoAutoDestroy = 1 << 5,
     // if set, do not run `on zero` or `on status changed` events when changing values on this status bar.
     //% block="ignore events"
+    //% block.loc.ru="игнорировать события"
     IgnoreValueEvents = 1 << 6,
 }
 
@@ -100,6 +107,7 @@ class StatusBarSprite extends Sprite {
     }
 
     //% block="attach $this(statusbar) to $toFollow=variables_get(mySprite)||padding $padding offset $offset"
+    //% block.loc.ru="прикрепить $this(statusbar) к $toFollow=variables_get(mySprite)||отступ $padding смещение $offset"
     //% blockId="statusbars_attachToSprite"
     //% expandableArgumentMode="toggle"
     //% inlineInputMode="inline"
@@ -125,6 +133,7 @@ class StatusBarSprite extends Sprite {
     }
 
     //% block="sprite that $this(statusbar) is attached to"
+    //% block.loc.ru="спрайт к которому прикреплен $this(statusbar)"
     //% blockId="statusbars_attachSpriteGetter"
     //% help=github:pxt-status-bar/docs/sprite-attached-to
     //% group="Attach"
@@ -140,6 +149,7 @@ class StatusBarSprite extends Sprite {
      * @param drainColor color to show while value is being changed; eg: 0x3
      */
     //% block="set $this(statusbar) fill $fillColor background $bkgdColor||drain color $drainColor"
+    //% block.loc.ru="установить для $this(statusbar) цвет $fillColor фон $bkgdColor||цвет уменьшения $drainColor"
     //% blockId="statusbars_setColor"
     //% fillColor.shadow="colorindexpicker"
     //% bkgdColor.shadow="colorindexpicker"
@@ -164,6 +174,7 @@ class StatusBarSprite extends Sprite {
      * @param color color of border, eg: 0xd
      */
     //% block="set $this(statusbar) border width $borderWidth $color"
+    //% block.loc.ru="установить для $this(statusbar) рамку толщиной $borderWidth цветом $color"
     //% blockId="statusbars_setBorder"
     //% color.shadow="colorindexpicker"
     //% help=github:pxt-status-bar/docs/set-bar-border
@@ -182,6 +193,7 @@ class StatusBarSprite extends Sprite {
      * @param color color of label, eg: 0x1
      */
     //% block="set $this(statusbar) label $label||$color"
+    //% block.loc.ru="установить для $this(statusbar) подпись $label||$color"
     //% blockId="statusbar_setLabel"
     //% color.shadow="colorindexpicker"
     //% help=github:pxt-status-bar/docs/set-label
@@ -196,6 +208,7 @@ class StatusBarSprite extends Sprite {
     }
 
     //% block="set $this(statusbar) $flag $on=toggleOnOff"
+    //% block.loc.ru="установить для $this(statusbar) $flag $on=toggleOnOff"
     //% blockId="statusbars_setFlag"
     //% help=github:pxt-status-bar/docs/set-status-bar-flag
     //% group="Display"
@@ -211,6 +224,7 @@ class StatusBarSprite extends Sprite {
      * @param height height of status bar, eg: 4
      */
     //% block="set $this(statusbar) width $width height $height"
+    //% block.loc.ru="установить для $this(statusbar) ширину $width высоту $height"
     //% blockId="statusbars_setBarSize"
     //% help=github:pxt-status-bar/docs/set-bar-size
     //% group=Display
@@ -223,6 +237,7 @@ class StatusBarSprite extends Sprite {
     }
 
     //% block="set $this(statusbar) position to $dir"
+    //% block.loc.ru="установить позицию $this(statusbar) $dir"
     //% blockId="statusbars_positionNextToSprite"
     //% help=github:pxt-status-bar/docs/position-direction
     //% group="Display"
@@ -254,6 +269,7 @@ class StatusBarSprite extends Sprite {
     }
 
     //% block="set $this(statusbar) padding $padding offset $offset"
+    //% block.loc.ru="установить для $this(statusbar) отступ $padding смещение $offset"
     //% blockId="setPaddingOffset"
     //% help=github:pxt-status-bar/docs/set-offset-padding
     //% group="Display"
@@ -722,6 +738,7 @@ namespace statusbars {
      * @param height height of status bar, eg: 4
      */
     //% block="create status bar sprite width $width height $height kind $kind"
+    //% block.loc.ru="создать спрайт индикатора статуса шириной $width высотой $height типа $kind"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_create"
     //% blockSetVariable="statusbar"
@@ -785,6 +802,7 @@ namespace statusbars {
     }
 
     //% block="status bar kind $kind attached to $sprite=variables_get(mySprite)"
+    //% block.loc.ru="индикатор статуса типа $kind приклепленный к $sprite=variables_get(mySprite)"
     //% blockId="statusbars_spriteStatusBarIsAttachedTo"
     //% kind.shadow="statusbars_kind"
     //% help=github:pxt-status-bar/docs/get-status-bar-attached-to
@@ -798,6 +816,7 @@ namespace statusbars {
     }
 
     //% block="on status bar kind $kind zero $status"
+    //% block.loc.ru="когда индикатор статуса типа $kind обнуляется $status"
     //% blockId="statusbars_onZero"
     //% kind.shadow="statusbars_kind"
     //% draggableParameters="reporter"
@@ -813,6 +832,7 @@ namespace statusbars {
     }
 
     //% block="on status bar kind $kind $comparison $value|$comparisonType $status"
+    //% block.loc.ru="когда индикатор статуса типа $kind $comparison $value|$comparisonType $status"
     //% blockId="statusbars_onStatusReached"
     //% kind.shadow="statusbars_kind"
     //% draggableParameters="reporter"
@@ -843,6 +863,7 @@ namespace statusbars {
     }
 
     //% block="on status bar kind $kind display updated $status $image"
+    //% block.loc.ru="когда у индикатора статуса типа $kind обновляется отображение $status $image"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_postprocessDisplay"
     //% draggableParameters="reporter"
@@ -858,6 +879,7 @@ namespace statusbars {
     }
 
     //% block="array of status bars of $kind"
+    //% block.loc.ru="массив индикаторов статуса типа $kind"
     //% kind.shadow="statusbars_kind"
     //% blockId="statusbars_arrayOfKind"
     //% blockSetVariable="status bar list"
