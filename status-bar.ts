@@ -144,9 +144,9 @@ class StatusBarSprite extends Sprite {
 
     /**
      * @param status status bar to apply change to
-     * @param fillColor color to fill bar with, eg: 0x7
-     * @param bkgdColor bar background color, eg: 0x2
-     * @param drainColor color to show while value is being changed; eg: 0x3
+     * @param fillColor color to fill bar with, eg: 7
+     * @param bkgdColor bar background color, eg: 2
+     * @param drainColor color to show while value is being changed; eg: 3
      */
     //% block="set $this(statusbar) fill $fillColor background $bkgdColor||drain color $drainColor"
     //% block.loc.ru="установить для $this(statusbar) цвет $fillColor фон $bkgdColor||цвет уменьшения $drainColor"
@@ -171,7 +171,7 @@ class StatusBarSprite extends Sprite {
     /**
      * @param status status bar to add border to
      * @param borderWidth width of border in pixels, eg: 1
-     * @param color color of border, eg: 0xd
+     * @param color color of border, eg: 13
      */
     //% block="set $this(statusbar) border width $borderWidth $color"
     //% block.loc.ru="установить для $this(statusbar) рамку толщиной $borderWidth цветом $color"
@@ -190,7 +190,7 @@ class StatusBarSprite extends Sprite {
     /**
      * @param status status bar to add label to
      * @param label label to add to status bar, eg: HP
-     * @param color color of label, eg: 0x1
+     * @param color color of label, eg: 1
      */
     //% block="set $this(statusbar) label $label||$color"
     //% block.loc.ru="установить для $this(statusbar) подпись $label||$color"
